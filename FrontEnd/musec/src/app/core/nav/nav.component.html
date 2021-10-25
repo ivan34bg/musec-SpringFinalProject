@@ -1,0 +1,27 @@
+<div class="navbar-wrapper">
+    <div class="navbar">
+        <a href="" class="logo">Musec</a>
+        <a href="" class="main-link">Login</a>
+        <a href="" class="main-link">Register</a>
+        <a href="" class="main-link">Browse</a>
+        <div class="dropdown">
+            <a href="" class="main-link dropbtn">
+                Top 10
+            </a>
+            <div class="dropdown-content-wrapper">
+                <div class="dropdown-content">
+                    <a href="#" class="dropdown-link">This week</a>
+                    <a href="#" class="dropdown-link">This month</a>
+                    <a href="#" class="dropdown-link">This year</a>
+                </div>
+            </div>
+        </div>
+        <a href="" class="main-link">Logout</a>
+    </div>
+    <div class="searchbar-wrapper">
+        <input type="text" class="searchbar">
+        <button (click)="openDropdown($event)" class="search-button">
+                <i class="fas fa-search"></i>
+        </button>
+    </div>
+</div>

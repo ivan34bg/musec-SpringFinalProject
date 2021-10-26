@@ -1,7 +1,11 @@
 .logo{
     font-family: 'Permanent Marker', cursive;
-    color: yellow;
+    color: #a4a9af;
     font-size: 24px;
+}
+
+.logo:hover{
+    color: white;
 }
 
 .navbar-wrapper {
@@ -10,6 +14,7 @@
     width: 90%;
     padding-left: 5%;
     padding-right: 5%;
+    position: absolute;
 }
 
 .navbar {
@@ -66,7 +71,7 @@
 }
 
 .dropdown-link:hover, .main-link:hover, .dropbtn:hover, .dropdown a:hover{
-    color: yellow;
+    color: #a4a9af;
 }
 
 .dropdown-content{
@@ -80,10 +85,13 @@
 }
 
 .searchbar-wrapper{
-    display: flex;
     border: solid 3px;   
     border-top-right-radius: 26px;
     border-bottom-right-radius: 26px;
+}
+
+.search{
+    display: flex;
 }
 
 .searchbar{
@@ -101,11 +109,13 @@
     padding: 12px;
     font-size: 20px;
     border: none;
-    background-color: transparent;
+    background-color: white;
+    border-top-right-radius: 26px;
+    border-bottom-right-radius: 26px;
 }
 
 .search-button:hover{
-    background-color: yellow;
+    background-color: #a4a9af;
     border-top-right-radius: 26px;
     border-bottom-right-radius: 26px;
     cursor: pointer;

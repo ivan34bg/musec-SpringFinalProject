@@ -7,9 +7,9 @@
     
 }
 
-.login-wrapper{
+.register-wrapper{
     background-color: black;
-    height: 50vmin;
+    height: 70%;
     width: 60vmin;
     border-radius: 20px;
     display: flex;
@@ -18,8 +18,8 @@
 }
 
 .logo-container{
-    margin-bottom: 3vmin;
-    height: 25%;
+    margin-bottom: 1vmin;
+    height: 15%;
 }
 
 .logo{
@@ -28,26 +28,19 @@
     font-size: 38px;
 }
 
-.login-form{
+.register-form{
     color: white;
     font-family: "Fira Sans Condensed", sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 55%;
+    height: 70%;
 }
 
 .data-container{
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.username-container{
-    margin-bottom: 2%;
-}
-
-.password-container{
     margin-bottom: 2%;
 }
 
@@ -68,7 +61,11 @@
     outline: solid #a4a9af;
 }
 
-.login-form .submit-button{
+.birthday-container{
+    margin-bottom: 15%;
+}
+
+.register-form .submit-button{
     width: 100%;
     margin-top: auto;
     margin-bottom: 20%;
@@ -81,10 +78,15 @@
     padding: 6px 0px;
 }
 
-.login-form .submit-button:hover{
+.register-form .submit-button:hover{
     color: #a4a9af;
     border-color: #a4a9af;
     cursor: pointer;
+}
+
+.register-prompt{
+    margin-top: auto;
+    margin-bottom: 5%;
 }
 
 .register-prompt, .register-prompt a{

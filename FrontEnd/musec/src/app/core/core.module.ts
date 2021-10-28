@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { NavComponent } from './nav/nav.component';
 import { PlayerComponent } from './player/player.component';
 import { AngMusicPlayerModule } from 'ang-music-player';
+import { HomeLoggedComponent } from './home-logged/home-logged.component';
 
 
 
 @NgModule({
   declarations: [
     NavComponent,
-    PlayerComponent
+    PlayerComponent,
+    HomeLoggedComponent
   ],
   imports: [
     AngMusicPlayerModule,
@@ -17,7 +19,8 @@ import { AngMusicPlayerModule } from 'ang-music-player';
   ],
   exports: [
     NavComponent,
-    PlayerComponent
+    PlayerComponent,
+    HomeLoggedComponent
   ]
 })
 export class CoreModule { }

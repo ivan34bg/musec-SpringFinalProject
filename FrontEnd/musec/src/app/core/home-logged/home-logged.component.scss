@@ -1,0 +1,117 @@
+.container{
+    color: white;
+    background-color: black;
+    height: 200vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Fira Sans Condensed', sans-serif;
+}
+
+.container p{
+    margin: 0px;
+}
+
+.genre-wrapper{
+    width: 80%;
+    margin-top: 8%;
+}
+.genre-title, .top10-title{
+    font-size: 40px;
+    font-weight: bold;
+}
+.genres-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: start;
+}
+.genre-box{
+    border:solid;
+    width: 25vmin;
+    height: 24vmin;
+    margin-right: 1%;
+    margin-left: 2%;
+    margin-top: 3%;
+    display: flex;
+    align-items: center;
+    border-radius: 15px;
+    border: none;
+    color: white;
+}
+
+.genre-box:hover{
+    width: 26vmin;
+    height: 25vmin;
+    margin-right: 1.1%;
+    margin-left: 1.24%;
+    margin-top: 2%;
+    cursor: pointer;
+}
+
+.genre-box .genre-name{
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+}
+
+.genre-box:nth-child(2n + 1){
+    background: url("/assets/microphone.jpg");
+    background-position: center;
+    background-size: cover;
+}
+
+.genre-box:nth-child(2n + 2){
+    background: url("/assets/stage.jpg");
+    background-position: center;
+    background-size: cover;
+}
+
+.genre-box:nth-child(2n + 3){
+    background: url("/assets/guitar.jpg");
+    background-position: center;
+    background-size: cover;
+}
+
+.genre-box:nth-child(3n + 4){
+    background: url("/assets/djboard.jpg");
+    background-position: center;
+    background-size: cover;
+}
+
+.genre-box:nth-child(3n + 5){
+    background: url("/assets/piano.jpg");
+    background-position: center;
+    background-size: cover;
+    color: black;
+}
+
+.top10-wrapper{
+    width: 80%;
+    margin-top: 4%;
+}
+
+.song-row{
+    display: flex;
+    font-size: 20px;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1%;
+    border-bottom: solid white 1px;
+}
+
+.song-row:hover{
+    background-color: rgb(29, 29, 29);
+}
+
+.song-row img{
+    width: 140px;
+    height: 90px;
+    object-fit: cover;
+}
+
+.song-row .row-text{
+    display: flex;
+    width: 90%;
+    justify-content: space-around;
+}

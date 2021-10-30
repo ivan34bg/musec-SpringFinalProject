@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
+import { MusicModule } from './music/music.module';
 import { UserModule } from './user/user.module';
 
 @NgModule({
@@ -16,7 +17,8 @@ import { UserModule } from './user/user.module';
     BrowserModule,
     AppRoutingModule,
     CoreModule,
-    UserModule
+    UserModule,
+    MusicModule
   ],
   providers: [],
   bootstrap: [AppComponent]

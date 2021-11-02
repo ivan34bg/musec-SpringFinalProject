@@ -1,0 +1,38 @@
+<div class="container">
+    <form action="" class="music-add-form">
+        <div class="album-name-container">
+            <label for="album-name">Album name:</label>
+            <input type="text" name="album-name" id="album-name">
+        </div>
+        <div class="album-image-container">
+            <label for="albumImage" class="upload-label">
+                <input class="upload" (input)="imageUploaded($event)" id="albumImage" name="albumImage" type="file" accept=".jpeg, .jpg, .png">
+                Click here to upload album image
+            </label>
+            <div class="image-preview-area">
+                <p class="no-image-selected" *ngIf="image == null">No image selected</p>
+                <img class="selected-image" [src]="image" *ngIf="image">
+            </div>
+
+        </div>
+        <div class="album-music-container">
+            <label for="albumSongs" class="upload-label">
+                <input class="upload" (change)="musicUploaded($event)" id="albumSongs" name="albumSongs" type="file" accept=".mp3" multiple>
+                Click here to upload songs for the album
+            </label>
+            <p class="no-music-selected" *ngIf="music.length == 0">No music selected</p>
+            <div class="selected-music-list" *ngIf="music">
+                <div class="selected-song" *ngFor="let song of music">
+                    <p class="song-name">
+                        {{song.name}}
+                    </p>
+                    <div class="control-buttons">
+                        <!--<i class="control-button fas fa-pencil-alt"></i> TODO -->
+                        <i (click)="removeSong(music.indexOf(song))" class="control-button fas fa-times"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="submit-button">Submit</button>
+    </form>
+</div>

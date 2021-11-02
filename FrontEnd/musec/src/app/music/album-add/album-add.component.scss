@@ -1,0 +1,123 @@
+.container{
+    width: 100%;
+    min-height: 65vh;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Fira Sans Condensed', sans-serif;
+    padding-bottom: 10%;
+}
+
+p {
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+}
+
+.music-add-form{
+    background-color: black;
+    color: white;
+    width: 50%;
+    min-height: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+    margin-top: 9vh;
+    padding-top: 2%;
+}
+
+.upload{
+    display: none;
+}
+
+.upload-label{
+    cursor: pointer;
+}
+
+.upload-label:hover{
+    color: #a4a9af;
+}
+
+input{
+    width: 90%;
+    font-size: 20px;
+    padding: 3px 9px;
+    font-family: "Fira Sans Condensed", sans-serif;
+    border-radius: 20px;
+    border: none;
+    margin-top: 1%;
+}
+
+input:focus{
+    outline: solid #a4a9af;
+}
+
+.album-name-container, .album-image-container, .album-music-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    margin-bottom: 5%;
+}
+
+.album-image-container .image-preview-area{
+    border: solid 1px #a4a9af;
+    width: 500px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2%;
+}
+
+.album-image-container .image-preview-area img{
+    width: 500px;
+    height: 300px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.album-music-container{
+    width: 80%;
+}
+
+.album-music-container .selected-music-list{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin-top: 2%;
+}
+
+.selected-song{
+    display: flex;
+    justify-content: space-between;
+}
+
+.control-button{
+    margin-left: 5px;
+}
+
+.control-button:hover{
+    color: #a4a9af;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.submit-button{
+    width: 40%;
+    margin-bottom: 5%;
+    background-color: transparent;
+    border: solid 2px white;
+    border-radius: 20px;
+    font-family: "Fira Sans Condensed", sans-serif;
+    font-size: 23px;
+    color: white;
+    padding: 6px 0px;
+}
+
+.submit-button:hover{
+    cursor: pointer;
+    color: #a4a9af;
+}

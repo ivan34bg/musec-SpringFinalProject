@@ -1,46 +1,74 @@
 .container{
     height: auto;
     width: 100vw;
-    min-height: 100vh;
     height: auto;
-    background-color: black;
     display: flex;
     flex-direction: column;
     align-items: center;
     font-family: 'Fira Sans Condensed', sans-serif;
     color: white;
+    padding-bottom: 18vh;
+}
+
+.wrapper{
+    width: 50%;
+    height: auto;
+    min-height: 60vh;
+    background-color: black;
+    margin-top: 6%;
+    border-radius: 20px;
+    padding-bottom: 3%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 p{
     margin: 0;
 }
 
-.album-music-container{
+.upper-part{
+    display: flex;
+    flex-direction: column;
     width: 80%;
+    margin-top: 5%;
+}
+
+.upper-part .playlist-title{
+    font-size: 25px;
+    border-bottom: solid white 1px;
+    font-weight: bold;
+}
+
+.album-music-container{
+    width: 100%;
     margin-top: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .song-row{
     display: flex;
     flex-direction: row;
     position: relative;
-    width: 100%;
+    width: 80%;
     font-size: 22px;
     border-bottom: solid 1px #a4a9af;
     border-bottom-left-radius: 10px;
     margin-bottom: 1%;
-    z-index: 100;
+    z-index: 1;
 }
 
 .song-row:before{
-    background: linear-gradient(90deg, rgba(0,0,0,1) 42%, rgba(121,9,9,1) 83%);
+    background: linear-gradient(178deg, rgba(0,0,0,1) 58%, rgba(124,12,12,1) 100%);
     display: block;
     position: absolute;
     content: '';
     width: 100%;
     height: 100%;
     opacity: 0;
-    z-index: -100;
+    z-index: -1;
     transition: opacity 0.5s;
 }
 
@@ -53,13 +81,13 @@ p{
     border: solid 1px #a4a9af;
     border-radius: 10px;
     border-bottom: none;
-    flex-basis: 2%;
+    flex-basis: 4%;
     text-align: center;
 }
 
-.song-row .song-name{
-    flex-basis: 98%;
-    text-align: center;
-    font-size: 18px;
-    line-height: 200%;
+.song-info{
+    display: flex;
+    flex-direction: row;
+    flex-basis: 96%;
+    justify-content: space-around;
 }

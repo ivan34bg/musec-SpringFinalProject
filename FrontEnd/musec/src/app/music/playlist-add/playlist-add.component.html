@@ -1,28 +1,24 @@
-<style>
-    .button{
-        background: black;
-        color: white;
-        font-size: 1.25rem;
-        font-weight: 300;
-        position: relative;
-        z-index: 100;
-    }
-
-    .button::before{
-        background-image: linear-gradient(90deg, rgba(0,0,0,1) 42%, rgba(121,9,9,1) 83%);
-        content: '';
-        display: block;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        opacity: 0;
-        width: 100%;
-        z-index: -100;
-        transition: opacity 0.5s;
-    }
-    .button:hover::before{
-        opacity: 1;
-    }
-</style>
-<div class="button">TEST</div>
+<div class="container">
+    <form class="playlist-form" action="">
+        <div class="playlist-info-wrapper">
+            <div class="playlist-name-container">
+                <label class="playlist-name-label" for="playlistName">Playlist name:</label>
+                <input class="playlist-name-input" type="text" name="playlistName" id="playlistName">
+            </div>
+            <div class="availability-container">
+                <div class="private-wrapper">
+                    <input type="radio" id="private" name="playlist-availability" value="private">
+                    <label for="private">Private</label>
+                </div>
+                <div class="public-wrapper">
+                    <input type="radio" id="public" name="playlist-availability" value="public">
+                    <label for="public">Public</label>
+                </div>
+            </div>
+        </div>
+        <div class="buttons-container">
+            <input class="submit-button button" type="submit" value="Submit">
+            <button class="cancel-button button">Cancel</button>
+        </div>
+    </form>
+</div>

@@ -8,10 +8,12 @@ main header{
     justify-content: center; 
     min-width: 100%;
     position: fixed;
+    z-index: 10;
 }
 
 header .nav{
     width: 100%;
+    position: absolute;
 }
 
 .main-content{
@@ -28,6 +30,7 @@ footer{
     justify-content: center;
     background-color: black;
     border-top: solid 1px #a4a9af;
+    z-index: 200;
 }
 
 footer .player-wrapper{

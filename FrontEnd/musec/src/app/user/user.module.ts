@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfileDetailsComponent } from './profile-details/profile-details.component';
+import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 
 
 
@@ -10,7 +11,8 @@ import { ProfileDetailsComponent } from './profile-details/profile-details.compo
   declarations: [
     LoginComponent,
     RegisterComponent,
-    ProfileDetailsComponent
+    ProfileDetailsComponent,
+    ProfileSettingsComponent
   ],
   imports: [
     CommonModule
@@ -18,7 +20,8 @@ import { ProfileDetailsComponent } from './profile-details/profile-details.compo
   exports: [
     LoginComponent,
     RegisterComponent,
-    ProfileDetailsComponent
+    ProfileDetailsComponent,
+    ProfileSettingsComponent
   ]
 })
 export class UserModule { }

@@ -1,0 +1,131 @@
+.container{
+    width: 100vw;
+    min-height: 100vh;
+    height: auto;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Fira Sans Condensed', sans-serif;
+}
+
+p{
+    margin: 0px;
+}
+
+.wrapper{
+    margin-top: 7%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 10%;
+}
+
+.user-info-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin-bottom: 9%;
+}
+
+.profile-picture{
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+    border: solid 2px white;
+    margin-right: 5%;
+    object-fit: cover;
+}
+
+.user-name-roles-listens{
+    display: flex;
+    flex-direction: column;
+}
+
+.user-info-wrapper .name{
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 5%;
+}
+
+.user-info-wrapper .roles-container{
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 5%;
+}
+
+.role{
+    font-size: 18px;
+    padding: 3% 10%;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    margin-right: 5%;
+    user-select: none;
+}
+
+.total-listens{
+    font-size: 18px;
+}
+
+
+.user-music-wrapper{
+    display: flex;
+    width: 50%;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.albums-container, .singles-container, .playlists-container{
+    flex-basis: 33%;
+    border-right: solid 2px white;
+    padding-right: 1%;
+    padding-left: 1%;
+    height: auto;
+}
+
+.label{
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 6%;
+    font-weight: bold;
+}
+
+.album{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5%;
+}
+
+.album:hover{
+    background-color: #1f1f1f;
+    cursor: pointer;
+}
+
+.album-name, .single-name, .playlist-name{
+    font-size: 24px;
+}
+
+.single-name, .playlist-name{
+    margin-bottom: 5%;
+    text-align: center;
+}
+
+.single-name:hover, .playlist-name:hover{
+    background-color: #1f1f1f;
+    cursor: pointer;
+}
+
+.album-image{
+    min-width: 100px;
+    min-height: 100px;
+    width: 100px;
+    height: 100px;
+    object-fit: fill;
+    border-radius: 50px;
+    margin-right: 5%;
+}

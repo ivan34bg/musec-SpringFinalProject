@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { MusicModule } from './music/music.module';
+import { SettingsModule } from './user/settings/settings.module';
 import { UserModule } from './user/user.module';
 
 @NgModule({
@@ -18,7 +19,8 @@ import { UserModule } from './user/user.module';
     AppRoutingModule,
     CoreModule,
     UserModule,
-    MusicModule
+    MusicModule,
+    SettingsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

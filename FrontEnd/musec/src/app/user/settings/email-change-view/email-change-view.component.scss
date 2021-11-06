@@ -6,34 +6,24 @@
     align-items: center;
 }
 
-.register-wrapper{
+.wrapper{
     background-color: black;
-    height: 70%;
-    width: 60vmin;
+    height: auto;
     border-radius: 20px;
     display: flex;
     align-items: center;
     flex-direction: column;
+    padding: 1% 2%;
+    padding-bottom: 0%;
 }
 
-.logo-container{
-    margin-bottom: 1vmin;
-    height: 15%;
-}
-
-.logo{
-    color: #a4a9af;
-    font-family: "Permanent Marker", cursive;
-    font-size: 38px;
-}
-
-.register-form{
+.form{
     color: white;
     font-family: "Fira Sans Condensed", sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 70%;
+    height: auto;
 }
 
 .data-container{
@@ -60,14 +50,10 @@
     outline: solid #a4a9af;
 }
 
-.birthday-container{
-    margin-bottom: 15%;
-}
-
-.register-form .submit-button{
+.submit-button{
     width: 100%;
-    margin-top: auto;
-    margin-bottom: 20%;
+    margin-bottom: 15%;
+    margin-top: 15%;
     background-color: transparent;
     border: solid 2px white;
     border-radius: 20px;
@@ -77,26 +63,8 @@
     padding: 6px 0px;
 }
 
-.register-form .submit-button:hover{
+.submit-button:hover{
     color: #a4a9af;
     border-color: #a4a9af;
     cursor: pointer;
-}
-
-.register-prompt{
-    margin-top: auto;
-    margin-bottom: 5%;
-}
-
-.register-prompt, .register-prompt a{
-    color: #a4a9af;
-    font-family: "Fira Sans Condensed", sans-serif;
-}
-
-.register-prompt a{
-    color: white;
-}
-
-.register-prompt a:hover{
-    color: #a4a9af;
 }

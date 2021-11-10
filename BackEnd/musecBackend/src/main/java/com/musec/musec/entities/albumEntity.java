@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -18,7 +17,7 @@ public class albumEntity extends baseEntity{
     @Lob
     private String albumPicLocation;
     @OneToMany(mappedBy = "album")
-    private Set<songEntity> songs = new HashSet<>();
+    private Set<songEntity> songs;
     @ManyToOne
     private userEntity uploader;
 }

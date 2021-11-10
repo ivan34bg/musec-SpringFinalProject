@@ -18,4 +18,13 @@ public class genreEntity extends baseEntity{
     private Color color;
     @OneToMany(mappedBy = "songGenre")
     private Set<songEntity> songs;
+
+    public genreEntity(String name, Color color){
+        setName(name);
+        setColor(color);
+    }
+
+    public genreEntity() {
+
+    }
 }

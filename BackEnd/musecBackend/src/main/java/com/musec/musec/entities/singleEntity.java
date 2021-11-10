@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import java.io.File;
 
 @Entity
 @Table(name = "Singles")
@@ -15,7 +14,7 @@ public class singleEntity extends baseEntity{
     @Length(min = 2, max = 20)
     private String singleName;
     @Lob
-    private File singlePic;
+    private String singlePicLocation;
     @ManyToOne
     private userEntity uploader;
     @OneToOne

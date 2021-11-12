@@ -4,9 +4,7 @@ import com.musec.musec.entities.enums.roleEnum;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -14,7 +12,8 @@ import java.util.Set;
 @Getter
 @Setter
 public class roleEntity extends baseEntity {
+    @Enumerated(value = EnumType.STRING)
     private roleEnum name;
-    @ManyToMany
+    @ManyToMany(mappedBy = "roles")
     private Set<userEntity> users;
 }

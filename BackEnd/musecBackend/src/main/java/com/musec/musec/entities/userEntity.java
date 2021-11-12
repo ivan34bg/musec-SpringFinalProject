@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.Set;
@@ -17,15 +18,18 @@ public class userEntity extends baseEntity{
     @Length(min = 2, max = 10)
     @Column(unique = true)
     private String username;
+    @NotNull
     private String password;
     @Column(unique = true)
+    @NotNull
     private String email;
+    @NotNull
     private String fullName;
     private LocalDate birthday;
     @Lob
     private File profilePic;
-    @ManyToMany(mappedBy = "users")
-    private Set<roleEntity> role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<roleEntity> roles;
     @OneToMany(mappedBy = "uploader")
     private Set<albumEntity> albums;
     @OneToMany(mappedBy = "uploader")

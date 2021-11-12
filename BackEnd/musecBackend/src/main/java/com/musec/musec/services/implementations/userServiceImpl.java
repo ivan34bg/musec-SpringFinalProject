@@ -37,7 +37,7 @@ public class userServiceImpl implements userService {
                 userEntity newUser = new userEntity();
                 modelMapper.map(bindingModel, newUser);
                 newUser.setPassword(passwordEncoder.encode(bindingModel.getPassword()));
-                newUser.setRoles(Set.of(roleRepo.getByName(roleEnum.ADMIN)));
+                newUser.setRoles(Set.of(roleRepo.getByName(roleEnum.USER)));
                 userRepo.save(newUser);
             }
             else

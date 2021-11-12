@@ -2,6 +2,7 @@ package com.musec.musec.services.implementations;
 
 import com.musec.musec.entities.albumEntity;
 import com.musec.musec.entities.models.songBindingModel;
+import com.musec.musec.entities.singleEntity;
 import com.musec.musec.entities.songEntity;
 import com.musec.musec.repositories.songRepository;
 import com.musec.musec.services.songService;
@@ -21,13 +22,24 @@ public class songServiceImpl implements songService {
     }
 
     @Override
-    public songEntity saveSongWithAlbum(albumEntity album, songBindingModel songBindingModel) throws Exception {
+    public void saveSongWithAlbum(albumEntity album, songBindingModel songBindingModel) throws RuntimeException, NotFoundException {
         songEntity songToSave = new songEntity();
         songToSave.setSongName(songBindingModel.getSongName());
         String songLocation = cloudService.uploadSong(songBindingModel.getSongFile());
         songToSave.setSongLocation(songLocation);
         songToSave.setSongGenre(genreService.findGenreByName(songBindingModel.getGenre()));
         songToSave.setAlbum(album);
-        return songRepo.save(songToSave);
+        songRepo.save(songToSave);
+    }
+
+    @Override
+    public void saveSongWithSingle(singleEntity single, songBindingModel songBindingModel) throws RuntimeException, NotFoundException {
+        songEntity songToSave = new songEntity();
+        songToSave.setSongName(songBindingModel.getSongName());
+        String songLocation = cloudService.uploadSong(songBindingModel.getSongFile());
+        songToSave.setSongLocation(songLocation);
+        songToSave.setSongGenre(genreService.findGenreByName(songBindingModel.getGenre()));
+        songToSave.setSingle(single);
+        songRepo.save(songToSave);
     }
 }

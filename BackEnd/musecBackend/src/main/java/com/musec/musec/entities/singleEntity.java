@@ -17,6 +17,6 @@ public class singleEntity extends baseEntity{
     private String singlePicLocation;
     @ManyToOne
     private userEntity uploader;
-    @OneToOne
+    @OneToOne(mappedBy = "single")
     private songEntity song;
 }

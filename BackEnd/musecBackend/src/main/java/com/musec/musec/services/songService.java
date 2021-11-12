@@ -2,9 +2,9 @@ package com.musec.musec.services;
 
 import com.musec.musec.entities.albumEntity;
 import com.musec.musec.entities.models.songBindingModel;
-import com.musec.musec.entities.songEntity;
-import javassist.NotFoundException;
+import com.musec.musec.entities.singleEntity;
 
 public interface songService {
-    songEntity saveSongWithAlbum(albumEntity album, songBindingModel songBindingModel) throws Exception;
+    void saveSongWithAlbum(albumEntity album, songBindingModel songBindingModel) throws Exception;
+    void saveSongWithSingle(singleEntity single, songBindingModel songBindingModel) throws Exception;
 }

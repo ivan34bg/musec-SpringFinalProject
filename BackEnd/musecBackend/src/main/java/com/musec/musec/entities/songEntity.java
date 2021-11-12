@@ -20,7 +20,7 @@ public class songEntity extends baseEntity{
     private genreEntity songGenre;
     @ManyToOne
     private albumEntity album;
-    @OneToOne(mappedBy = "song")
+    @OneToOne
     private singleEntity single;
     @ManyToMany(mappedBy = "songs")
     private Set<playlistEntity> playlists;

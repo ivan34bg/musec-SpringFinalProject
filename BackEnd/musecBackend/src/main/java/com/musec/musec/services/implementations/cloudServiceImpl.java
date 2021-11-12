@@ -18,7 +18,7 @@ public class cloudServiceImpl implements cloudService {
     }
 
     @Override
-    public String uploadSong(MultipartFile song) throws Exception {
+    public String uploadSong(MultipartFile song) throws RuntimeException{
         try {
             FileMetadata meta = client
                     .files()
@@ -26,12 +26,12 @@ public class cloudServiceImpl implements cloudService {
                     .uploadAndFinish(song.getInputStream());
             return client.files().getTemporaryLink(meta.getPathDisplay()).getLink();
         } catch (DbxException | IOException e) {
-            throw new Exception("Error: Couldn't upload the song.");
+            throw new RuntimeException("Error: Couldn't upload the song.");
         }
     }
 
     @Override
-    public String uploadAlbumPic(MultipartFile pic) throws Exception {
+    public String uploadAlbumPic(MultipartFile pic) throws RuntimeException {
         try {
             FileMetadata meta = client
                     .files()
@@ -39,7 +39,7 @@ public class cloudServiceImpl implements cloudService {
                     .uploadAndFinish(pic.getInputStream());
             return client.files().getTemporaryLink(meta.getPathDisplay()).getLink();
         } catch (DbxException | IOException e) {
-            throw new Exception("Error: Couldn't upload the album picture.");
+            throw new RuntimeException("Error: Couldn't upload the album picture.");
         }
     }
 }

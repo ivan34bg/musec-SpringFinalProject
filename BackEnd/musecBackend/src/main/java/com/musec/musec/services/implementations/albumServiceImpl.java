@@ -2,6 +2,7 @@ package com.musec.musec.services.implementations;
 
 import com.musec.musec.entities.albumEntity;
 import com.musec.musec.entities.models.albumBindingModel;
+import com.musec.musec.entities.models.albumViewModel;
 import com.musec.musec.entities.models.songBindingModel;
 import com.musec.musec.entities.models.songViewModel;
 import com.musec.musec.entities.songEntity;
@@ -20,6 +21,7 @@ public class albumServiceImpl implements albumService {
     private final albumRepository albumRepo;
     private final cloudServiceImpl cloudService;
     private final songServiceImpl songService;
+    private final userServiceImpl userService;
     private final ModelMapper modelMapper;
 
 
@@ -27,46 +29,43 @@ public class albumServiceImpl implements albumService {
             albumRepository albumRepo,
             cloudServiceImpl cloudService,
             songServiceImpl songService,
-            ModelMapper modelMapper
+            userServiceImpl userService, ModelMapper modelMapper
     ) {
         this.albumRepo = albumRepo;
         this.cloudService = cloudService;
         this.songService = songService;
+        this.userService = userService;
         this.modelMapper = modelMapper;
     }
 
     @Override
-    public Long createAlbum(albumBindingModel albumBindingModel) throws Exception {
+    public Long createAlbum(albumBindingModel albumBindingModel, String currentUserUsername) {
         albumEntity newAlbum = new albumEntity();
         newAlbum.setAlbumName(albumBindingModel.getAlbumName());
         String albumPicLocation = cloudService.uploadAlbumPic(albumBindingModel.getAlbumPic());
         newAlbum.setAlbumPicLocation(albumPicLocation);
+        newAlbum.setUploader(userService.returnExistingUserByUsername(currentUserUsername));
         return albumRepo.save(newAlbum).getId();
     }
 
     @Override
-    public void addSongToAlbum(Long albumId, songBindingModel songBindingModel) throws Exception {
+    public void addSongToAlbum(Long albumId, songBindingModel songBindingModel) throws NotFoundException {
         Optional<albumEntity> albumToAddSongToOrNull = albumRepo.findById(albumId);
         if(albumToAddSongToOrNull.isPresent()){
             songService.saveSongWithAlbum(albumToAddSongToOrNull.get(), songBindingModel);
         }
-        else {
+        else
             throw new NotFoundException("Album cannot be found.");
-        }
     }
 
     @Override
-    public List<songViewModel> returnAllSongsFromAnAlbum(Long id) throws NotFoundException {
+    public albumViewModel returnAlbum(Long id) throws NotFoundException {
         Optional<albumEntity> albumOrNull = albumRepo.findById(id);
-        List<songViewModel> mappedSongs = new ArrayList<>();
         if(albumOrNull.isPresent()){
-            for (songEntity song:albumOrNull.get().getSongs()
-                 ) {
-                songViewModel mappedSong = new songViewModel();
-                modelMapper.map(song, mappedSong);
-                mappedSongs.add(mappedSong);
-            }
-            return mappedSongs;
+            albumViewModel albumToReturn = new albumViewModel();
+            modelMapper.map(albumOrNull.get(), albumToReturn);
+            albumToReturn.setSongLinks(albumOrNull.get().getSongs().stream().map(s -> s.getSongLocation()).toArray(String[]::new));
+            return albumToReturn;
         }
         throw new NotFoundException("Album cannot be found.");
     }

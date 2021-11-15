@@ -1,8 +1,8 @@
 package com.musec.musec.controllers;
 
-import com.musec.musec.entities.models.singleBindingModel;
-import com.musec.musec.entities.models.singleViewModel;
-import com.musec.musec.entities.models.songBindingModel;
+import com.musec.musec.data.models.bindingModels.singleBindingModel;
+import com.musec.musec.data.models.viewModels.singleViewModel;
+import com.musec.musec.data.models.bindingModels.songBindingModel;
 import com.musec.musec.services.implementations.singleServiceImpl;
 import javassist.NotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -25,30 +25,35 @@ public class singleController {
 
     @PostMapping("/create")
     public ResponseEntity<Long> createNewSingle(singleBindingModel singleBindingModel, Principal principal) {
+        Long id;
         try {
-            Long id = singleService.createSingle(singleBindingModel, principal.getName());
-            return ResponseEntity.ok(id);
+            id = singleService.createSingle(singleBindingModel, principal.getName());
         } catch (RuntimeException e) {
             return ResponseEntity.internalServerError().build();
         }
+        return ResponseEntity.ok(id);
     }
 
     @PostMapping("/add-song/{id}")
     public ResponseEntity<String> addSongToSingle(@PathVariable Long id, songBindingModel songBindingModel) {
         try {
             singleService.addSongToSingle(songBindingModel, id);
-            return ResponseEntity.ok().build();
         } catch (NotFoundException e) {
+            //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<singleViewModel> returnSingleById(@PathVariable Long id){
+        singleViewModel singleToReturn;
         try {
-            return ResponseEntity.ok(singleService.returnSingle(id));
+            singleToReturn = singleService.returnSingle(id);
         } catch (NotFoundException e) {
+            //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok(singleToReturn);
     }
 }

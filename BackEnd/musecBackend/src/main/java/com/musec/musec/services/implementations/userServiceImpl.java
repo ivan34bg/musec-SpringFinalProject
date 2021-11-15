@@ -1,8 +1,8 @@
 package com.musec.musec.services.implementations;
 
-import com.musec.musec.entities.enums.roleEnum;
-import com.musec.musec.entities.models.userRegisterBindingModel;
-import com.musec.musec.entities.userEntity;
+import com.musec.musec.data.enums.roleEnum;
+import com.musec.musec.data.models.bindingModels.userRegisterBindingModel;
+import com.musec.musec.data.userEntity;
 import com.musec.musec.repositories.roleRepository;
 import com.musec.musec.repositories.userRepository;
 import com.musec.musec.services.userService;

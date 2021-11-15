@@ -1,4 +1,4 @@
-package com.musec.musec.entities.models;
+package com.musec.musec.data.models.bindingModels;
 
 import lombok.Getter;
 import lombok.Setter;

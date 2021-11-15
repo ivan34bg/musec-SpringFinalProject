@@ -1,6 +1,6 @@
 package com.musec.musec.controllers;
 
-import com.musec.musec.entities.models.userRegisterBindingModel;
+import com.musec.musec.data.models.bindingModels.userRegisterBindingModel;
 import com.musec.musec.services.implementations.userServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

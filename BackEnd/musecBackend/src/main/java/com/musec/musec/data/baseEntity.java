@@ -1,4 +1,4 @@
-package com.musec.musec.entities;
+package com.musec.musec.data;
 
 import lombok.Getter;
 

@@ -1,19 +1,15 @@
 package com.musec.musec.services.implementations;
 
-import com.musec.musec.entities.albumEntity;
-import com.musec.musec.entities.models.albumBindingModel;
-import com.musec.musec.entities.models.albumViewModel;
-import com.musec.musec.entities.models.songBindingModel;
-import com.musec.musec.entities.models.songViewModel;
-import com.musec.musec.entities.songEntity;
+import com.musec.musec.data.albumEntity;
+import com.musec.musec.data.models.bindingModels.albumBindingModel;
+import com.musec.musec.data.models.viewModels.albumViewModel;
+import com.musec.musec.data.models.bindingModels.songBindingModel;
 import com.musec.musec.repositories.albumRepository;
 import com.musec.musec.services.albumService;
 import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,22 +46,29 @@ public class albumServiceImpl implements albumService {
 
     @Override
     public void addSongToAlbum(Long albumId, songBindingModel songBindingModel) throws NotFoundException {
-        Optional<albumEntity> albumToAddSongToOrNull = albumRepo.findById(albumId);
-        if(albumToAddSongToOrNull.isPresent()){
-            songService.saveSongWithAlbum(albumToAddSongToOrNull.get(), songBindingModel);
-        }
-        else
-            throw new NotFoundException("Album cannot be found.");
+        albumEntity album = isAlbumPresent(albumId);
+        songService.saveSongWithAlbum(album, songBindingModel);
     }
 
     @Override
-    public albumViewModel returnAlbum(Long id) throws NotFoundException {
-        Optional<albumEntity> albumOrNull = albumRepo.findById(id);
-        if(albumOrNull.isPresent()){
-            albumViewModel albumToReturn = new albumViewModel();
-            modelMapper.map(albumOrNull.get(), albumToReturn);
-            albumToReturn.setSongLinks(albumOrNull.get().getSongs().stream().map(s -> s.getSongLocation()).toArray(String[]::new));
-            return albumToReturn;
+    public void deleteAlbum(Long albumId) throws NotFoundException {
+        albumEntity albumToDelete = isAlbumPresent(albumId);
+        albumRepo.delete(albumToDelete);
+    }
+
+    @Override
+    public albumViewModel returnAlbum(Long albumId) throws NotFoundException {
+        albumEntity album = isAlbumPresent(albumId);
+        albumViewModel albumToReturn = new albumViewModel();
+        modelMapper.map(album, albumToReturn);
+        albumToReturn.setSongs(songService.returnSongViewModelSetFromFullSongSet(album.getSongs()));
+        return albumToReturn;
+    }
+
+    private albumEntity isAlbumPresent(Long albumId) throws NotFoundException {
+        Optional<albumEntity> albumOrNull = albumRepo.findById(albumId);
+        if(albumOrNull.isPresent()) {
+            return albumOrNull.get();
         }
         throw new NotFoundException("Album cannot be found.");
     }

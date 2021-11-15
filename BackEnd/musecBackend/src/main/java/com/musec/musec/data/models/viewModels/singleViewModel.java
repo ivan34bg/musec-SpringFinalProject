@@ -1,4 +1,4 @@
-package com.musec.musec.entities.models;
+package com.musec.musec.data.models.viewModels;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,5 +8,5 @@ import lombok.Setter;
 public class singleViewModel {
     private String singleName;
     private String singlePicLocation;
-    private String singleSongLink;
+    private songViewModel singleSong;
 }

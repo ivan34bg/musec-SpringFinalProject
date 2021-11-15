@@ -1,10 +1,10 @@
 package com.musec.musec;
 
-import com.musec.musec.entities.enums.genreEnum;
-import com.musec.musec.entities.enums.roleEnum;
-import com.musec.musec.entities.genreEntity;
-import com.musec.musec.entities.models.userRegisterBindingModel;
-import com.musec.musec.entities.roleEntity;
+import com.musec.musec.data.enums.genreEnum;
+import com.musec.musec.data.enums.roleEnum;
+import com.musec.musec.data.genreEntity;
+import com.musec.musec.data.models.bindingModels.userRegisterBindingModel;
+import com.musec.musec.data.roleEntity;
 import com.musec.musec.repositories.genreRepository;
 import com.musec.musec.repositories.roleRepository;
 import com.musec.musec.repositories.userRepository;

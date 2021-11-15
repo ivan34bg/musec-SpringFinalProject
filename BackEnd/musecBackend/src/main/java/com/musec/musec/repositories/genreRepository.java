@@ -1,6 +1,6 @@
 package com.musec.musec.repositories;
 
-import com.musec.musec.entities.genreEntity;
+import com.musec.musec.data.genreEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

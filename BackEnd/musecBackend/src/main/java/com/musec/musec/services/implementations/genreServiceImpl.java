@@ -1,6 +1,6 @@
 package com.musec.musec.services.implementations;
 
-import com.musec.musec.entities.genreEntity;
+import com.musec.musec.data.genreEntity;
 import com.musec.musec.repositories.genreRepository;
 import com.musec.musec.services.genreService;
 import javassist.NotFoundException;

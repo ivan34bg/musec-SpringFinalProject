@@ -1,8 +1,8 @@
 package com.musec.musec.controllers;
 
-import com.musec.musec.entities.models.albumBindingModel;
-import com.musec.musec.entities.models.albumViewModel;
-import com.musec.musec.entities.models.songBindingModel;
+import com.musec.musec.data.models.bindingModels.albumBindingModel;
+import com.musec.musec.data.models.viewModels.albumViewModel;
+import com.musec.musec.data.models.bindingModels.songBindingModel;
 import com.musec.musec.services.implementations.albumServiceImpl;
 import javassist.NotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -22,30 +22,46 @@ public class albumController {
 
     @PostMapping("/create")
     public ResponseEntity<Long> createAlbum(albumBindingModel bindingModel, Principal principal) {
+        Long albumId;
         try {
-            Long albumId = albumService.createAlbum(bindingModel, principal.getName());
-            return ResponseEntity.ok(albumId);
+            albumId = albumService.createAlbum(bindingModel, principal.getName());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
+        return ResponseEntity.ok(albumId);
     }
 
-    @PostMapping("/add-song/{id}")
+    @PostMapping("/song/{id}")
     public ResponseEntity<String> addSongToAlbum(@PathVariable Long id, songBindingModel bindingModel){
         try {
             albumService.addSongToAlbum(id, bindingModel);
-            return ResponseEntity.ok().build();
         } catch (NotFoundException e) {
+            //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<albumViewModel> returnAlbum(@PathVariable Long id){
+        albumViewModel albumToReturn;
         try {
-            return ResponseEntity.ok(albumService.returnAlbum(id));
+            albumToReturn = albumService.returnAlbum(id);
         } catch (NotFoundException e) {
+            //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok(albumToReturn);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteAlbum(@PathVariable("id") Long albumId){
+        try {
+            albumService.deleteAlbum(albumId);
+        } catch (NotFoundException e) {
+            //TODO: Add exception handler and send the exception message
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
     }
 }

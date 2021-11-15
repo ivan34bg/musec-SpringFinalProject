@@ -1,4 +1,4 @@
-package com.musec.musec.entities.enums;
+package com.musec.musec.data.enums;
 
 public enum roleEnum {
     USER, ADMIN, ARTIST

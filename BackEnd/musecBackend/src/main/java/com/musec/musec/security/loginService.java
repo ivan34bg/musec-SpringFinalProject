@@ -1,6 +1,6 @@
 package com.musec.musec.security;
 
-import com.musec.musec.entities.userEntity;
+import com.musec.musec.data.userEntity;
 import com.musec.musec.repositories.userRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

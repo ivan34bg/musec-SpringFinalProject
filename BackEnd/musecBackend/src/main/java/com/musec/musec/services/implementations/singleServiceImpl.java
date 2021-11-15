@@ -1,9 +1,9 @@
 package com.musec.musec.services.implementations;
 
-import com.musec.musec.entities.models.singleBindingModel;
-import com.musec.musec.entities.models.singleViewModel;
-import com.musec.musec.entities.models.songBindingModel;
-import com.musec.musec.entities.singleEntity;
+import com.musec.musec.data.models.bindingModels.singleBindingModel;
+import com.musec.musec.data.models.viewModels.singleViewModel;
+import com.musec.musec.data.models.bindingModels.songBindingModel;
+import com.musec.musec.data.singleEntity;
 import com.musec.musec.repositories.singleRepository;
 import com.musec.musec.services.singleService;
 import javassist.NotFoundException;
@@ -39,25 +39,32 @@ public class singleServiceImpl implements singleService {
     }
 
     @Override
-    public void addSongToSingle(songBindingModel songBindingModel, Long id) throws NotFoundException {
-        Optional<singleEntity> singleOrNull = singleRepo.findById(id);
-        if(singleOrNull.isPresent()){
-            songService.saveSongWithSingle(singleOrNull.get(), songBindingModel);
-        }
-        else
-            throw new NotFoundException("Cannot find this single");
+    public void addSongToSingle(songBindingModel songBindingModel, Long singleId) throws NotFoundException {
+        singleEntity single = isSinglePresent(singleId);
+        songService.saveSongWithSingle(single, songBindingModel);
+    }
+
+    @Override
+    public void deleteSingle(Long singleId) throws NotFoundException {
+        singleEntity singleToDelete = isSinglePresent(singleId);
+        singleRepo.delete(singleToDelete);
     }
 
     @Override
     public singleViewModel returnSingle(Long singleId) throws NotFoundException {
+        singleEntity single = isSinglePresent(singleId);
+        singleViewModel singleToReturn = new singleViewModel();
+        modelMapper.map(single, singleToReturn);
+        if(single.getSong() != null){
+            singleToReturn.setSingleSong(songService.returnSongViewModelFromEntity(single.getSong()));
+        }
+        return singleToReturn;
+    }
+
+    private singleEntity isSinglePresent(Long singleId) throws NotFoundException {
         Optional<singleEntity> singleOrNull = singleRepo.findById(singleId);
         if(singleOrNull.isPresent()){
-            singleViewModel singleToReturn = new singleViewModel();
-            modelMapper.map(singleOrNull.get(), singleToReturn);
-            if(singleOrNull.get().getSong() != null){
-                singleToReturn.setSingleSongLink(singleOrNull.get().getSong().getSongLocation());
-            }
-            return singleToReturn;
+            return singleOrNull.get();
         }
         throw new NotFoundException("Cannot find this single");
     }

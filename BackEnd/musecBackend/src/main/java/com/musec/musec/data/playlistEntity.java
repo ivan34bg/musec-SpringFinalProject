@@ -1,4 +1,4 @@
-package com.musec.musec.entities;
+package com.musec.musec.data;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +19,9 @@ public class playlistEntity extends baseEntity{
     @Length(min = 2, max = 20)
     private String playlistName;
     @NotNull
-    private boolean privateOrPublic;
+    private boolean isPrivate;
+    @NotNull
+    private boolean openToPublicEditsOrNot;
     @ManyToOne
     private userEntity playlistCreator;
     @ManyToMany

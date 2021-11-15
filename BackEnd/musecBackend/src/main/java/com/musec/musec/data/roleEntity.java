@@ -1,6 +1,6 @@
-package com.musec.musec.entities;
+package com.musec.musec.data;
 
-import com.musec.musec.entities.enums.roleEnum;
+import com.musec.musec.data.enums.roleEnum;
 import lombok.Getter;
 import lombok.Setter;
 

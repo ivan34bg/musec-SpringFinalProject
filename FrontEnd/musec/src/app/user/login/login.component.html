@@ -3,17 +3,17 @@
         <div class="logo-container">
             <p class="logo">Musec</p>
         </div>
-        <form class="login-form" action="">
+        <form class="login-form" action="" (submit) = "login()">
             <div class="username-container data-container">
                 <label for="username" class="form-label">Username:</label>
-                <input type="text" name="username" id="username-input">
+                <input type="text" name="username" id="username-input" [(ngModel)] = "username">
             </div>
             <div class="password-container data-container">
                 <label for="password" class="form-label">Password:</label>
-                <input type="password" name="password" id="password-input">
+                <input type="password" name="password" id="password-input" [(ngModel)] = "password">
             </div>
             <button class="submit-button">Login</button>
         </form>
-        <p class="register-prompt">You don't have an account yet? Better <a href="">register</a> fast!</p>
+        <p class="register-prompt">You don't have an account yet? Better <a href="/register">register</a> fast!</p>
     </div>
 </div>

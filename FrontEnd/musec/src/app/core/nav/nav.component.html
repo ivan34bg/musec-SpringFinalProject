@@ -1,10 +1,10 @@
 <div class="navbar-wrapper">
     <div class="navbar">
         <a href="" class="logo">Musec</a>
-        <a href="" class="main-link">Login</a>
-        <a href="" class="main-link">Register</a>
-        <a href="" class="main-link">Browse</a>
-        <div class="dropdown">
+        <a *ngIf="!isUserLoggedIn" href="/login" class="main-link">Login</a>
+        <a *ngIf="!isUserLoggedIn" href="/register" class="main-link">Register</a>
+        <a *ngIf="isUserLoggedIn" href="" class="main-link">Browse</a>
+        <div *ngIf="isUserLoggedIn" class="dropdown">
             <a href="" class="main-link dropbtn">
                 Top 10
             </a>
@@ -16,7 +16,7 @@
                 </div>
             </div>
         </div>
-        <a href="" class="main-link">Logout</a>
+        <a *ngIf="isUserLoggedIn" (click)="logout()" class="main-link">Logout</a>
     </div>
     <div class="searchbar-wrapper">
         <form action="" class="search">
@@ -25,6 +25,5 @@
                     <i class="fas fa-search"></i>
             </button>
         </form>
-
     </div>
 </div>

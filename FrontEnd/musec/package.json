@@ -21,6 +21,7 @@
     "@vime/angular": "^5.0.34",
     "@vime/core": "^5.0.34",
     "ang-music-player": "0.0.4",
+    "ngx-cookie-service": "^13.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"

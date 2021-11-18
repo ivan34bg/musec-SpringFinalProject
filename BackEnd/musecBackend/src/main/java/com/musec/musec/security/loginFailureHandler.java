@@ -11,7 +11,7 @@ import java.io.IOException;
 public class loginFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+        response.getWriter().println("Wrong username or password");
         response.setStatus(400);
-        //TODO: ADD LOGIN ATTEMPT LIMIT
     }
 }

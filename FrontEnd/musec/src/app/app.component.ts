@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from './user.service';
 
 @Component({
@@ -6,10 +6,14 @@ import { UserService } from './user.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'musec';
 
   constructor(private userService: UserService){}
+
+  ngOnInit(): void {
+    this.userService.loggedInStateKeeper();
+  }
 
   get isUserLoggedIn(){
     return this.userService.isUserLogged();

@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Service
@@ -38,6 +39,7 @@ public class userServiceImpl implements userService {
                 modelMapper.map(bindingModel, newUser);
                 newUser.setPassword(passwordEncoder.encode(bindingModel.getPassword()));
                 newUser.setRoles(Set.of(roleRepo.getByName(roleEnum.USER)));
+                newUser.setBirthday(LocalDate.parse(bindingModel.getBirthday()));
                 userRepo.save(newUser);
             }
             else

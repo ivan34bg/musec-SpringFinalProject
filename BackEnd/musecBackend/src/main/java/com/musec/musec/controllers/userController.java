@@ -42,8 +42,8 @@ public class userController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/test")
+    @GetMapping("/logged-in-test")
     public ResponseEntity<?> test(){
-        return ResponseEntity.ok("ok");
+        return ResponseEntity.ok().build();
     }
 }

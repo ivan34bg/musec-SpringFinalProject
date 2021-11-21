@@ -10,6 +10,7 @@ import { MusicModule } from './music/music.module';
 import { SettingsModule } from './user/settings/settings.module';
 import { UserModule } from './user/user.module';
 import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
     FormsModule,
     BrowserModule,
     AppRoutingModule,
+    RouterModule,
     CoreModule,
     UserModule,
     MusicModule,

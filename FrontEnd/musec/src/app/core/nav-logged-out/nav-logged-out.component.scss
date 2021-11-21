@@ -1,0 +1,46 @@
+.logo{
+    font-family: 'Permanent Marker', cursive;
+    color: #a4a9af;
+    font-size: 24px;
+}
+
+.logo:hover{
+    color: white;
+}
+
+.navbar-wrapper {
+    margin-top: 1%;
+    display: flex;
+    width: 90%;
+    padding-left: 5%;
+    padding-right: 5%;
+    position: absolute;
+    justify-content: center;
+
+}
+
+.navbar {
+    padding: 6px;
+    display: flex;
+    align-items: center; 
+    justify-content: space-around;
+    overflow: hidden;
+    background-color: black;  
+    border-style: solid;
+    border-radius: 26px;
+    border-color: black;
+    border-right: none;
+    border-width: 2px;
+    width: 35%;
+    box-shadow: -2px 2px 3px 2px #a4a9af;
+}
+
+.main-link{
+    color: white;
+    font-family: 'Fira Sans Condensed', sans-serif;
+    font-size: 18px;
+}
+
+.main-link:hover{
+    color: #a4a9af;
+}

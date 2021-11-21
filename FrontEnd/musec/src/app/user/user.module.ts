@@ -6,6 +6,7 @@ import { ProfileDetailsComponent } from './profile-details/profile-details.compo
 import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 import { Settings } from '@vime/angular';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -18,7 +19,8 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    RouterModule
   ],
   exports: [
     LoginComponent,

@@ -68,6 +68,7 @@ public class DataInit implements CommandLineRunner {
             newUser.setPassword("test");
             newUser.setEmail("admin@test.com");
             newUser.setFullName("admin testov");
+            newUser.setBirthday("2016-08-06");
             userService.registerUser(newUser);
         }
     }

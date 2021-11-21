@@ -18,5 +18,5 @@ public class userRegisterBindingModel {
     private String email;
     @NotNull(message = "Name cannot be empty")
     private String fullName;
-    private LocalDate birthday;
+    private String birthday;
 }

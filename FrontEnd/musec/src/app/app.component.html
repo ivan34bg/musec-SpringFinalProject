@@ -1,6 +1,7 @@
 <main>
  <header>
-   <app-nav class="nav"></app-nav>
+   <app-nav *ngIf="isUserLoggedIn" class="nav"></app-nav>
+   <app-nav-logged-out *ngIf="!isUserLoggedIn" class="nav"></app-nav-logged-out>
  </header>
  <body class="main-content">
     <router-outlet></router-outlet>

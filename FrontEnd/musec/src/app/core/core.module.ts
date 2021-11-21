@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavComponent } from './nav/nav.component';
+import { NavComponent } from './nav-logged-in/nav.component';
 import { PlayerComponent } from './player/player.component';
 import { AngMusicPlayerModule } from 'ang-music-player';
 import { HomeLoggedComponent } from './home-logged/home-logged.component';
+import { RouterModule } from '@angular/router';
+import { LocalStorage } from './inject-tokens';
+import { NavLoggedOutComponent } from './nav-logged-out/nav-logged-out.component';
 
 
 
@@ -11,16 +14,25 @@ import { HomeLoggedComponent } from './home-logged/home-logged.component';
   declarations: [
     NavComponent,
     PlayerComponent,
-    HomeLoggedComponent
+    HomeLoggedComponent,
+    NavLoggedOutComponent
   ],
   imports: [
     AngMusicPlayerModule,
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   exports: [
     NavComponent,
     PlayerComponent,
-    HomeLoggedComponent
+    HomeLoggedComponent,
+    NavLoggedOutComponent
+  ],
+  providers: [
+    {
+      provide: LocalStorage,
+      useValue: window.localStorage
+    }
   ]
 })
 export class CoreModule { }

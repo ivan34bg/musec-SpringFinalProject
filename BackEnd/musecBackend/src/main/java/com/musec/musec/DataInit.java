@@ -32,7 +32,6 @@ public class DataInit implements CommandLineRunner {
         this.roleRepo = roleRepo;
         this.userRepo = userRepo;
         this.userService = userService;
-
     }
 
     @Override

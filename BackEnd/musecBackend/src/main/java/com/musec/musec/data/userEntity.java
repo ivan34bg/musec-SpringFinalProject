@@ -27,7 +27,7 @@ public class userEntity extends baseEntity{
     private String fullName;
     private LocalDate birthday;
     @Lob
-    private File profilePic;
+    private String profilePicLink;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<roleEntity> roles;
     @OneToMany(mappedBy = "uploader")

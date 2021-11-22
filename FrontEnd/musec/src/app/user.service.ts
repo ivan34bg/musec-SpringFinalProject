@@ -2,6 +2,9 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LocalStorage } from './core/inject-tokens';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { profileInfo } from './models/profileInfo.model';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +50,7 @@ export class UserService {
         this.router.navigate(["/login"]);
       },
       (error) => {
-        alert(error);
+        alert(error.error);
       }
     )
   }
@@ -56,8 +59,9 @@ export class UserService {
     return this.isLoggedIn;
   }
 
-  async isUserLoggedIn(){
-    return this.isLoggedIn;
+
+  serverIsUserLogged(): Observable<boolean>{
+    return this.http.get<boolean>(this.SERVER_ADDRESS + '/user/logged-in-test', {withCredentials: true});
   }
 
   loggedInStateKeeper(){
@@ -69,5 +73,9 @@ export class UserService {
         this.isLoggedIn = false;
       }
     )
+  }
+
+  selfProfileDetails(): Observable<Object>{
+    return this.http.get<Object>(this.SERVER_ADDRESS + '/user/self-profile', {withCredentials: true});
   }
 }

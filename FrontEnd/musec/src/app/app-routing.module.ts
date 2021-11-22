@@ -17,17 +17,17 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-   // canActivate: [LoggedOutGuardGuard]
+    canActivate: [LoggedOutGuardGuard]
   },
   {
     path: 'register',
     component: RegisterComponent,
-    //canActivate: [LoggedOutGuardGuard]
+    canActivate: [LoggedOutGuardGuard]
   },
   {
     path: 'browse',
     component: HomeLoggedComponent,
-    //canActivate: [LoggedInGuardGuard]
+    canActivate: [LoggedInGuardGuard]
   },
   {
     path: 'profile-settings',
@@ -35,13 +35,13 @@ const routes: Routes = [
   },
   {
     path: 'profile-details',
-    component: ProfileDetailsComponent
+    component: ProfileDetailsComponent,
+    canActivate: [LoggedInGuardGuard]
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-  providers: [LoggedInGuardGuard]
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

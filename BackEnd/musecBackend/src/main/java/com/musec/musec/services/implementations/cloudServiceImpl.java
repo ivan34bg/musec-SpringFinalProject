@@ -42,4 +42,17 @@ public class cloudServiceImpl implements cloudService {
             throw new RuntimeException("Error: Couldn't upload the album picture.");
         }
     }
+
+    @Override
+    public String uploadProfilePic(MultipartFile pic) throws RuntimeException {
+        try {
+            FileMetadata meta = client
+                    .files()
+                    .uploadBuilder(String.format("/profile-pictures/%s", pic.getOriginalFilename()))
+                    .uploadAndFinish(pic.getInputStream());
+            return client.files().getTemporaryLink(meta.getPathDisplay()).getLink();
+        } catch (DbxException | IOException e) {
+            throw new RuntimeException("Error: Couldn't upload the album picture.");
+        }
+    }
 }

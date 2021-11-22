@@ -1,10 +1,8 @@
 <div class="navbar-wrapper">
     <div class="navbar">
         <a routerLink="/" class="logo">Musec</a>
-        <a *ngIf="!isUserLoggedIn" routerLink="/login" class="main-link">Login</a>
-        <a *ngIf="!isUserLoggedIn" routerLink="/register" class="main-link">Register</a>
-        <a *ngIf="isUserLoggedIn" routerLink="/browse" class="main-link">Browse</a>
-        <div *ngIf="isUserLoggedIn" class="dropdown">
+        <a routerLink="/browse" class="main-link">Browse</a>
+        <div class="dropdown">
             <a href="" class="main-link dropbtn">
                 Top 10
             </a>
@@ -16,9 +14,22 @@
                 </div>
             </div>
         </div>
-        <a *ngIf="isUserLoggedIn" (click)="logout()" class="main-link">Logout</a>
+        <div class="dropdown">
+            <a routerLink="/profile-details" class="main-link dropbtn">
+                Profile
+            </a>
+            <div class="dropdown-content-wrapper">
+                <div class="dropdown-content">
+                    <a routerLink="/profile-settings" class="dropdown-link">Profile Settings</a>
+                </div>
+                <div class="dropdown-content">
+                    <a routerLink="/profile-settings" class="dropdown-link">My Playlists</a>
+                </div>
+            </div>
+        </div>
+        <a (click)="logout()" class="main-link">Logout</a>
     </div>
-    <div *ngIf="isUserLoggedIn" class="searchbar-wrapper">
+    <div class="searchbar-wrapper">
         <form action="" class="search">
             <input type="text" class="searchbar">
             <button (click)="openDropdown($event)" class="search-button">

@@ -2,15 +2,21 @@ package com.musec.musec.services.implementations;
 
 import com.musec.musec.data.enums.roleEnum;
 import com.musec.musec.data.models.bindingModels.userRegisterBindingModel;
+import com.musec.musec.data.models.viewModels.artistProfileViewModel;
+import com.musec.musec.data.models.viewModels.userProfileViewModel;
+import com.musec.musec.data.roleEntity;
 import com.musec.musec.data.userEntity;
 import com.musec.musec.repositories.roleRepository;
 import com.musec.musec.repositories.userRepository;
 import com.musec.musec.services.userService;
+import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -40,6 +46,9 @@ public class userServiceImpl implements userService {
                 newUser.setPassword(passwordEncoder.encode(bindingModel.getPassword()));
                 newUser.setRoles(Set.of(roleRepo.getByName(roleEnum.USER)));
                 newUser.setBirthday(LocalDate.parse(bindingModel.getBirthday()));
+                newUser.setProfilePicLink(
+                        "https://uc11fe92707ad93fc08f51d74e9a.dl.dropboxusercontent.com/cd/0/get/BacndDHUI1Ggva7FgYlXuG_p9e8iLKuN0XUlGB1y7llkUqQalfDtrE61ykXCchWUMylvdOPOf2qKHhp4Vlrbr47DCnD1CGkPqED14TRpGa1mv5EAIPYL7kZKz5BXjwpNQb9KxjsmVXXkX3HnQtAGOcjz/file"
+                );
                 userRepo.save(newUser);
             }
             else
@@ -52,5 +61,34 @@ public class userServiceImpl implements userService {
     @Override
     public userEntity returnExistingUserByUsername(String username) {
         return userRepo.findByUsername(username).get();
+    }
+
+    @Override
+    public userProfileViewModel returnUserOrArtistProfileViewByUsername(String username) throws NotFoundException {
+        Optional<userEntity> userOrNull = userRepo.findByUsername(username);
+        if(userOrNull.isPresent()){
+            userEntity user = userOrNull.get();
+            if(user.getRoles().stream().anyMatch(r -> r.getName() == roleEnum.ARTIST)){
+                artistProfileViewModel userToReturn = new artistProfileViewModel();
+                modelMapper.map(user, userToReturn);
+                userToReturn.setRoleNames(new HashSet<>());
+                for (roleEntity role:user.getRoles()
+                     ) {
+                    userToReturn.getRoleNames().add(role.getName().name());
+                }
+                return userToReturn;
+            }
+            else {
+                userProfileViewModel userToReturn = new userProfileViewModel();
+                modelMapper.map(user, userToReturn);
+                userToReturn.setRoleNames(new HashSet<>());
+                for (roleEntity role:user.getRoles()
+                ) {
+                    userToReturn.getRoleNames().add(role.getName().name());
+                }
+                return userToReturn;
+            }
+        }
+        throw new NotFoundException("Cannot find user with this username");
     }
 }

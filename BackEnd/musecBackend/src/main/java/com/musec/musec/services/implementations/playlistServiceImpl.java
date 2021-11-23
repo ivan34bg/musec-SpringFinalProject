@@ -1,7 +1,7 @@
 package com.musec.musec.services.implementations;
 
 import com.musec.musec.data.models.bindingModels.playlistBindingModel;
-import com.musec.musec.data.models.viewModels.playlistViewModel;
+import com.musec.musec.data.models.viewModels.playlist.playlistViewModel;
 import com.musec.musec.data.playlistEntity;
 import com.musec.musec.data.songEntity;
 import com.musec.musec.repositories.playlistRepository;
@@ -79,7 +79,7 @@ public class playlistServiceImpl implements playlistService {
         if(!playlist.isPrivate()){
             playlistViewModel playlistToReturn = new playlistViewModel();
             modelMapper.map(playlist, playlistToReturn);
-            playlistToReturn.setSongs(songService.returnSongViewModelSetFromFullSongSet(playlist.getSongs()));
+            //playlistToReturn.setSongs(songService.returnSongViewModelSetFromFullSongSet(playlist.getSongs())); //TODO
             return playlistToReturn;
         }
         else throw new NotFoundException("Cannot find the song in the current playlist");

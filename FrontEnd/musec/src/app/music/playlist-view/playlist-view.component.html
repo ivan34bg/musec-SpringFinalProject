@@ -2,90 +2,32 @@
     <div class="wrapper">
         <div class="upper-part">
             <p class="playlist-title">
-                Test Playlist
+                {{playlistInfo.playlistName}}
             </p>
             <p class="creator-username">
-                Test User
+                {{playlistInfo.playlistCreator.fullName}}
             </p>
         </div>
         <div class="album-music-container">
-            <div class="song-row">
+            <div class="song-row" *ngFor="let song of playlistInfo.songs">
                 <p class="song-number">
-                    1
+                    {{playlistInfo.songs.indexOf(song) + 1}}
                 </p>
                 <div class="song-info">
                     <p class="song-name">
-                        Test Name
-                    </p>
+                        {{song.songName}}
+                    </p>                   
+
                     <p class="song-artist">
-                        Test Artist
+                        
                     </p>
-                    <p class="song-album">
-                        Test Album
+
+                    <p routerLink="/album/{{song.album.id}}" class="song-album" *ngIf="song.single == null">
+                        {{song.songName}}
                     </p>
-                </div>
-            </div>
-            <div class="song-row">
-                <p class="song-number">
-                    2
-                </p>
-                <div class="song-info">
-                    <p class="song-name">
-                        Test Name
-                    </p>
-                    <p class="song-artist">
-                        Test Artist
-                    </p>
-                    <p class="song-album">
-                        Test Album
-                    </p>
-                </div>
-            </div>
-            <div class="song-row">
-                <p class="song-number">
-                    3
-                </p>
-                <div class="song-info">
-                    <p class="song-name">
-                        Test Name
-                    </p>
-                    <p class="song-artist">
-                        Test Artist
-                    </p>
-                    <p class="song-album">
-                        Test Album
-                    </p>
-                </div>
-            </div>
-            <div class="song-row">
-                <p class="song-number">
-                    4
-                </p>
-                <div class="song-info">
-                    <p class="song-name">
-                        Test Name
-                    </p>
-                    <p class="song-artist">
-                        Test Artist
-                    </p>
-                    <p class="song-album">
-                        Test Album
-                    </p>
-                </div>
-            </div>
-            <div class="song-row">
-                <p class="song-number">
-                    5
-                </p>
-                <div class="song-info">
-                    <p class="song-name">
-                        Test Name
-                    </p>
-                    <p class="song-artist">
-                        Test Artist
-                    </p>
-                    <p class="song-album">
-                        Test Album
+
+                    <p class="song-album" *ngIf="song.single != null">
+                        {{song.single.singleName}}
                     </p>
                 </div>
             </div>

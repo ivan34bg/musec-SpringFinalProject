@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="image-artist-container">
+        <img class="album-image" [src]="singleInfo.singlePicLocation" alt="">
+        <div class="artist-album-name">
+            <p class="album-name">
+                {{singleInfo.singleName}}
+            </p>
+            <a routerLink="/browse" class="artist-info">
+                <img class="artist-image" [src]="singleInfo.uploader.profilePicLink" alt="">
+                <p class="artist-name">{{singleInfo.uploader.fullName}}</p>
+            </a>
+        </div>
+
+    </div>
+    <div class="album-music-container">
+        
+        <div class="song-row">
+            <p class="song-number">
+                1
+            </p>
+            <p class="song-name">
+                {{singleInfo.song.songName}}
+            </p>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-package com.musec.musec.data.models.viewModels;
+package com.musec.musec.data.models.viewModels.profile;
 
 import lombok.Getter;
 import lombok.Setter;

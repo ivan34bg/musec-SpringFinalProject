@@ -1,7 +1,7 @@
 package com.musec.musec.controllers;
 
 import com.musec.musec.data.models.bindingModels.singleBindingModel;
-import com.musec.musec.data.models.viewModels.singleViewModel;
+import com.musec.musec.data.models.viewModels.single.singleViewModel;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
 import com.musec.musec.services.implementations.singleServiceImpl;
 import javassist.NotFoundException;

@@ -1,7 +1,7 @@
 package com.musec.musec.controllers;
 
 import com.musec.musec.data.models.bindingModels.playlistBindingModel;
-import com.musec.musec.data.models.viewModels.playlistViewModel;
+import com.musec.musec.data.models.viewModels.playlist.playlistViewModel;
 import com.musec.musec.services.implementations.playlistServiceImpl;
 import javassist.NotFoundException;
 import org.springframework.http.ResponseEntity;

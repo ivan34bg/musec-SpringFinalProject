@@ -1,7 +1,8 @@
 package com.musec.musec.services;
 
 import com.musec.musec.data.models.bindingModels.playlistBindingModel;
-import com.musec.musec.data.models.viewModels.playlistViewModel;
+import com.musec.musec.data.models.viewModels.playlist.playlistViewModel;
+import com.musec.musec.data.models.viewModels.playlist.playlistViewModel;
 import javassist.NotFoundException;
 
 public interface playlistService {

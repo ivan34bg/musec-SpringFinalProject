@@ -1,4 +1,4 @@
-package com.musec.musec.data.models.viewModels;
+package com.musec.musec.data.models.viewModels.profile;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,5 +7,6 @@ import lombok.Setter;
 @Setter
 public class artistProfileAlbumViewModel {
     private Long id;
-    private String name;
+    private String albumName;
+    private String albumPicLocation;
 }

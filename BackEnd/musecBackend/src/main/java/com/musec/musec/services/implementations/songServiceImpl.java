@@ -2,6 +2,7 @@ package com.musec.musec.services.implementations;
 
 import com.musec.musec.data.albumEntity;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
+import com.musec.musec.data.models.viewModels.album.albumSongViewModel;
 import com.musec.musec.data.models.viewModels.songViewModel;
 import com.musec.musec.data.singleEntity;
 import com.musec.musec.data.songEntity;
@@ -86,11 +87,14 @@ public class songServiceImpl implements songService {
     }
 
     @Override
-    public Set<songViewModel> returnSongViewModelSetFromFullSongSet(Set<songEntity> songs) {
-        Set<songViewModel> setToReturn = new HashSet<>();
+    public Set<albumSongViewModel> returnSongViewModelSetFromFullSongSet(Set<songEntity> songs) {
+        Set<albumSongViewModel> setToReturn = new HashSet<>();
         for (songEntity song :
                 songs) {
-            setToReturn.add(returnSongViewModelFromEntity(song));
+            albumSongViewModel mappedSong = new albumSongViewModel();
+            modelMapper.map(song, mappedSong);
+            mappedSong.setSongGenreColor(song.getSongGenre().getColor());
+            setToReturn.add(mappedSong);
         }
         return setToReturn;
     }

@@ -2,8 +2,8 @@ package com.musec.musec.services.implementations;
 
 import com.musec.musec.data.enums.roleEnum;
 import com.musec.musec.data.models.bindingModels.userRegisterBindingModel;
-import com.musec.musec.data.models.viewModels.artistProfileViewModel;
-import com.musec.musec.data.models.viewModels.userProfileViewModel;
+import com.musec.musec.data.models.viewModels.profile.artistProfileViewModel;
+import com.musec.musec.data.models.viewModels.profile.userProfileViewModel;
 import com.musec.musec.data.roleEntity;
 import com.musec.musec.data.userEntity;
 import com.musec.musec.repositories.roleRepository;
@@ -47,7 +47,7 @@ public class userServiceImpl implements userService {
                 newUser.setRoles(Set.of(roleRepo.getByName(roleEnum.USER)));
                 newUser.setBirthday(LocalDate.parse(bindingModel.getBirthday()));
                 newUser.setProfilePicLink(
-                        "https://uc11fe92707ad93fc08f51d74e9a.dl.dropboxusercontent.com/cd/0/get/BacndDHUI1Ggva7FgYlXuG_p9e8iLKuN0XUlGB1y7llkUqQalfDtrE61ykXCchWUMylvdOPOf2qKHhp4Vlrbr47DCnD1CGkPqED14TRpGa1mv5EAIPYL7kZKz5BXjwpNQb9KxjsmVXXkX3HnQtAGOcjz/file"
+                        "https://www.dropbox.com/s/fv5ctkjbntsaubt/1200px-Question_Mark.svg.png?raw=1"
                 );
                 userRepo.save(newUser);
             }

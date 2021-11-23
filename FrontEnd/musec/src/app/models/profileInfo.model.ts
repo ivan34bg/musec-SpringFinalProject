@@ -9,9 +9,8 @@ export class profileInfo{
     private _playlists: profileInfoPlaylist[]  = new Array;
     private _albums: profileInfoAlbum[]  = new Array;
     private _singles: profileInfoSingle[] = new Array;
-    constructor(
-
-    ){}
+    
+    constructor(){}
 
     public get singles(): profileInfoSingle[] {
         return this._singles;

@@ -1,4 +1,4 @@
-package com.musec.musec.data.models.viewModels;
+package com.musec.musec.data.models.viewModels.album;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,5 +10,6 @@ import java.util.Set;
 public class albumViewModel {
     private String albumName;
     private String albumPicLocation;
-    private Set<songViewModel> songs;
+    private Set<albumSongViewModel> songs;
+    private albumUploaderViewModel uploader;
 }

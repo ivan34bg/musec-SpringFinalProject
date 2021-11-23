@@ -2,7 +2,7 @@ package com.musec.musec.services.implementations;
 
 import com.musec.musec.data.albumEntity;
 import com.musec.musec.data.models.bindingModels.albumBindingModel;
-import com.musec.musec.data.models.viewModels.albumViewModel;
+import com.musec.musec.data.models.viewModels.album.albumViewModel;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
 import com.musec.musec.repositories.albumRepository;
 import com.musec.musec.services.albumService;

@@ -1,7 +1,7 @@
 <div class="container">
     <div class="wrapper">
         <div class="user-info-wrapper">
-            <img [src]="this.userInfo.profilePicLink" alt="" class="profile-picture">
+            <img src="https://www.dropbox.com/s/fv5ctkjbntsaubt/1200px-Question_Mark.svg.png?raw=1" alt="" class="profile-picture">
             <div class="user-name-roles-listens">
                 <p class="name">{{this.userInfo.username}}</p>
                 <div class="roles-container">
@@ -12,14 +12,14 @@
         <div class="user-music-wrapper">
             <div class="albums-container" *ngIf="isArtist">
                 <p class="albums-label label">Albums:</p>
-                <div class="album" *ngFor="let album of this.userInfo.albums">
-                    <!--<img src="/assets/piano.jpg" alt="" class="album-image">-->
-                    <p class="album-name" >{{album.name}}</p>
+                <div routerLink="/album/{{album.id}}" class="album" *ngFor="let album of this.userInfo.albums">
+                    <img [src]="album.albumPicLocation" alt="" class="album-image">
+                    <p class="album-name" >{{album.albumName}}</p>
                 </div>
             </div>
             <div class="singles-container" *ngIf="isArtist">
                 <div class="singles-label label">Singles:</div>
-                <div class="single" *ngFor="let single of this.userInfo.singles">
+                <div routerLink="/single/{{single.id}}" class="single" *ngFor="let single of this.userInfo.singles">
                     <p class="single-name">
                         {{single.name}}
                     </p>
@@ -27,7 +27,7 @@
             </div>
             <div class="playlists-container">
                 <div class="playlists-label label">Playlists:</div>
-                <div class="playlist" *ngFor="let playlist of this.userInfo.playlists">
+                <div routerLink="/playlist/{{playlist.id}}" class="playlist" *ngFor="let playlist of this.userInfo.playlists">
                     <p class="playlist-name">
                         {{playlist.name}}
                     </p>

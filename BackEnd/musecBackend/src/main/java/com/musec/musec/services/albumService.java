@@ -1,7 +1,7 @@
 package com.musec.musec.services;
 
 import com.musec.musec.data.models.bindingModels.albumBindingModel;
-import com.musec.musec.data.models.viewModels.albumViewModel;
+import com.musec.musec.data.models.viewModels.album.albumViewModel;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
 import javassist.NotFoundException;
 

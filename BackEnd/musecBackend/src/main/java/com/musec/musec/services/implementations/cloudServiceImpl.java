@@ -24,7 +24,7 @@ public class cloudServiceImpl implements cloudService {
                     .files()
                     .uploadBuilder(String.format("/songs/%s", song.getOriginalFilename()))
                     .uploadAndFinish(song.getInputStream());
-            return client.files().getTemporaryLink(meta.getPathDisplay()).getLink();
+            return client.sharing().createSharedLinkWithSettings(meta.getPathDisplay()).getUrl().replace("dl=0", "raw=1");
         } catch (DbxException | IOException e) {
             throw new RuntimeException("Error: Couldn't upload the song.");
         }
@@ -37,7 +37,7 @@ public class cloudServiceImpl implements cloudService {
                     .files()
                     .uploadBuilder(String.format("/album-pictures/%s", pic.getOriginalFilename()))
                     .uploadAndFinish(pic.getInputStream());
-            return client.files().getTemporaryLink(meta.getPathDisplay()).getLink();
+            return client.sharing().createSharedLinkWithSettings(meta.getPathDisplay()).getUrl().replace("dl=0", "raw=1");
         } catch (DbxException | IOException e) {
             throw new RuntimeException("Error: Couldn't upload the album picture.");
         }
@@ -50,7 +50,7 @@ public class cloudServiceImpl implements cloudService {
                     .files()
                     .uploadBuilder(String.format("/profile-pictures/%s", pic.getOriginalFilename()))
                     .uploadAndFinish(pic.getInputStream());
-            return client.files().getTemporaryLink(meta.getPathDisplay()).getLink();
+            return client.sharing().createSharedLinkWithSettings(meta.getPathDisplay()).getUrl().replace("dl=0", "raw=1");
         } catch (DbxException | IOException e) {
             throw new RuntimeException("Error: Couldn't upload the album picture.");
         }

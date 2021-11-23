@@ -36,4 +36,6 @@ public class userEntity extends baseEntity{
     private Set<singleEntity> singles;
     @OneToMany(mappedBy = "playlistCreator")
     private Set<playlistEntity> playlists;
+    @OneToMany(mappedBy = "uploader")
+    private Set<songEntity> songs;
 }

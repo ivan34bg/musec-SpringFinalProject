@@ -4,6 +4,8 @@ import { AlbumViewComponent } from './album-view/album-view.component';
 import { AlbumAddComponent } from './album-add/album-add.component';
 import { PlaylistViewComponent } from './playlist-view/playlist-view.component';
 import { PlaylistAddComponent } from './playlist-add/playlist-add.component';
+import { RouterModule } from '@angular/router';
+import { SingleViewComponent } from './single-view/single-view.component';
 
 
 
@@ -12,10 +14,12 @@ import { PlaylistAddComponent } from './playlist-add/playlist-add.component';
     AlbumViewComponent,
     AlbumAddComponent,
     PlaylistViewComponent,
-    PlaylistAddComponent
+    PlaylistAddComponent,
+    SingleViewComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   exports: [
     AlbumViewComponent,

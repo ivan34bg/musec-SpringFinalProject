@@ -91,3 +91,11 @@ p{
     flex-basis: 96%;
     justify-content: space-around;
 }
+
+.song-album, .song-artist{
+    cursor: pointer;
+}
+
+.song-album:hover, .song-artist:hover{
+    color: #a4a9af;
+}

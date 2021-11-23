@@ -1,7 +1,7 @@
 package com.musec.musec.services.implementations;
 
 import com.musec.musec.data.models.bindingModels.singleBindingModel;
-import com.musec.musec.data.models.viewModels.singleViewModel;
+import com.musec.musec.data.models.viewModels.single.singleViewModel;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
 import com.musec.musec.data.singleEntity;
 import com.musec.musec.repositories.singleRepository;
@@ -55,9 +55,6 @@ public class singleServiceImpl implements singleService {
         singleEntity single = isSinglePresent(singleId);
         singleViewModel singleToReturn = new singleViewModel();
         modelMapper.map(single, singleToReturn);
-        if(single.getSong() != null){
-            singleToReturn.setSingleSong(songService.returnSongViewModelFromEntity(single.getSong()));
-        }
         return singleToReturn;
     }
 
@@ -66,6 +63,6 @@ public class singleServiceImpl implements singleService {
         if(singleOrNull.isPresent()){
             return singleOrNull.get();
         }
-        throw new NotFoundException("Cannot find this single");
+        else throw new NotFoundException("Cannot find this single");
     }
 }

@@ -17,6 +17,8 @@ public class songEntity extends baseEntity{
     private String songLocation;
     private Long plays;
     @ManyToOne
+    private userEntity uploader;
+    @ManyToOne
     private genreEntity songGenre;
     @ManyToOne
     private albumEntity album;

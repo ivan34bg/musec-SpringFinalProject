@@ -3,7 +3,9 @@ package com.musec.musec.services.implementations;
 import com.musec.musec.data.enums.roleEnum;
 import com.musec.musec.data.models.bindingModels.userRegisterBindingModel;
 import com.musec.musec.data.models.viewModels.profile.artistProfileViewModel;
+import com.musec.musec.data.models.viewModels.profile.userProfilePlaylistViewModel;
 import com.musec.musec.data.models.viewModels.profile.userProfileViewModel;
+import com.musec.musec.data.playlistEntity;
 import com.musec.musec.data.roleEntity;
 import com.musec.musec.data.userEntity;
 import com.musec.musec.repositories.roleRepository;
@@ -64,7 +66,7 @@ public class userServiceImpl implements userService {
     }
 
     @Override
-    public userProfileViewModel returnUserOrArtistProfileViewByUsername(String username) throws NotFoundException {
+    public userProfileViewModel returnUserOrArtistProfileViewByUsername(String username, Boolean showPrivate) throws NotFoundException {
         Optional<userEntity> userOrNull = userRepo.findByUsername(username);
         if(userOrNull.isPresent()){
             userEntity user = userOrNull.get();
@@ -76,6 +78,9 @@ public class userServiceImpl implements userService {
                      ) {
                     userToReturn.getRoleNames().add(role.getName().name());
                 }
+                if(!showPrivate) {
+                    userToReturn.setPlaylists(privatePlaylistChecker(user.getPlaylists()));
+                }
                 return userToReturn;
             }
             else {
@@ -86,9 +91,34 @@ public class userServiceImpl implements userService {
                 ) {
                     userToReturn.getRoleNames().add(role.getName().name());
                 }
+                if(!showPrivate){
+                    userToReturn.setPlaylists(privatePlaylistChecker(user.getPlaylists()));
+                }
                 return userToReturn;
             }
         }
         throw new NotFoundException("Cannot find user with this username");
+    }
+
+    @Override
+    public userProfileViewModel returnUserOrArtistProfileViewById(Long userId) throws NotFoundException {
+        Optional<userEntity> userOrNull = userRepo.findById(userId);
+        if(userOrNull.isPresent()){
+            return this.returnUserOrArtistProfileViewByUsername(userOrNull.get().getUsername(), false);
+        }
+        else throw new NotFoundException("User could not be found");
+    }
+
+    private Set<userProfilePlaylistViewModel> privatePlaylistChecker(Set<playlistEntity> playlists){
+        Set<userProfilePlaylistViewModel> mappedPlaylists = new HashSet<>();
+        for (playlistEntity playlist:playlists
+        ) {
+            if(playlist.isPublic()){
+                userProfilePlaylistViewModel mappedPlaylist = new userProfilePlaylistViewModel();
+                modelMapper.map(playlist, mappedPlaylist);
+                mappedPlaylists.add(mappedPlaylist);
+            }
+        }
+        return mappedPlaylists;
     }
 }

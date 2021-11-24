@@ -6,6 +6,8 @@ import { PlaylistViewComponent } from './playlist-view/playlist-view.component';
 import { PlaylistAddComponent } from './playlist-add/playlist-add.component';
 import { RouterModule } from '@angular/router';
 import { SingleViewComponent } from './single-view/single-view.component';
+import { FormsModule } from '@angular/forms';
+import { SingleAddComponent } from './single-add/single-add.component';
 
 
 
@@ -15,11 +17,13 @@ import { SingleViewComponent } from './single-view/single-view.component';
     AlbumAddComponent,
     PlaylistViewComponent,
     PlaylistAddComponent,
-    SingleViewComponent
+    SingleViewComponent,
+    SingleAddComponent
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   exports: [
     AlbumViewComponent,

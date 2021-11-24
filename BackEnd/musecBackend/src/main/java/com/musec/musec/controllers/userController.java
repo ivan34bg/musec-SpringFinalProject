@@ -1,11 +1,13 @@
 package com.musec.musec.controllers;
 
 import com.musec.musec.data.models.bindingModels.userRegisterBindingModel;
+import com.musec.musec.data.models.viewModels.profile.userProfileViewModel;
 import com.musec.musec.services.implementations.userServiceImpl;
 import javassist.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -50,10 +52,19 @@ public class userController {
     }
 
     @GetMapping("/self-profile")
-    public ResponseEntity<?> returnLoggedInUserProfileDetails(Principal principal){
+    public ResponseEntity<userProfileViewModel> returnLoggedInUserProfileDetails(Principal principal){
 
         try {
-            return ResponseEntity.ok(userService.returnUserOrArtistProfileViewByUsername(principal.getName()));
+            return ResponseEntity.ok(userService.returnUserOrArtistProfileViewByUsername(principal.getName(), true));
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<userProfileViewModel> returnUserProfileDetailsById(@PathVariable Long userId){
+        try {
+            return ResponseEntity.ok(userService.returnUserOrArtistProfileViewById(userId));
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         }

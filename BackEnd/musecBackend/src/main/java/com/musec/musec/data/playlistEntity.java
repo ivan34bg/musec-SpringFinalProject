@@ -19,7 +19,7 @@ public class playlistEntity extends baseEntity{
     @Length(min = 2, max = 20)
     private String playlistName;
     @NotNull
-    private boolean isPrivate;
+    private boolean isPublic;
     @NotNull
     private boolean openToPublicEditsOrNot;
     @ManyToOne

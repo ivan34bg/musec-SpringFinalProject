@@ -9,7 +9,7 @@ import java.util.Set;
 @Setter
 public class userProfileViewModel {
     private String profilePicLink;
-    private String username;
+    private String fullName;
     private Set<String> roleNames;
     private Set<userProfilePlaylistViewModel> playlists;
 }

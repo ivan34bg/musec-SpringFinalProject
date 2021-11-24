@@ -8,5 +8,6 @@ import javassist.NotFoundException;
 public interface userService {
     void registerUser(userRegisterBindingModel bindingModel) throws Exception;
     userEntity returnExistingUserByUsername(String username);
-    userProfileViewModel returnUserOrArtistProfileViewByUsername(String username) throws NotFoundException;
+    userProfileViewModel returnUserOrArtistProfileViewByUsername(String username, Boolean showPrivate) throws NotFoundException;
+    userProfileViewModel returnUserOrArtistProfileViewById(Long userId) throws NotFoundException;
 }

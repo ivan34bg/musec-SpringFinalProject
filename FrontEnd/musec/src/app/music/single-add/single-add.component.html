@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="music-add-form-wrapper">
+        <form action="" class="music-add-form">
+            <div class="album-name-container">
+                <label for="album-name">Album name:</label>
+                <input type="text" name="album-name" id="album-name" [(ngModel)] = "singleName">
+            </div>
+            <div class="album-image-container">
+                <label for="albumImage" class="upload-label">
+                    <input class="upload" (input)="albumPicUploaded($event)" id="albumImage" name="albumImage" type="file" accept=".jpeg, .jpg, .png">
+                    Click here to upload album image
+                </label>
+                <div class="image-preview-area">
+                    <p class="no-image-selected" *ngIf="singlePicPreview == null">No image selected</p>
+                    <img class="selected-image" [src]="singlePicPreview" *ngIf="singlePic">
+                </div>
+            </div>
+        </form>
+        <form class="music-add-form">
+            <div class="album-music-container">
+                <label for="albumSongs" class="upload-label">
+                    <input class="upload" (change)="musicUploaded($event)" id="albumSongs" name="albumSongs" type="file" accept=".mp3">
+                    Click here to upload songs for the album
+                </label>
+                <p class="no-music-selected" *ngIf="music == undefined">No music selected</p>
+                <div class="selected-music-list" *ngIf="music != undefined">
+                    <div class="selected-song">
+                        <div class="song-info">
+                            <p class="song-name">
+                                {{music.songFile.name}}
+                            </p>
+                            <input class="song-name-input" type="text" name="" id="" [value]="music.songName" [(ngModel)] = 'music.songName' [ngModelOptions]="{standalone: true}">
+                            <input class="song-genre-input" type="text" name="" id="" [value]="music.songGenre" [(ngModel)] = 'music.songGenre' [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <button (click)="onSubmit()" class="submit-button">Submit</button>
+    </div>
+</div>

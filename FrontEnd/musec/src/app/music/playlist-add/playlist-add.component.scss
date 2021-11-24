@@ -15,7 +15,7 @@
     align-items: center;
     flex-direction: column;
     justify-content: space-between;
-    padding: 2% 2%;
+    padding: 2% 0%;
     font-family: "Fira Sans Condensed", sans-serif;
     border-radius: 20px;
 }
@@ -50,10 +50,11 @@
     outline: solid #a4a9af;
 }
 
-.availability-container, .buttons-container{
+.availability-container, .editability-container, .buttons-container{
     display: flex;
     width: 60%;
     justify-content: space-evenly;
+    margin-bottom: 2%;
 }
 
 .buttons-container{
@@ -75,7 +76,7 @@
 
 .button:hover{
     background-color: rgb(26, 26, 26);
-    transition: 0.4s;
+    transition: 0.3s;
 }
 
 

@@ -5,7 +5,7 @@
             <p class="album-name">
                 {{albumInfo.albumName}}
             </p>
-            <a href="" class="artist-info">
+            <a routerLink="/profile/{{albumInfo.albumCreator.id}}" class="artist-info">
                 <img class="artist-image" [src]="albumInfo.albumCreator.profilePicLink" alt="">
                 <p class="artist-name">{{albumInfo.albumCreator.fullName}}</p>
             </a>

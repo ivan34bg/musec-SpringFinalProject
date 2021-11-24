@@ -5,7 +5,7 @@
             <p class="album-name">
                 {{singleInfo.singleName}}
             </p>
-            <a routerLink="/browse" class="artist-info">
+            <a routerLink="/profile/{{singleInfo.uploader.id}}" class="artist-info">
                 <img class="artist-image" [src]="singleInfo.uploader.profilePicLink" alt="">
                 <p class="artist-name">{{singleInfo.uploader.fullName}}</p>
             </a>

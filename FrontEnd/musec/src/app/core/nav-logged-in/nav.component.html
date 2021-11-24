@@ -4,26 +4,23 @@
         <a routerLink="/browse" class="main-link">Browse</a>
         <div class="dropdown">
             <a href="" class="main-link dropbtn">
-                Top 10
+                Create
             </a>
             <div class="dropdown-content-wrapper">
                 <div class="dropdown-content">
-                    <a href="#" class="dropdown-link">This week</a>
-                    <a href="#" class="dropdown-link">This month</a>
-                    <a href="#" class="dropdown-link">This year</a>
+                    <a routerLink="/playlist/create" class="dropdown-link">New playlist</a>
+                    <a routerLink="/album/create" class="dropdown-link">New album</a>
+                    <a routerLink="/single/create" class="dropdown-link">New single</a>
                 </div>
             </div>
         </div>
         <div class="dropdown">
-            <a routerLink="/profile-details" class="main-link dropbtn">
+            <a routerLink="/my-profile" class="main-link dropbtn">
                 Profile
             </a>
             <div class="dropdown-content-wrapper">
                 <div class="dropdown-content">
                     <a routerLink="/profile-settings" class="dropdown-link">Profile Settings</a>
-                </div>
-                <div class="dropdown-content">
-                    <a routerLink="/profile-settings" class="dropdown-link">My Playlists</a>
                 </div>
             </div>
         </div>

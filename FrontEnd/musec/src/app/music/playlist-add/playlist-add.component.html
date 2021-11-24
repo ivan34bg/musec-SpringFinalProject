@@ -1,18 +1,30 @@
 <div class="container">
-    <form class="playlist-form" action="">
+    <form (ngSubmit)="onSubmit()" class="playlist-form" action="" ngNativeValidate>
         <div class="playlist-info-wrapper">
             <div class="playlist-name-container">
                 <label class="playlist-name-label" for="playlistName">Playlist name:</label>
-                <input class="playlist-name-input" type="text" name="playlistName" id="playlistName">
+                <input class="playlist-name-input" type="text" name="playlistName" id="playlistName" [(ngModel)] = "playlistName" required minlength="2" maxlength="20">
             </div>
+            <label for="playlist-availability">Who can see your playlist?</label>
             <div class="availability-container">
                 <div class="private-wrapper">
-                    <input type="radio" id="private" name="playlist-availability" value="private">
+                    <input type="radio" id="private" name="playlist-availability" [value]='false' [(ngModel)] = "availability" required>
                     <label for="private">Private</label>
                 </div>
                 <div class="public-wrapper">
-                    <input type="radio" id="public" name="playlist-availability" value="public">
+                    <input type="radio" id="public" name="playlist-availability" [value]='true' [(ngModel)] = "availability" required>
                     <label for="public">Public</label>
+                </div>
+            </div>
+            <label for="playlist-editability">Who can edit your playlist?</label>
+            <div class="editability-container">
+                <div class="private-wrapper">
+                    <input type="radio" id="me" name="playlist-editability" [value]="false" [(ngModel)] = "editability" [checked]="!availability" required>
+                    <label for="me">Me</label>
+                </div>
+                <div class="public-wrapper">
+                    <input type="radio" id="everyone" name="playlist-editability" [value]="true" [(ngModel)] = "editability" [disabled]='!availability' required>
+                    <label for="everyone">Everyone</label>
                 </div>
             </div>
         </div>

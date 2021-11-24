@@ -76,17 +76,24 @@ public class playlistServiceImpl implements playlistService {
     @Override
     public playlistViewModel returnPlaylistById(Long playlistId, String usernameOfUser) throws NotFoundException {
         playlistEntity playlist = isPlaylistPresent(playlistId);
-        if(!playlist.isPrivate()){
+        if(playlist.isPublic()){
             playlistViewModel playlistToReturn = new playlistViewModel();
             modelMapper.map(playlist, playlistToReturn);
-            //playlistToReturn.setSongs(songService.returnSongViewModelSetFromFullSongSet(playlist.getSongs())); //TODO
             return playlistToReturn;
         }
-        else throw new NotFoundException("Cannot find the song in the current playlist");
+        else{
+            if(playlist.getPlaylistCreator().getUsername().equals(usernameOfUser)){
+                playlistViewModel playlistToReturn = new playlistViewModel();
+                modelMapper.map(playlist, playlistToReturn);
+                return playlistToReturn;
+            }
+            throw new NotFoundException("Cannot find the current playlist");
+        }
+
     }
 
     private boolean isCurrentPlaylistEditableByCurrentUser(playlistEntity playlist, String usernameOfUser) throws AccessDeniedException{
-        if(!playlist.isPrivate()){
+        if(playlist.isPublic()){
             if(!playlist.isOpenToPublicEditsOrNot()){
                 if(playlist.getPlaylistCreator().getUsername().equals(usernameOfUser)){
                     return true;

@@ -4,7 +4,7 @@ import { profileInfoSingle } from "./profileInfoSingle.model";
 
 export class profileInfo{  
     private _profilePicLink: String = '';      
-    private _username: String = '';
+    private _fullName: String = '';
     private _roleNames: String[] = new Array;
     private _playlists: profileInfoPlaylist[]  = new Array;
     private _albums: profileInfoAlbum[]  = new Array;
@@ -36,11 +36,11 @@ export class profileInfo{
     public set roleNames(value: String[]) {
         this._roleNames = value;
     }
-    public get username(): String {
-        return this._username;
+    public get fullName(): String {
+        return this._fullName;
     }
-    public set username(value: String) {
-        this._username = value;
+    public set fullName(value: String) {
+        this._fullName = value;
     }
     public get profilePicLink(): String {
         return this._profilePicLink;

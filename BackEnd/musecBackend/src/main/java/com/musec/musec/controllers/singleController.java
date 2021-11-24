@@ -34,7 +34,7 @@ public class singleController {
         return ResponseEntity.ok(id);
     }
 
-    @PostMapping("/add-song/{id}")
+    @PostMapping("/song/{id}")
     public ResponseEntity<String> addSongToSingle(@PathVariable Long id, songBindingModel songBindingModel) {
         try {
             singleService.addSongToSingle(songBindingModel, id);

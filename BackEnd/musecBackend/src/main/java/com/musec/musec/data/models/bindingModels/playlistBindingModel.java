@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class playlistBindingModel {
     private String playlistName;
-    private boolean isPrivate;
-    private boolean openToPublicEditsOrNot;
+    private String isPublic;
+    private String openToPublicEditsOrNot;
 }

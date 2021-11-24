@@ -18,12 +18,12 @@
                         {{song.songName}}
                     </p>                   
 
-                    <p class="song-artist">
-                        
+                    <p routerLink="/profile/{{song.uploader.id}}" class="song-artist">
+                        {{song.uploader.fullName}}
                     </p>
 
                     <p routerLink="/album/{{song.album.id}}" class="song-album" *ngIf="song.single == null">
-                        {{song.songName}}
+                        {{song.album.albumName}}
                     </p>
 
                     <p class="song-album" *ngIf="song.single != null">

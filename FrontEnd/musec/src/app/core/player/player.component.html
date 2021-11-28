@@ -1,1 +1,50 @@
-<ang-music-player width=100% [audioList]="audioList"></ang-music-player>
+<div class="container">
+    <div class="song-info">
+        <img class="albumPic" src="/assets/piano.jpg" alt="">
+    </div>
+    <div class="player-wrapper">
+        <p class="song-title">Song Title</p>
+        <audio style="display: none;" #audioPlayer 
+            (timeupdate)="currentDuration" 
+            (loadedmetadata)="loaded()"
+            (ended)="ended()"  
+            [volume]="volume / 100" 
+            [currentTime]="currentDuration"  
+            preload="auto" src="https://www.dropbox.com/s/8b5vco7z78tu7nv/music.mp3?raw=1">
+        </audio>
+        <div class="duration-wrapper">
+            <input type="range" class="duration-range" [value]="audioPlayer.currentTime" [max]="totalDuration" min="0" [(ngModel)]='currentDuration'>
+            <p class="duration-text">{{Math.floor(audioPlayer.currentTime/60)}}:{{audioPlayer.currentTime % 60 |number:'2.0-0'}}/{{Math.floor(totalDuration/60)}}:{{totalDuration % 60 |number: '2.0-0'}}</p>
+        </div>
+        <div class="buttons-wrapper">
+            <div class="control-buttons-wrapper">
+                <button class="control-button backwards">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="control-button pause" (click)="pause()">
+                    <i class="fas fa-pause" *ngIf="!audioPlayer.paused"></i>
+                    <i class="fas fa-play" *ngIf="audioPlayer.paused"></i>
+                </button>
+                <button class="control-button forward">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+
+            <div class="volume-wrapper">
+                <p class="volume-icon" (click)="volume = 0">
+                    <i class="fas fa-volume-mute" *ngIf="volume === 0"></i>
+                    <i class="fas fa-volume-off" *ngIf="volume <= 20 && volume > 0"></i>
+                    <i class="fas fa-volume-down" *ngIf="volume <= 60 && volume > 20"></i>
+                    <i class="fas fa-volume-up" *ngIf="volume <= 100 && volume > 60"></i>
+                </p>
+                <input class="volume-input" type="range" max="100" min="0" [(ngModel)]="volume">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

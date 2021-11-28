@@ -7,6 +7,7 @@ import { HomeLoggedComponent } from './home-logged/home-logged.component';
 import { RouterModule } from '@angular/router';
 import { LocalStorage } from './inject-tokens';
 import { NavLoggedOutComponent } from './nav-logged-out/nav-logged-out.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -20,7 +21,8 @@ import { NavLoggedOutComponent } from './nav-logged-out/nav-logged-out.component
   imports: [
     AngMusicPlayerModule,
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   exports: [
     NavComponent,

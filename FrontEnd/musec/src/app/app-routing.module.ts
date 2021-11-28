@@ -7,6 +7,7 @@ import { AlbumAddComponent } from './music/album-add/album-add.component';
 import { AlbumViewComponent } from './music/album-view/album-view.component';
 import { PlaylistAddComponent } from './music/playlist-add/playlist-add.component';
 import { PlaylistViewComponent } from './music/playlist-view/playlist-view.component';
+import { QueueComponent } from './music/queue/queue.component';
 import { SingleAddComponent } from './music/single-add/single-add.component';
 import { SingleViewComponent } from './music/single-view/single-view.component';
 import { LoginComponent } from './user/login/login.component';
@@ -77,6 +78,10 @@ const routes: Routes = [
     path: 'profile/:id',
     component: ProfileDetailsComponent,
     canActivate: [LoggedInGuardGuard]
+  },
+  {
+    path: 'queue',
+    component: QueueComponent
   }
 ];
 

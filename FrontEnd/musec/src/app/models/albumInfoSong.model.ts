@@ -3,7 +3,7 @@ import { Component, HostBinding } from "@angular/core";
 export class albumInfoSong{
     private _songName: String = ''
     private _songGenre: String = ''
-    private _songLink: String = ''
+    private _songLocation: String = ''
     private _rColor: Number = 0;
     private _gColor: Number = 0;
     private _bColor: Number = 0;
@@ -22,11 +22,11 @@ export class albumInfoSong{
     public set songGenre(value: String) {
         this._songGenre = value
     }    
-    public get songLink(): String {
-        return this._songLink
+    public get songLocation(): String {
+        return this._songLocation
     }
-    public set songLink(value: String) {
-        this._songLink = value
+    public set songLocation(value: String) {
+        this._songLocation = value
     }
     public get rColor(): Number {
         return this._rColor;

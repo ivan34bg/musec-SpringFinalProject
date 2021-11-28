@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { albumInfo } from 'src/app/models/albumInfo.model';
 import { AlbumService } from 'src/app/services/album.service';
+import { PlayerService } from 'src/app/services/player.service';
 
 @Component({
   selector: 'app-album-view',
@@ -15,7 +16,8 @@ export class AlbumViewComponent implements OnInit {
   constructor(
     private router: Router, 
     private albumService: AlbumService, 
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private playerService: PlayerService
     ) { }
 
   ngOnInit(): void {
@@ -35,4 +37,8 @@ export class AlbumViewComponent implements OnInit {
     );
   }
 
+  addToQueue(songUrl: String, songTitle: String, albumPic: String){
+  this.playerService.addSongToQueue(songUrl, songTitle, albumPic);
+  //console.log(songUrl)
+  }
 }

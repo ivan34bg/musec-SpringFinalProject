@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { SingleViewComponent } from './single-view/single-view.component';
 import { FormsModule } from '@angular/forms';
 import { SingleAddComponent } from './single-add/single-add.component';
+import { QueueComponent } from './queue/queue.component';
 
 
 
@@ -18,7 +19,8 @@ import { SingleAddComponent } from './single-add/single-add.component';
     PlaylistViewComponent,
     PlaylistAddComponent,
     SingleViewComponent,
-    SingleAddComponent
+    SingleAddComponent,
+    QueueComponent
   ],
   imports: [
     CommonModule,

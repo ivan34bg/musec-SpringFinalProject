@@ -26,4 +26,6 @@ public class songEntity extends baseEntity{
     private singleEntity single;
     @ManyToMany(mappedBy = "songs")
     private Set<playlistEntity> playlists;
+    @ManyToMany(mappedBy = "songs")
+    private Set<queueEntity> queues;
 }

@@ -10,6 +10,7 @@ import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @Service
@@ -39,9 +40,9 @@ public class singleServiceImpl implements singleService {
     }
 
     @Override
-    public void addSongToSingle(songBindingModel songBindingModel, Long singleId) throws NotFoundException {
+    public void addSongToSingle(songBindingModel songBindingModel, Long singleId, String username) throws NotFoundException {
         singleEntity single = isSinglePresent(singleId);
-        songService.saveSongWithSingle(single, songBindingModel);
+        songService.saveSongWithSingle(single, songBindingModel, username);
     }
 
     @Override

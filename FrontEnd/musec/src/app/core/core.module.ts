@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavComponent } from './nav-logged-in/nav.component';
 import { PlayerComponent } from './player/player.component';
-import { AngMusicPlayerModule } from 'ang-music-player';
 import { HomeLoggedComponent } from './home-logged/home-logged.component';
 import { RouterModule } from '@angular/router';
 import { LocalStorage } from './inject-tokens';
@@ -19,7 +18,6 @@ import { FormsModule } from '@angular/forms';
     NavLoggedOutComponent
   ],
   imports: [
-    AngMusicPlayerModule,
     CommonModule,
     RouterModule,
     FormsModule

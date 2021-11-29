@@ -8,7 +8,7 @@ import java.awt.*;
 @Getter
 @Setter
 public class albumSongViewModel {
+    private Long id;
     private String songName;
     private Color songGenreColor;
-    private String songLocation;
 }

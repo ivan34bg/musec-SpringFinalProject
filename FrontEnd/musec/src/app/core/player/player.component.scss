@@ -5,6 +5,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 1% 0%;
 }
 .song-info{
     display: flex;
@@ -84,7 +85,7 @@ p{
 
 .volume-wrapper .volume-input{
     display: none;
-    margin-left: 1.8%;
+    margin-left: 1.6%;
 }
 
 .volume-wrapper:hover{
@@ -92,5 +93,25 @@ p{
         display: block;
         position: fixed;
     }
+}
+
+.empty-queue{
+    width: 100%;
+    padding: 3% 0%;
+}
+.empty-queue p {
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-family: 'Fira Sans Condensed', sans-serif;
+}
+
+.empty-queue a{
+    color: #a4a9af;
+    font-family: 'Fira Sans Condensed', sans-serif
+}
+
+.empty-queue a:hover{
+    color: white;
 }
 

@@ -71,7 +71,6 @@ export class UserService {
   }
 
   profileDetailsFetcher(id: Number = -1): Observable<Object>{
-    console.log(id);
     if(id === -1){
       return this.http.get<Object>(this.SERVER_ADDRESS + '/user/self-profile', {withCredentials: true});
     }

@@ -11,8 +11,8 @@ import javassist.NotFoundException;
 import java.util.Set;
 
 public interface songService {
-    void saveSongWithAlbum(albumEntity album, songBindingModel songBindingModel) throws Exception;
-    void saveSongWithSingle(singleEntity single, songBindingModel songBindingModel) throws Exception;
+    void saveSongWithAlbum(albumEntity album, songBindingModel songBindingModel, String username) throws Exception;
+    void saveSongWithSingle(singleEntity single, songBindingModel songBindingModel, String username) throws Exception;
     songEntity returnSongById(Long id) throws NotFoundException;
     songViewModel returnSongViewModelFromEntity(songEntity song);
     Set<albumSongViewModel> returnSongViewModelSetFromFullSongSet(Set<songEntity> songs);

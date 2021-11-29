@@ -1,5 +1,5 @@
-import { Component, ElementRef, IterableDiffers, OnInit, ViewChild } from '@angular/core';
-import { pipe } from 'rxjs';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { interval } from 'rxjs';
 import { queueSong } from 'src/app/models/queue/queueSong.model';
 import { PlayerService } from 'src/app/services/player.service';
 
@@ -10,24 +10,46 @@ import { PlayerService } from 'src/app/services/player.service';
 })
 export class PlayerComponent implements OnInit {
   @ViewChild("audioPlayer")player!: ElementRef;
-  albumPic = '';
+  @ViewChild("albumPic")albumPic!: ElementRef;
+  @ViewChild("songTitle")songTitle!: ElementRef;
+  songArr: queueSong[] = new Array();
+  currentSongId: number = 0;
   volume = 0;
   currentDuration = 0;
   totalDuration = 0;
-  audioList: queueSong[] = [];
   Math = Math;
 
-  constructor(private playerService: PlayerService, private iterableDiffers: IterableDiffers) { }
+  constructor(private playerService: PlayerService) { } 
+  
+  get isSynced(){
+    return this.playerService.isSynced;
+  }
 
   ngOnInit(): void {
+    this.syncQueue();
+    interval(500).subscribe(s =>{
+        if(!this.isSynced){
+          this.syncQueue();
+        }
+      }
+    )
   }
 
   ended(){
-    this.player.nativeElement.src = 'https://www.dropbox.com/s/vdbydrniaqydh8a/02.%20GR%21NGOD%20-%20One%20Man%20Show%20%28Official%20Video%29%20prod.NIki.Kotich.mp3?raw=1';
-    this.player.nativeElement.play();
+    this.syncQueue();
+    if(this.currentSongId === this.songArr.length - 1){
+      this.currentSongId = 0;
+    }
+    else {
+      this.currentSongId+=1;
+    }
+    this.player.nativeElement.src = this.songArr[this.currentSongId].songLocation;
+    this.albumPic.nativeElement.src = this.songArr[this.currentSongId].songPic;
+    this.songTitle.nativeElement.textContent = this.songArr[this.currentSongId].songName;
   }
 
   pause(){
+    console.log(this.songArr)
     if(this.player.nativeElement.paused){
       this.player.nativeElement.play();
     }
@@ -36,11 +58,30 @@ export class PlayerComponent implements OnInit {
     }  
   }
 
+  backwards(){
+    this.syncQueue();
+    if(this.currentSongId === 0){
+      this.currentSongId = this.songArr.length - 1;
+    }
+    else {
+      this.currentSongId--;
+    }
+    this.player.nativeElement.src = this.songArr[this.currentSongId].songLocation;
+    this.albumPic.nativeElement.src = this.songArr[this.currentSongId].songPic;
+    this.songTitle.nativeElement.textContent = this.songArr[this.currentSongId].songName;
+  }
+
   loaded(){
     this.totalDuration = this.player.nativeElement.duration;
   }
 
-  onTimeChange(){
-    this.currentDuration = this.player.nativeElement.currentTime;
+  syncQueue(){
+    this.playerService.returnQueue().subscribe(
+      response => {
+        this.songArr = JSON.parse(JSON.stringify(response));
+        this.playerService.isSynced = true;
+      },
+      error => { }
+    );
   }
 }

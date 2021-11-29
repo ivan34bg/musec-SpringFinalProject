@@ -23,16 +23,19 @@ import java.util.Set;
 
 @Service
 public class userServiceImpl implements userService {
+    private final queueServiceImpl queueService;
     private final userRepository userRepo;
     private final roleRepository roleRepo;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
     public userServiceImpl(
+            queueServiceImpl queueService,
             userRepository userRepo,
             roleRepository roleRepo,
             ModelMapper modelMapper,
             PasswordEncoder passwordEncoder) {
+        this.queueService = queueService;
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
         this.modelMapper = modelMapper;
@@ -52,6 +55,7 @@ public class userServiceImpl implements userService {
                         "https://www.dropbox.com/s/fv5ctkjbntsaubt/1200px-Question_Mark.svg.png?raw=1"
                 );
                 userRepo.save(newUser);
+                queueService.createQueue(newUser);
             }
             else
                 throw new Exception("Email has already been taken");

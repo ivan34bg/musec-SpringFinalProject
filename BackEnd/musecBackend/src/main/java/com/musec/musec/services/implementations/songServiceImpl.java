@@ -21,6 +21,7 @@ public class songServiceImpl implements songService {
     private final songRepository songRepo;
     private final cloudServiceImpl cloudService;
     private final genreServiceImpl genreService;
+    private userServiceImpl userService;
     private final ModelMapper modelMapper;
 
     public songServiceImpl(
@@ -37,32 +38,38 @@ public class songServiceImpl implements songService {
     @Override
     public void saveSongWithAlbum(
             albumEntity album,
-            songBindingModel songBindingModel)
+            songBindingModel songBindingModel,
+            String username)
             throws
             RuntimeException,
             NotFoundException {
+        //TODO: Unrepeat this code
         songEntity songToSave = new songEntity();
         songToSave.setSongName(songBindingModel.getSongName());
         String songLocation = cloudService.uploadSong(songBindingModel.getSongFile());
         songToSave.setSongLocation(songLocation);
         songToSave.setSongGenre(genreService.findGenreByName(songBindingModel.getGenre()));
         songToSave.setAlbum(album);
+        songToSave.setUploader(this.userService.returnExistingUserByUsername(username));
         songRepo.save(songToSave);
     }
 
     @Override
     public void saveSongWithSingle(
             singleEntity single,
-            songBindingModel songBindingModel)
+            songBindingModel songBindingModel,
+            String username)
             throws
             RuntimeException,
             NotFoundException {
+        //TODO: Unrepeat this code
         songEntity songToSave = new songEntity();
         songToSave.setSongName(songBindingModel.getSongName());
         String songLocation = cloudService.uploadSong(songBindingModel.getSongFile());
         songToSave.setSongLocation(songLocation);
         songToSave.setSongGenre(genreService.findGenreByName(songBindingModel.getGenre()));
         songToSave.setSingle(single);
+        songToSave.setUploader(this.userService.returnExistingUserByUsername(username));
         songRepo.save(songToSave);
     }
 

@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class playlistSongViewModel {
+    private Long id;
     private String songName;
     private playlistSongArtistViewModel uploader;
     private playlistSongAlbumViewModel album;

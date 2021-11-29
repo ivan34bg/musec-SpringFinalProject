@@ -1,29 +1,29 @@
 <div class="container">
     <div class="album-music-container">
-        <div class="song-row">
+        <div class="song-row" *ngFor="let song of queue">
             <p class="song-number">
-                1
+                {{queue.indexOf(song) + 1}}
             </p>
             <div class="song-info">
-                <p class="song-name">
-                    songTitle
+                <p class="info song-name">
+                    {{song.songName}}
                 </p>                   
             
-                <p routerLink="/profile/1" class="song-artist">
-                    artistName
+                <p routerLink="/profile/1" class="info song-artist">
+                    username
                 </p>
             
-                <p routerLink="/album/1" class="song-album">
-                    albumName
+                <p routerLink="/album/{{song.album.id}}" class="info song-album" *ngIf="song.album">
+                    {{song.album.albumName}}
                 </p>
             
-                <p class="song-album">
-                    singleName
+                <p routerLink="/single/{{song.single.id}}" class="info song-album" *ngIf="song.single">
+                    {{song.single.singleName}}
                 </p>
 
             </div>                
             <div class="control-buttons">
-                <i class="control-button fas fa-times"></i>
+                <i (click)="deleteSong(song.id)" class="control-button fas fa-times"></i>
             </div>
         </div>
     </div>

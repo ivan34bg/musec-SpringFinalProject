@@ -35,9 +35,9 @@ public class singleController {
     }
 
     @PostMapping("/song/{id}")
-    public ResponseEntity<String> addSongToSingle(@PathVariable Long id, songBindingModel songBindingModel) {
+    public ResponseEntity<String> addSongToSingle(@PathVariable Long id, songBindingModel songBindingModel, Principal principal) {
         try {
-            singleService.addSongToSingle(songBindingModel, id);
+            singleService.addSongToSingle(songBindingModel, id, principal.getName());
         } catch (NotFoundException e) {
             //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();

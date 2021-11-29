@@ -10,6 +10,7 @@ import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @Service
@@ -45,9 +46,9 @@ public class albumServiceImpl implements albumService {
     }
 
     @Override
-    public void addSongToAlbum(Long albumId, songBindingModel songBindingModel) throws NotFoundException {
+    public void addSongToAlbum(Long albumId, songBindingModel songBindingModel, String username) throws NotFoundException {
         albumEntity album = isAlbumPresent(albumId);
-        songService.saveSongWithAlbum(album, songBindingModel);
+        songService.saveSongWithAlbum(album, songBindingModel, username);
     }
 
     @Override

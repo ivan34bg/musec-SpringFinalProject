@@ -32,9 +32,9 @@ public class albumController {
     }
 
     @PostMapping("/song/{id}")
-    public ResponseEntity<String> addSongToAlbum(@PathVariable Long id, songBindingModel bindingModel){
+    public ResponseEntity<String> addSongToAlbum(@PathVariable Long id, songBindingModel bindingModel, Principal principal){
         try {
-            albumService.addSongToAlbum(id, bindingModel);
+            albumService.addSongToAlbum(id, bindingModel, principal.getName());
         } catch (NotFoundException e) {
             //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();

@@ -7,7 +7,7 @@ import javassist.NotFoundException;
 
 public interface singleService {
     Long createSingle(singleBindingModel singleBindingModel, String currentUserUsername) throws Exception;
-    void addSongToSingle(songBindingModel songBindingModel, Long id) throws Exception;
+    void addSongToSingle(songBindingModel songBindingModel, Long id, String username) throws Exception;
     void deleteSingle(Long singleId) throws NotFoundException;
     singleViewModel returnSingle(Long singleId) throws NotFoundException;
 }

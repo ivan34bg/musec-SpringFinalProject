@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { singleInfo } from 'src/app/models/single/singleInfo.model';
+import { PlayerService } from 'src/app/services/player.service';
 import { SingleService } from 'src/app/services/single.service';
 
 @Component({
@@ -12,7 +13,8 @@ export class SingleViewComponent implements OnInit {
   public singleInfo: singleInfo = new singleInfo();
 
   constructor(
-    private singleService: SingleService, 
+    private singleService: SingleService,
+    private playerService: PlayerService, 
     private router: Router, 
     private activatedRoute: ActivatedRoute) { }
 
@@ -31,5 +33,7 @@ export class SingleViewComponent implements OnInit {
       }
     );
   }
-
+  addToQueue(songId: Number){
+    this.playerService.addSongToQueue(songId);
+  }
 }

@@ -37,12 +37,15 @@ public class securityConfig extends WebSecurityConfigurerAdapter{
         http
                 .cors()
                 .and()
-                .csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .csrf()//.disable()
+                .csrfTokenRepository(this.cookieCsrfTokenRepository())
                 .ignoringAntMatchers("/user/register")
                 .ignoringAntMatchers("/single/create")
+                .ignoringAntMatchers("/single/song/**")
                 .ignoringAntMatchers("/playlist/create")
                 .ignoringAntMatchers("/album/create")
+                .ignoringAntMatchers("/album/song/**")
+                .ignoringAntMatchers("/queue/song/**")
                 .ignoringAntMatchers("/*")
                 .and()
                 .authorizeRequests()
@@ -78,6 +81,12 @@ public class securityConfig extends WebSecurityConfigurerAdapter{
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+    @Bean
+    CookieCsrfTokenRepository cookieCsrfTokenRepository(){
+        CookieCsrfTokenRepository cookieCsrfTokenRepository = new CookieCsrfTokenRepository();
+        cookieCsrfTokenRepository.setSecure(true);
+        return cookieCsrfTokenRepository;
     }
 
     private loginSuccessHandler loginSuccessHandler(){

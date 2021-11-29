@@ -13,7 +13,7 @@
 
     </div>
     <div class="album-music-container">
-        <div (click)="addToQueue(song.songLocation, song.songName, albumInfo.albumPicLink)" class="song-row" *ngFor="let song of albumInfo.albumSongs">
+        <div (click)="addToQueue(song.id)" class="song-row" *ngFor="let song of albumInfo.albumSongs">
             <p class="song-number">
                 {{albumInfo.albumSongs.indexOf(song) + 1}}
             </p>

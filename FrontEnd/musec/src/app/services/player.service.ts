@@ -1,32 +1,34 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, Input } from '@angular/core';
-import { queueSong } from '../models/queue/queueSong.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlayerService {
-  private queueArr: queueSong[] = new Array();
+  private SERVER_ADDRESS = "http://localhost:8080";
+  isSynced = true;
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  returnQueue(){
-    let sample = new queueSong();
-    sample._url = "https://www.dropbox.com/s/8b5vco7z78tu7nv/music.mp3?raw=1";
-    sample._title = "second";
-    sample._cover = "https://www.dropbox.com/s/m5o07yqjmm705bd/1649-peepotired.png?raw=1";
-    this.queueArr.push(sample);
-    return this.queueArr;
+  returnQueue(): Observable<Object>{
+    return this.http.get<Object>(this.SERVER_ADDRESS + '/queue', {withCredentials: true});
   }
-  addSongToQueue(songUrl: String, songTitle: String, songPicUrl: String){
-    let newSong = new queueSong();
-    newSong._url = songUrl;
-    newSong._title = songTitle;
-    newSong._cover = songPicUrl;
-
-    this.queueArr.push(newSong);
+  returnQueueSongInformation(): Observable<Object>{
+    return this.http.get<Object>(this.SERVER_ADDRESS + '/queue/song', {withCredentials: true});
+  }
+  addSongToQueue(songId: Number){
+    this.http.post(this.SERVER_ADDRESS + '/queue/song/' + songId,"", {withCredentials: true}).subscribe(
+      response => {
+      },
+      error => {
+        alert(error.error);
+      }
+    )
+    this.isSynced = false;
   }
   addCollectionToQueue(){}
-  removeFromQueue(queueIndex: number){
-    this.queueArr.splice(queueIndex, 1)
+  removeFromQueue(songId: number): Observable<Object>{
+    return this.http.delete(this.SERVER_ADDRESS + '/queue/song/' + songId, {withCredentials: true})
   }
 }

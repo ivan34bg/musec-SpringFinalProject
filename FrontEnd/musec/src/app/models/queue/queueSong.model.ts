@@ -1,26 +1,26 @@
 export class queueSong{
-    private url: String = '';
-    private title: String = '';
-    private cover: String = '';
+    private _songLocation: String = '';
+    private _songName: String = '';
+    private _songPic: String = '';
 
     constructor(){}
 
-    public get _url(): String {
-        return this.url;
+    public get songLocation(): String {
+        return this._songLocation;
     }
-    public set _url(value: String) {
-        this.url = value;
+    public set songLocation(value: String) {
+        this._songLocation = value;
     }
-    public get _title(): String {
-        return this.title;
+    public get songName(): String {
+        return this._songName;
     }
-    public set _title(value: String) {
-        this.title = value;
+    public set songName(value: String) {
+        this._songName = value;
+    }  
+    public get songPic(): String {
+        return this._songPic;
     }
-    public get _cover(): String {
-        return this.cover;
-    }
-    public set _cover(value: String) {
-        this.cover = value;
+    public set songPic(value: String) {
+        this._songPic = value;
     }
 }

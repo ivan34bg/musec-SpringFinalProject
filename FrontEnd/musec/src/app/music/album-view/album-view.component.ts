@@ -28,7 +28,6 @@ export class AlbumViewComponent implements OnInit {
         this.albumInfo.albumCreator = album.uploader;
         this.albumInfo.albumPicLink = album.albumPicLocation;
         this.albumInfo.albumSongs = album.songs;
-        console.log(this.albumInfo.albumSongs);
       },
       error => {
         this.router.navigate(['/browse'])
@@ -37,8 +36,7 @@ export class AlbumViewComponent implements OnInit {
     );
   }
 
-  addToQueue(songUrl: String, songTitle: String, albumPic: String){
-  this.playerService.addSongToQueue(songUrl, songTitle, albumPic);
-  //console.log(songUrl)
+  addToQueue(songId: Number){
+  this.playerService.addSongToQueue(songId);
   }
 }

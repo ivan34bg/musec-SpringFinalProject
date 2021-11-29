@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class dropboxConfig {
-    private static String ACCESS_TOKEN = "";
+    private static String ACCESS_TOKEN = "tmgAZV4BnkkAAAAAAAAAAVrCQ5xzS56umUEiJRd8caLJJ11tHEIEaaEPnZa_4etQ";
 
     @Bean
     public DbxClientV2 dropbox() {

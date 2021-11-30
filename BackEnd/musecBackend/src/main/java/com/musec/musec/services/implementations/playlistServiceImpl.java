@@ -1,6 +1,7 @@
 package com.musec.musec.services.implementations;
 
 import com.musec.musec.data.models.bindingModels.playlistBindingModel;
+import com.musec.musec.data.models.viewModels.playlist.playlistShortInfoViewModel;
 import com.musec.musec.data.models.viewModels.playlist.playlistViewModel;
 import com.musec.musec.data.playlistEntity;
 import com.musec.musec.data.songEntity;
@@ -12,7 +13,10 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class playlistServiceImpl implements playlistService {
@@ -90,6 +94,29 @@ public class playlistServiceImpl implements playlistService {
             throw new NotFoundException("Cannot find the current playlist");
         }
 
+    }
+
+    @Override
+    public void doesUserHavePlaylists(String usernameOfUser) throws NotFoundException {
+        if(playlistRepo.findByPlaylistCreator_Username(usernameOfUser).isEmpty()){
+            throw new NotFoundException("User has no playlists");
+        }
+    }
+
+    @Override
+    public Set<playlistShortInfoViewModel> returnShortInfoOfLoggedUserPlaylists(String usernameOfUser) throws NotFoundException {
+        Optional<Set<playlistEntity>> playlistsOrNull = playlistRepo.findByPlaylistCreator_Username(usernameOfUser);
+        if(playlistsOrNull.isPresent()){
+            Set<playlistShortInfoViewModel> playlistSetToReturn = new HashSet<>();
+            for (playlistEntity playlist:playlistsOrNull.get()
+                 ) {
+                playlistShortInfoViewModel mappedPlaylist = new playlistShortInfoViewModel();
+                modelMapper.map(playlist, mappedPlaylist);
+                playlistSetToReturn.add(mappedPlaylist);
+            }
+            return playlistSetToReturn;
+        }
+        throw new NotFoundException("User has no playlists");
     }
 
     private boolean isCurrentPlaylistEditableByCurrentUser(playlistEntity playlist, String usernameOfUser) throws AccessDeniedException{

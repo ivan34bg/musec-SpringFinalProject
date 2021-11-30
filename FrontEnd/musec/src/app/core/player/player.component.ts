@@ -31,12 +31,17 @@ export class PlayerComponent implements OnInit {
         if(!this.isSynced){
           this.syncQueue();
         }
+        if(this.songArr.length === 0){
+          this.currentDuration = 0;
+        }
+        if(this.songArr.length === 1){
+          this.currentSongId = 0;
+        }
       }
     )
   }
 
   ended(){
-    this.syncQueue();
     if(this.currentSongId === this.songArr.length - 1){
       this.currentSongId = 0;
     }
@@ -49,7 +54,6 @@ export class PlayerComponent implements OnInit {
   }
 
   pause(){
-    console.log(this.songArr)
     if(this.player.nativeElement.paused){
       this.player.nativeElement.play();
     }
@@ -59,7 +63,6 @@ export class PlayerComponent implements OnInit {
   }
 
   backwards(){
-    this.syncQueue();
     if(this.currentSongId === 0){
       this.currentSongId = this.songArr.length - 1;
     }

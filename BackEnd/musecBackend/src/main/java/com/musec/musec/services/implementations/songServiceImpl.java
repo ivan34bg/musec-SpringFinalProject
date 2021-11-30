@@ -10,6 +10,8 @@ import com.musec.musec.repositories.songRepository;
 import com.musec.musec.services.songService;
 import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -50,7 +52,7 @@ public class songServiceImpl implements songService {
         songToSave.setSongLocation(songLocation);
         songToSave.setSongGenre(genreService.findGenreByName(songBindingModel.getGenre()));
         songToSave.setAlbum(album);
-        songToSave.setUploader(this.userService.returnExistingUserByUsername(username));
+        songToSave.setUploader(userService.returnExistingUserByUsername(username));
         songRepo.save(songToSave);
     }
 
@@ -69,7 +71,7 @@ public class songServiceImpl implements songService {
         songToSave.setSongLocation(songLocation);
         songToSave.setSongGenre(genreService.findGenreByName(songBindingModel.getGenre()));
         songToSave.setSingle(single);
-        songToSave.setUploader(this.userService.returnExistingUserByUsername(username));
+        songToSave.setUploader(userService.returnExistingUserByUsername(username));
         songRepo.save(songToSave);
     }
 
@@ -105,4 +107,10 @@ public class songServiceImpl implements songService {
         }
         return setToReturn;
     }
+
+    @Autowired
+    public void setUserService(@Lazy userServiceImpl userService){
+        this.userService = userService;
+    }
+
 }

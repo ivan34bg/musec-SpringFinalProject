@@ -9,8 +9,8 @@
                     {{song.songName}}
                 </p>                   
             
-                <p routerLink="/profile/1" class="info song-artist">
-                    username
+                <p routerLink="/profile/{{song.uploader.id}}" class="info song-artist">
+                    {{song.uploader.fullName}}
                 </p>
             
                 <p routerLink="/album/{{song.album.id}}" class="info song-album" *ngIf="song.album">

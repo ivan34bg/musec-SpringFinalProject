@@ -1,6 +1,7 @@
 package com.musec.musec.controllers;
 
 import com.musec.musec.data.models.bindingModels.playlistBindingModel;
+import com.musec.musec.data.models.viewModels.playlist.playlistShortInfoViewModel;
 import com.musec.musec.data.models.viewModels.playlist.playlistViewModel;
 import com.musec.musec.services.implementations.playlistServiceImpl;
 import javassist.NotFoundException;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/playlist")
@@ -71,5 +74,26 @@ public class playlistController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/check")
+    public ResponseEntity<?> checkIfLoggedUserHasPlaylists(Principal principal){
+        try {
+            playlistService.doesUserHavePlaylists(principal.getName());
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("")
+    public ResponseEntity<?> returnPlaylistsOfUser(Principal principal){
+        Set<playlistShortInfoViewModel> setToReturn;
+        try {
+            setToReturn = playlistService.returnShortInfoOfLoggedUserPlaylists(principal.getName());
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(setToReturn);
     }
 }

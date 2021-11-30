@@ -77,8 +77,6 @@ p{
     flex-direction: row;
     width: 100%;
     font-size: 22px;
-    border-bottom: solid 1px #a4a9af;
-    border-bottom-left-radius: 10px;
     margin-bottom: 1%;
 }
 
@@ -103,9 +101,6 @@ p{
     flex-direction: row;
     position: relative;
     width: 80%;
-    font-size: 22px;
-    border-bottom: solid 1px #a4a9af;
-    border-bottom-left-radius: 10px;
     margin-bottom: 1%;
     z-index: 1;
 }
@@ -124,4 +119,52 @@ p{
 
 .song-row:hover::before{
     opacity: 1;
+}
+
+.song-row-info{
+    width: 100%;
+    font-size: 22px;
+    border-bottom: solid 1px #a4a9af;
+    border-bottom-left-radius: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.playlists-button{
+    margin: 0px;
+    vertical-align: middle;
+    line-height: 200%;
+}
+
+.playlists-button:hover{
+    color: #a4a9af;
+}
+
+.popup-container{
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    
+}
+
+.playlist-popup{
+    background-color: white;
+    position: fixed;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 200px;
+    height: 200px;
+}
+
+.toned-down{
+    filter: brightness(20%);
+    pointer-events: none;
+}
+
+.visible{
+    display: block;
 }

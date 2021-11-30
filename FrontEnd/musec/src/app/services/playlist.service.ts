@@ -25,4 +25,21 @@ export class PlaylistService {
       }
     )
   }
+
+  returnIfUserHasPlaylists(): Observable<Object>{
+    return this.http.get<Object>(this.SERVER_ADDRESS + "/playlist/check", {withCredentials: true});
+  }
+
+  returnUserPlaylistsShortInfo(): Observable<Object>{
+    return this.http.get<Object>(this.SERVER_ADDRESS + "/playlist", {withCredentials: true});
+  }
+
+  addSongToPlaylist(playlistId: Number, songId: Number){
+    this.http.post(this.SERVER_ADDRESS + "/playlist/song/" + playlistId, songId, {withCredentials: true}).subscribe(
+      response =>{}, 
+      error => {
+        console.log(error.error);
+      }
+    )
+  }
 }

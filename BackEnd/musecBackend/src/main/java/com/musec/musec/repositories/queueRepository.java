@@ -9,6 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface queueRepository extends JpaRepository<queueEntity, Long> {
-
     Optional<queueEntity> findByUser_Username(String username);
 }

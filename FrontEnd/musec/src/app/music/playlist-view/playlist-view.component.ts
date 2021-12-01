@@ -19,19 +19,7 @@ export class PlaylistViewComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.playlistService.requestPlaylist(this.activatedRoute.snapshot.params.id).subscribe(
-      response => {
-        let playlist = JSON.parse(JSON.stringify(response));
-        this.playlistInfo.playlistName = playlist.playlistName;
-        this.playlistInfo.playlistCreator = playlist.playlistCreator;
-        this.playlistInfo.songs = playlist.songs;
-        console.log(this.playlistInfo)
-      },
-      error => {
-        alert("This playlist could not be found");
-        this.router.navigate(['/browse'])
-      }
-    )
+    this.syncPlaylist();
   }
 
   blackState:boolean = true;
@@ -40,5 +28,29 @@ export class PlaylistViewComponent implements OnInit {
   toggle() {
     this.blackState = !this.blackState;
     this.redState = !this.redState;
+  }
+
+  delete(songId:  Number){
+    this.playlistService.deleteSongFromPlaylist(this.activatedRoute.snapshot.params.id, songId).subscribe(
+      response => {
+        this.syncPlaylist();
+      }
+    );
+    
+  }
+
+  syncPlaylist(){
+    this.playlistService.requestPlaylist(this.activatedRoute.snapshot.params.id).subscribe(
+      response => {
+        let playlist = JSON.parse(JSON.stringify(response));
+        this.playlistInfo.playlistName = playlist.playlistName;
+        this.playlistInfo.playlistCreator = playlist.playlistCreator;
+        this.playlistInfo.songs = playlist.songs;
+      },
+      error => {
+        alert("This playlist could not be found");
+        this.router.navigate(['/browse'])
+      }
+    )
   }
 }

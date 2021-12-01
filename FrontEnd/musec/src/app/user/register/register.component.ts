@@ -23,14 +23,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(){
-    let form = new FormData;
-    form.append('username', this.username);
-    form.append('fullName', this.fullName);
-    form.append('email', this.email);
-    form.append('password', this.password);
-    form.append('birthday', new Date(this.birthdayDate).toISOString().substring(0, 10));
-
-    this.userService.registerUser(form);
+    this.userService.registerUser(this.username, this.fullName, this.email, this.password, new Date(this.birthdayDate).toISOString().substring(0, 10));
   }
 
   passwordChecker(password: String, confirmPassword: String){

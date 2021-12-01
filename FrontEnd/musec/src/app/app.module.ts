@@ -9,7 +9,7 @@ import { CoreModule } from './core/core.module';
 import { MusicModule } from './music/music.module';
 import { SettingsModule } from './user/settings/settings.module';
 import { UserModule } from './user/user.module';
-import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
@@ -25,8 +25,7 @@ import { RouterModule } from '@angular/router';
     UserModule,
     MusicModule,
     SettingsModule,
-    HttpClientModule,
-    HttpClientXsrfModule
+    HttpClientModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

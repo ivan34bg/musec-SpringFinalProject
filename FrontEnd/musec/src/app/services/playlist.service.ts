@@ -42,4 +42,8 @@ export class PlaylistService {
       }
     )
   }
+
+  deleteSongFromPlaylist(playlistId: Number, songId: Number) : Observable<Object>{
+    return this.http.delete(this.SERVER_ADDRESS + '/playlist/song/' + playlistId, {body: songId, withCredentials: true});
+  }
 }

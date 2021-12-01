@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-email-change-view',
@@ -6,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./email-change-view.component.scss']
 })
 export class EmailChangeViewComponent implements OnInit {
+  newEmail = '';
+  oldPassword = '';
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
   }
 
+  onSubmit(){
+    this.userService.changeEmail(this.newEmail, this.oldPassword);
+  }
 }

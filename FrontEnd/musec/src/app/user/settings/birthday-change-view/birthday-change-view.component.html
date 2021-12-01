@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="wrapper">
+        <form (ngSubmit)="onSubmit()" class="form" action="">
+            <div class="new-birthday-container data-container">
+                <label for="new-birthday" class="form-label">New birthday:</label>
+                <input type="date" name="new-birthday" id="new-birthday-input" (input)="dateChecker(birthday.value)" #birthday='ngModel' required [(ngModel)]='newBirthday'>
+            </div>
+            <div class="current-password-container data-container">
+                <label for="current-password" class="form-label">Current Password:</label>
+                <input type="password" name="current-password" id="current-password-input" required [(ngModel)]='oldPassword'>
+            </div>
+            <button [ngClass]="isBirthdayValid? '' : 'disable' " class="submit-button">Change birthday</button>
+        </form>
+    </div>
+</div>

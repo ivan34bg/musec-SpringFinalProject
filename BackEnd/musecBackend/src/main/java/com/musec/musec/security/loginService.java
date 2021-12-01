@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class loginService implements UserDetailsService, AuthenticationSuccessHandler {
+public class loginService implements UserDetailsService {
     private final userRepository userRepo;
 
     public loginService(userRepository userRepo) {
@@ -40,10 +40,5 @@ public class loginService implements UserDetailsService, AuthenticationSuccessHa
                 .map(r -> new SimpleGrantedAuthority("ROLE_" + r.getName()))
                 .collect(Collectors.toList());
         return new User(user.getUsername(), user.getPassword(), roles);
-    }
-
-    @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        response.setStatus(200);
     }
 }

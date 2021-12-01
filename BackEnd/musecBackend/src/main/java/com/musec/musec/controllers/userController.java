@@ -1,5 +1,6 @@
 package com.musec.musec.controllers;
 
+import com.musec.musec.data.models.bindingModels.changeCredentialsModels.*;
 import com.musec.musec.data.models.bindingModels.userRegisterBindingModel;
 import com.musec.musec.data.models.viewModels.profile.userProfileViewModel;
 import com.musec.musec.services.implementations.userServiceImpl;
@@ -37,12 +38,7 @@ public class userController {
 
     @GetMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response){
-        request.getSession().invalidate();
-        for (Cookie cookie:
-                request.getCookies()) {
-            cookie.setMaxAge(0);
-            response.addCookie(cookie);
-        }
+        userService.logoutUser(request, response);
         return ResponseEntity.ok().build();
     }
 
@@ -68,5 +64,55 @@ public class userController {
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping("/username")
+    public ResponseEntity<?> changeUsernameOfLoggedUser(changeUsernameBindingModel bindingModel, Principal principal){
+        try {
+            userService.changeUsernameOfLoggedUser(bindingModel, principal.getName());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/password")
+    public ResponseEntity<?> changePasswordOfLoggedUser(changePasswordBindingModel bindingModel, Principal principal){
+        try {
+            userService.changePasswordOfLoggedUser(bindingModel, principal.getName());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/full-name")
+    public ResponseEntity<?> changeFullNameOfLoggedUser(changeFullNameBindingModel bindingModel, Principal principal){
+        try {
+            userService.changeFullNameOfLoggedUser(bindingModel, principal.getName());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/email")
+    public ResponseEntity<?> changeEmailOfLoggedUser(changeEmailBindingModel bindingModel, Principal principal){
+        try {
+            userService.changeEmailOfLoggedUser(bindingModel, principal.getName());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/birthday")
+    public ResponseEntity<?> changeBirthdayOfLoggedUser(changeBirthdayBindingModel bindingModel, Principal principal){
+        try {
+            userService.changeBirthdayOfLoggedUser(bindingModel, principal.getName());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok().build();
     }
 }

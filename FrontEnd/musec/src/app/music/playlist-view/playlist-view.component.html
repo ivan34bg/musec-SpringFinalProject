@@ -14,21 +14,23 @@
                     {{playlistInfo.songs.indexOf(song) + 1}}
                 </p>
                 <div class="song-info">
-                    <p class="song-name">
+                    <p class="info song-name">
                         {{song.songName}}
                     </p>                   
 
-                    <p routerLink="/profile/{{song.uploader.id}}" class="song-artist">
+                    <p routerLink="/profile/{{song.uploader.id}}" class="info song-artist">
                         {{song.uploader.fullName}}
                     </p>
 
-                    <p routerLink="/album/{{song.album.id}}" class="song-album" *ngIf="song.single == null">
+                    <p routerLink="/album/{{song.album.id}}" class=" info song-album" *ngIf="song.single == null">
                         {{song.album.albumName}}
                     </p>
 
-                    <p routerLink="/single/{{song.single.id}}" class="song-album" *ngIf="song.single != null">
+                    <p routerLink="/single/{{song.single.id}}" class="info song-album" *ngIf="song.single != null">
                         {{song.single.singleName}}
                     </p>
+
+                    <i (click)="delete(song.id)" class="delete-btn fas fa-times"></i>
                 </div>
             </div>
         </div>

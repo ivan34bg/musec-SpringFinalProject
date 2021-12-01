@@ -10,6 +10,7 @@ import com.musec.musec.repositories.roleRepository;
 import com.musec.musec.repositories.userRepository;
 import com.musec.musec.services.implementations.userServiceImpl;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
@@ -19,19 +20,13 @@ import java.util.concurrent.ThreadLocalRandom;
 public class DataInit implements CommandLineRunner {
     private final genreRepository genreRepo;
     private final roleRepository roleRepo;
-    private final userRepository userRepo;
-    private final userServiceImpl userService;
 
     public DataInit(
             genreRepository genreRepo,
-            roleRepository roleRepo,
-            userRepository userRepo,
-            userServiceImpl userService) {
+            roleRepository roleRepo) {
 
         this.genreRepo = genreRepo;
         this.roleRepo = roleRepo;
-        this.userRepo = userRepo;
-        this.userService = userService;
     }
 
     @Override
@@ -39,7 +34,7 @@ public class DataInit implements CommandLineRunner {
         genreInit();
     }
 
-    private void genreInit() throws Exception {
+    private void genreInit() {
         if(genreRepo.count() == 0){
             for (genreEnum genre:genreEnum.values()
                  ) {
@@ -60,15 +55,6 @@ public class DataInit implements CommandLineRunner {
                 newRole.setName(role);
                 roleRepo.save(newRole);
             }
-        }
-        if(userRepo.count() == 0){
-            userRegisterBindingModel newUser = new userRegisterBindingModel();
-            newUser.setUsername("admin");
-            newUser.setPassword("test");
-            newUser.setEmail("admin@test.com");
-            newUser.setFullName("admin testov");
-            newUser.setBirthday("2016-08-06");
-            userService.registerUser(newUser);
         }
     }
 }

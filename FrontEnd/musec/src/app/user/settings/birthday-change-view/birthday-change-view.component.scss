@@ -69,8 +69,8 @@
     cursor: pointer;
 }
 
-.disabled{
-    pointer-events: none;
+.disable{
     color: #a4a9af;
     border-color: #a4a9af;
+    pointer-events: none;
 }

@@ -1,6 +1,7 @@
 package com.musec.musec.services.implementations;
 
 import com.musec.musec.data.enums.roleEnum;
+import com.musec.musec.data.models.bindingModels.changeCredentialsModels.*;
 import com.musec.musec.data.models.bindingModels.userRegisterBindingModel;
 import com.musec.musec.data.models.viewModels.profile.artistProfileViewModel;
 import com.musec.musec.data.models.viewModels.profile.userProfilePlaylistViewModel;
@@ -16,6 +17,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Optional;
@@ -70,7 +74,8 @@ public class userServiceImpl implements userService {
     }
 
     @Override
-    public userProfileViewModel returnUserOrArtistProfileViewByUsername(String username, Boolean showPrivate) throws NotFoundException {
+    public userProfileViewModel returnUserOrArtistProfileViewByUsername(String username, Boolean showPrivate)
+            throws NotFoundException {
         Optional<userEntity> userOrNull = userRepo.findByUsername(username);
         if(userOrNull.isPresent()){
             userEntity user = userOrNull.get();
@@ -113,6 +118,59 @@ public class userServiceImpl implements userService {
         else throw new NotFoundException("User could not be found");
     }
 
+    @Override
+    public void logoutUser(HttpServletRequest request, HttpServletResponse response) {
+        request.getSession().invalidate();
+        for (Cookie cookie:request.getCookies()
+             ) {
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+        }
+    }
+
+    @Override
+    public void changeUsernameOfLoggedUser(changeUsernameBindingModel bindingModel, String usernameOfLoggedUser)
+            throws Exception {
+        if(userRepo.findByUsername(bindingModel.getNewUsername()).isEmpty()){
+            userEntity user = fetchUserAndCheckIfPasswordIsValid(usernameOfLoggedUser, bindingModel.getOldPassword());
+            user.setUsername(bindingModel.getNewUsername());
+            userRepo.save(user);
+        }
+        else throw new Exception("Username is already taken");
+    }
+
+    @Override
+    public void changeEmailOfLoggedUser(changeEmailBindingModel bindingModel, String usernameOfLoggedUser)
+            throws Exception {
+        if(userRepo.findByEmail(bindingModel.getNewEmail()).isEmpty()) {
+            userEntity user = fetchUserAndCheckIfPasswordIsValid(usernameOfLoggedUser, bindingModel.getOldPassword());
+            user.setEmail(bindingModel.getNewEmail());
+            userRepo.save(user);
+        }
+        else throw new Exception("Email is already taken");
+    }
+
+    @Override
+    public void changePasswordOfLoggedUser(changePasswordBindingModel bindingModel, String usernameOfLoggedUser) throws Exception {
+        userEntity user = fetchUserAndCheckIfPasswordIsValid(usernameOfLoggedUser, bindingModel.getOldPassword());
+        user.setPassword(passwordEncoder.encode(bindingModel.getNewPassword()));
+        userRepo.save(user);
+    }
+
+    @Override
+    public void changeFullNameOfLoggedUser(changeFullNameBindingModel bindingModel, String usernameOfLoggedUser) throws Exception {
+        userEntity user = fetchUserAndCheckIfPasswordIsValid(usernameOfLoggedUser, bindingModel.getOldPassword());
+        user.setFullName(bindingModel.getNewFullName());
+        userRepo.save(user);
+    }
+
+    @Override
+    public void changeBirthdayOfLoggedUser(changeBirthdayBindingModel bindingModel, String usernameOfLoggedUser) throws Exception {
+        userEntity user = fetchUserAndCheckIfPasswordIsValid(usernameOfLoggedUser, bindingModel.getOldPassword());
+        user.setBirthday(LocalDate.parse(bindingModel.getNewBirthday()));
+        userRepo.save(user);
+    }
+
     private Set<userProfilePlaylistViewModel> privatePlaylistChecker(Set<playlistEntity> playlists){
         Set<userProfilePlaylistViewModel> mappedPlaylists = new HashSet<>();
         for (playlistEntity playlist:playlists
@@ -124,5 +182,15 @@ public class userServiceImpl implements userService {
             }
         }
         return mappedPlaylists;
+    }
+    private userEntity fetchUserAndCheckIfPasswordIsValid(String usernameOfLoggedUser, String password) throws Exception {
+        Optional<userEntity> userOrNull = userRepo.findByUsername(usernameOfLoggedUser);
+        if(userOrNull.isPresent()){
+            if(passwordEncoder.matches(password, userOrNull.get().getPassword())){
+                return userOrNull.get();
+            }
+            throw new Exception("Password is wrong");
+        }
+        throw new NotFoundException("User not found");
     }
 }

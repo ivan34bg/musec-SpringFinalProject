@@ -92,10 +92,17 @@ p{
     justify-content: space-around;
 }
 
-.song-album, .song-artist{
+.delete-btn, .song-album, .song-artist, .song-name{
+    line-height: 200%;
+    text-align: center;
+}
+
+.song-album:hover, .song-artist:hover, .delete-btn:hover{
+    color: #a4a9af;
     cursor: pointer;
 }
 
-.song-album:hover, .song-artist:hover{
-    color: #a4a9af;
+.info{
+    flex-basis: 30%;
 }
+

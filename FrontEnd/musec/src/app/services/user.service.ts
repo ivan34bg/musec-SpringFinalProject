@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class UserService {
   loginUser(username: string, password: string){
     var loginForm = new FormData();
     loginForm.append("username", username);
-    loginForm.append("password", password);
+    loginForm.append("password", this.passwordEncoder(password));
 
     this.http.post(this.SERVER_ADDRESS + "/login", loginForm, {withCredentials: true}).subscribe(
       (response) => {
@@ -39,8 +40,14 @@ export class UserService {
     )
   }
 
-  registerUser(registerUser: FormData){
-    this.http.post(this.SERVER_ADDRESS + "/user/register", registerUser, {withCredentials: true}).subscribe(
+  registerUser(username: string, fullName: string, email: string, password: string, birthday: string){
+    let form = new FormData();
+    form.append('username', username);
+    form.append('fullName', fullName);
+    form.append('email', email);
+    form.append('password', this.passwordEncoder(password));
+    form.append('birthday', birthday);
+    this.http.post(this.SERVER_ADDRESS + "/user/register", form, {withCredentials: true}).subscribe(
       (response) => {
         this.router.navigate(["/login"]);
       },
@@ -75,5 +82,79 @@ export class UserService {
       return this.http.get<Object>(this.SERVER_ADDRESS + '/user/self-profile', {withCredentials: true});
     }
     else return this.http.get<Object>(this.SERVER_ADDRESS + '/user/' + id, {withCredentials: true});
+  }
+
+  changeUsername(newUsername: string, oldPassword: string){
+    let form = new FormData();
+    form.append('newUsername', newUsername);
+    form.append('oldPassword', this.passwordEncoder(oldPassword));
+    this.http.post(this.SERVER_ADDRESS + '/user/username', form, {withCredentials: true}).subscribe(
+      response => {
+        this.router.navigate(['/profile-settings'])
+      },
+      error => {
+        alert(error.error)
+      }
+    )
+  }
+
+  changeFullName(newFullName: string, oldPassword: string){
+    let form = new FormData();
+    form.append('newFullName', newFullName);
+    form.append('oldPassword', this.passwordEncoder(oldPassword));
+    this.http.post(this.SERVER_ADDRESS + '/user/full-name', form, {withCredentials: true}).subscribe(
+      response => {
+        this.router.navigate(['/profile-settings'])
+      },
+      error => {
+        alert(error.error)
+      }
+    )
+  }
+
+  changePassword(newPassword: string, oldPassword: string){
+    let form = new FormData();
+    form.append('newPassword', this.passwordEncoder(newPassword));
+    form.append('oldPassword', this.passwordEncoder(oldPassword));
+    this.http.post(this.SERVER_ADDRESS + '/user/password', form, {withCredentials: true}).subscribe(
+      response => {
+        this.router.navigate(['/profile-settings'])
+      },
+      error => {
+        alert(error.error)
+      }
+    )
+  }
+
+  changeEmail(newEmail: string, oldPassword: string){
+    let form = new FormData();
+    form.append('newEmail', newEmail);
+    form.append('oldPassword', this.passwordEncoder(oldPassword));
+    this.http.post(this.SERVER_ADDRESS + '/user/email', form, {withCredentials: true}).subscribe(
+      response => {
+        this.router.navigate(['/profile-settings'])
+      },
+      error => {
+        alert(error.error)
+      }
+    )
+  }
+
+  changeBirthday(newBirthday: string, oldPassword: string){
+    let form = new FormData();
+    form.append('newBirthday', newBirthday);
+    form.append('oldPassword', this.passwordEncoder(oldPassword));
+    this.http.post(this.SERVER_ADDRESS + '/user/birthday', form, {withCredentials: true}).subscribe(
+      response => {
+        this.router.navigate(['/profile-settings'])
+      },
+      error => {
+        alert(error.error)
+      }
+    )
+  }
+
+  passwordEncoder(purePassword: string):string {
+    return(CryptoJS.SHA512(purePassword).toString());
   }
 }

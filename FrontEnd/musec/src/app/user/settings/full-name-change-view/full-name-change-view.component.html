@@ -1,15 +1,16 @@
 <div class="container">
     <div class="wrapper">
         <form (ngSubmit)="onSubmit()" class="form" action="" ngNativeValidate>
-            <div class="new-email-container data-container">
-                <label for="new-email" class="form-label">New Email:</label>
-                <input type="email" name="new-email" id="new-email-input" required [(ngModel)]="newEmail">
+            <div class="new-full-name-container data-container">
+                <label for="new-full-name" class="form-label">New full name:</label>
+                <input type="text" name="new-full-name" id="new-full-name-input" minlength="2" maxlength="20" [(ngModel)]='newFullName'>
             </div>
             <div class="current-password-container data-container">
                 <label for="current-password" class="form-label">Current Password:</label>
                 <input type="password" name="current-password" id="current-password-input" required [(ngModel)]='oldPassword'>
             </div>
-            <button class="submit-button">Change Email</button>
+            <button class="submit-button">Change name</button>
         </form>
     </div>
 </div>
+

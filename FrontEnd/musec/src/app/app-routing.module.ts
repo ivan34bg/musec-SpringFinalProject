@@ -14,6 +14,12 @@ import { LoginComponent } from './user/login/login.component';
 import { ProfileDetailsComponent } from './user/profile-details/profile-details.component';
 import { ProfileSettingsComponent } from './user/profile-settings/profile-settings.component';
 import { RegisterComponent } from './user/register/register.component';
+import { BirthdayChangeViewComponent } from './user/settings/birthday-change-view/birthday-change-view.component';
+import { EmailChangeViewComponent } from './user/settings/email-change-view/email-change-view.component';
+import { FullNameChangeViewComponent } from './user/settings/full-name-change-view/full-name-change-view.component';
+import { MainChangeViewComponent } from './user/settings/main-change-view/main-change-view.component';
+import { PasswordChangeViewComponent } from './user/settings/password-change-view/password-change-view.component';
+import { UsernameChangeViewComponent } from './user/settings/username-change-view/username-change-view.component';
 
 const routes: Routes = [
   {
@@ -38,7 +44,40 @@ const routes: Routes = [
   },
   {
     path: 'profile-settings',
-    component: ProfileSettingsComponent
+    component: ProfileSettingsComponent,
+    canActivate: [LoggedInGuardGuard],
+    children: [
+      {
+        path: '',
+        component: MainChangeViewComponent,
+        canActivate: [LoggedInGuardGuard]
+      },
+      {
+        path: 'username',
+        component: UsernameChangeViewComponent,
+        canActivate: [LoggedInGuardGuard]
+      },
+      {
+        path: 'email',
+        component: EmailChangeViewComponent,
+        canActivate: [LoggedInGuardGuard]
+      },
+      {
+        path: 'password',
+        component: PasswordChangeViewComponent,
+        canActivate: [LoggedInGuardGuard]
+      },
+      {
+        path: 'birthday',
+        component: BirthdayChangeViewComponent,
+        canActivate: [LoggedInGuardGuard]
+      },
+      {
+        path: 'full-name',
+        component: FullNameChangeViewComponent,
+        canActivate: [LoggedInGuardGuard]
+      }
+    ]
   },
   {
     path: 'my-profile',
@@ -67,7 +106,8 @@ const routes: Routes = [
   },
   {
     path: 'single/create',
-    component: SingleAddComponent
+    component: SingleAddComponent,
+    canActivate: [LoggedInGuardGuard]
   },
   {
     path: 'single/:id',
@@ -81,7 +121,8 @@ const routes: Routes = [
   },
   {
     path: 'queue',
-    component: QueueComponent
+    component: QueueComponent,
+    canActivate: [LoggedInGuardGuard]
   }
 ];
 

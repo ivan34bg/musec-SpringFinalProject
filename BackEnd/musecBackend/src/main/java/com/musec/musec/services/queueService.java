@@ -2,6 +2,7 @@ package com.musec.musec.services;
 
 import com.musec.musec.data.models.viewModels.queue.queueFullSongViewModel;
 import com.musec.musec.data.models.viewModels.queue.queueSongViewModel;
+import com.musec.musec.data.songEntity;
 import com.musec.musec.data.userEntity;
 import javassist.NotFoundException;
 
@@ -13,5 +14,6 @@ public interface queueService {
     void createQueue(userEntity user);
     void addSongToQueue(Long songId, String username) throws Exception;
     void removeSongFromQueue(Long songId, String username) throws NotFoundException;
+    void removeSongFromEveryQueue(songEntity song);
     void emptyQueue(String username);
 }

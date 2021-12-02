@@ -13,8 +13,8 @@ import javax.persistence.*;
 public class singleEntity extends baseEntity{
     @Length(min = 2, max = 20)
     private String singleName;
-    @Lob
     private String singlePicLocation;
+    private String singlePicFilePath;
     @ManyToOne
     private userEntity uploader;
     @OneToOne(mappedBy = "single")

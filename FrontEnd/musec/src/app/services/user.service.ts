@@ -84,6 +84,19 @@ export class UserService {
     else return this.http.get<Object>(this.SERVER_ADDRESS + '/user/' + id, {withCredentials: true});
   }
 
+  changeProfilePic(profilePic: File){
+    let form = new FormData();
+    form.append("newProfilePic", profilePic);
+    this.http.post(this.SERVER_ADDRESS + '/user/profile-pic', form, {withCredentials: true}).subscribe(
+      response => {
+        this.router.navigate(['/profile-settings'])
+      },
+      error => {
+        console.log(error.error);
+      }
+    )
+  }
+
   changeUsername(newUsername: string, oldPassword: string){
     let form = new FormData();
     form.append('newUsername', newUsername);

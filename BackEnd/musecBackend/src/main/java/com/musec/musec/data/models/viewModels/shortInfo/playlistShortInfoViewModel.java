@@ -1,4 +1,4 @@
-package com.musec.musec.data.models.viewModels.playlist;
+package com.musec.musec.data.models.viewModels.shortInfo;
 
 import lombok.Getter;
 import lombok.Setter;

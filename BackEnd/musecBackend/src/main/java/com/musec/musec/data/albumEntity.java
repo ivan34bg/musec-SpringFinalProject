@@ -14,8 +14,8 @@ import java.util.Set;
 public class albumEntity extends baseEntity{
     @Length(min = 2, max = 20)
     private String albumName;
-    @Lob
     private String albumPicLocation;
+    private String albumPicFilePath;
     @OneToMany(mappedBy = "album")
     private Set<songEntity> songs;
     @ManyToOne

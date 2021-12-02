@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { FullNameChangeViewComponent } from './full-name-change-view/full-name-change-view.component';
 import { BirthdayChangeViewComponent } from './birthday-change-view/birthday-change-view.component';
 import { FormsModule } from '@angular/forms';
+import { ProfilePicChangeViewComponent } from './profile-pic-change-view/profile-pic-change-view.component';
 
 
 
@@ -18,7 +19,8 @@ import { FormsModule } from '@angular/forms';
     EmailChangeViewComponent,
     MainChangeViewComponent,
     FullNameChangeViewComponent,
-    BirthdayChangeViewComponent
+    BirthdayChangeViewComponent,
+    ProfilePicChangeViewComponent
   ],
   imports: [
     CommonModule,

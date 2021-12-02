@@ -1,8 +1,10 @@
 package com.musec.musec.controllers;
 
+import com.dropbox.core.DbxException;
 import com.musec.musec.data.models.bindingModels.albumBindingModel;
 import com.musec.musec.data.models.viewModels.album.albumViewModel;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
+import com.musec.musec.data.models.viewModels.shortInfo.albumShortInfoViewModel;
 import com.musec.musec.services.implementations.albumServiceImpl;
 import javassist.NotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/album")
@@ -38,6 +41,8 @@ public class albumController {
         } catch (NotFoundException e) {
             //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();
+        }   catch (DbxException e){
+            return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok().build();
     }
@@ -61,7 +66,14 @@ public class albumController {
         } catch (NotFoundException e) {
             //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();
+        } catch (DbxException e) {
+            return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("")
+    public ResponseEntity<Set<albumShortInfoViewModel>> returnShortInfoOfAlbumsOfLoggedUser(Principal principal){
+        return ResponseEntity.ok(albumService.returnShortInfoOfAllAlbumsOfLoggedUser(principal.getName()));
     }
 }

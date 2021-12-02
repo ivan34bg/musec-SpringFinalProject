@@ -1,5 +1,6 @@
 package com.musec.musec.services;
 
+import com.dropbox.core.DbxException;
 import com.musec.musec.data.albumEntity;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
 import com.musec.musec.data.models.viewModels.album.albumSongViewModel;
@@ -16,4 +17,5 @@ public interface songService {
     songEntity returnSongById(Long id) throws NotFoundException;
     songViewModel returnSongViewModelFromEntity(songEntity song);
     Set<albumSongViewModel> returnSongViewModelSetFromFullSongSet(Set<songEntity> songs);
+    void deleteSongById(Long songId) throws DbxException;
 }

@@ -1,7 +1,7 @@
 package com.musec.musec.services.implementations;
 
 import com.musec.musec.data.models.bindingModels.playlistBindingModel;
-import com.musec.musec.data.models.viewModels.playlist.playlistShortInfoViewModel;
+import com.musec.musec.data.models.viewModels.shortInfo.playlistShortInfoViewModel;
 import com.musec.musec.data.models.viewModels.playlist.playlistViewModel;
 import com.musec.musec.data.playlistEntity;
 import com.musec.musec.data.songEntity;
@@ -14,7 +14,6 @@ import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -98,29 +97,28 @@ public class playlistServiceImpl implements playlistService {
 
     @Override
     public void doesUserHavePlaylists(String usernameOfUser) throws NotFoundException {
-        if(playlistRepo.findByPlaylistCreator_Username(usernameOfUser).isEmpty()){
+        System.out.println(playlistRepo.findByPlaylistCreator_Username(usernameOfUser));
+        if(playlistRepo.findByPlaylistCreator_Username(usernameOfUser).get().size() == 0){
             throw new NotFoundException("User has no playlists");
         }
     }
 
     @Override
-    public Set<playlistShortInfoViewModel> returnShortInfoOfLoggedUserPlaylists(String usernameOfUser) throws NotFoundException {
+    public Set<playlistShortInfoViewModel> returnShortInfoOfLoggedUserPlaylists(String usernameOfUser) {
         Optional<Set<playlistEntity>> playlistsOrNull = playlistRepo.findByPlaylistCreator_Username(usernameOfUser);
-        if(playlistsOrNull.isPresent()){
-            Set<playlistShortInfoViewModel> playlistSetToReturn = new HashSet<>();
-            for (playlistEntity playlist:playlistsOrNull.get()
-                 ) {
-                playlistShortInfoViewModel mappedPlaylist = new playlistShortInfoViewModel();
-                modelMapper.map(playlist, mappedPlaylist);
-                playlistSetToReturn.add(mappedPlaylist);
-            }
-            return playlistSetToReturn;
+        Set<playlistShortInfoViewModel> playlistSetToReturn = new HashSet<>();
+        for (playlistEntity playlist:playlistsOrNull.get()
+        ) {
+            playlistShortInfoViewModel mappedPlaylist = new playlistShortInfoViewModel();
+            modelMapper.map(playlist, mappedPlaylist);
+            playlistSetToReturn.add(mappedPlaylist);
         }
-        throw new NotFoundException("User has no playlists");
+        return playlistSetToReturn;
     }
 
-    private boolean isCurrentPlaylistEditableByCurrentUser(playlistEntity playlist, String usernameOfUser) throws AccessDeniedException{
-        if(playlist.isPublic()){
+    private boolean isCurrentPlaylistEditableByCurrentUser(playlistEntity playlist, String usernameOfUser)
+            throws AccessDeniedException{
+        if(playlist.isPublic() || playlist.getPlaylistCreator().getUsername().equals(usernameOfUser)){
             if(!playlist.isOpenToPublicEditsOrNot()){
                 if(playlist.getPlaylistCreator().getUsername().equals(usernameOfUser)){
                     return true;

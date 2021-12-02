@@ -88,6 +88,16 @@ public class queueServiceImpl implements queueService {
     }
 
     @Override
+    public void removeSongFromEveryQueue(songEntity song) {
+        Set<queueEntity> queuesContainingTheSong = queueRepo.findAllBySongsContains(song).get();
+        for (queueEntity queue:queuesContainingTheSong
+             ) {
+            queue.getSongs().remove(song);
+            queueRepo.save(queue);
+        }
+    }
+
+    @Override
     public void emptyQueue(String username) {
         queueRepo.findByUser_Username(username).get().getSongs().clear();
     }

@@ -46,7 +46,6 @@ export class AlbumViewComponent implements OnInit {
         this.playlistService.returnUserPlaylistsShortInfo().subscribe(
           response => {
             this.playlists = JSON.parse(JSON.stringify(response));
-            console.log(this.playlists)
           },
           error => {}
         )

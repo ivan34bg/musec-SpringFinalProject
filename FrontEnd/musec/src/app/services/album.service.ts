@@ -26,4 +26,12 @@ export class AlbumService {
       }
     );
   }
+
+  returnShortInfoOfAlbums(): Observable<Object>{
+    return this.http.get(this.SERVER_ADDRESS + '/album', {withCredentials: true});
+  }
+
+  deleteAlbum(albumId: Number): Observable<Object>{
+    return this.http.delete(this.SERVER_ADDRESS + '/album/' + albumId, {withCredentials: true});
+  }
 }

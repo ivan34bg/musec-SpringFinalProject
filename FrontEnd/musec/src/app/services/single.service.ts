@@ -24,4 +24,10 @@ export class SingleService {
       }
     );
   }
+  returnShortInfoOfSingles(): Observable<Object>{
+    return this.http.get(this.SERVER_ADDRESS + '/single', {withCredentials: true});
+  }
+  deleteSingle(singleId: Number): Observable<Object>{
+    return this.http.delete(this.SERVER_ADDRESS + '/single/' + singleId, {withCredentials: true});
+  }
 }

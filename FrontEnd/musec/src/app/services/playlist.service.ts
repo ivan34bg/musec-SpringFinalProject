@@ -35,15 +35,19 @@ export class PlaylistService {
   }
 
   addSongToPlaylist(playlistId: Number, songId: Number){
-    this.http.post(this.SERVER_ADDRESS + "/playlist/song/" + playlistId, songId, {withCredentials: true}).subscribe(
+    this.http.post(this.SERVER_ADDRESS + "/playlist/song/" + playlistId, songId.toString(), {withCredentials: true, }).subscribe(
       response =>{}, 
       error => {
-        console.log(error.error);
+        alert(error.error);
       }
     )
   }
 
   deleteSongFromPlaylist(playlistId: Number, songId: Number) : Observable<Object>{
     return this.http.delete(this.SERVER_ADDRESS + '/playlist/song/' + playlistId, {body: songId, withCredentials: true});
+  }
+
+  deletePlaylist(playlistId: Number): Observable<Object>{
+    return this.http.delete(this.SERVER_ADDRESS + '/playlist/' + playlistId, {withCredentials: true});
   }
 }

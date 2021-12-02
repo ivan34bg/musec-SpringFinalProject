@@ -1,5 +1,6 @@
 package com.musec.musec.services.implementations;
 
+import com.dropbox.core.DbxException;
 import com.musec.musec.data.albumEntity;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
 import com.musec.musec.data.models.viewModels.album.albumSongViewModel;
@@ -44,12 +45,13 @@ public class songServiceImpl implements songService {
             String username)
             throws
             RuntimeException,
-            NotFoundException {
+            NotFoundException, DbxException {
         //TODO: Unrepeat this code
         songEntity songToSave = new songEntity();
         songToSave.setSongName(songBindingModel.getSongName());
-        String songLocation = cloudService.uploadSong(songBindingModel.getSongFile());
-        songToSave.setSongLocation(songLocation);
+        String songFilePath = cloudService.uploadSong(songBindingModel.getSongFile());
+        songToSave.setSongFilePath(songFilePath);
+        songToSave.setSongLocation(cloudService.returnDirectLinkOfFile(songFilePath));
         songToSave.setSongGenre(genreService.findGenreByName(songBindingModel.getGenre()));
         songToSave.setAlbum(album);
         songToSave.setUploader(userService.returnExistingUserByUsername(username));
@@ -63,12 +65,13 @@ public class songServiceImpl implements songService {
             String username)
             throws
             RuntimeException,
-            NotFoundException {
+            NotFoundException, DbxException {
         //TODO: Unrepeat this code
         songEntity songToSave = new songEntity();
         songToSave.setSongName(songBindingModel.getSongName());
-        String songLocation = cloudService.uploadSong(songBindingModel.getSongFile());
-        songToSave.setSongLocation(songLocation);
+        String songFilePath = cloudService.uploadSong(songBindingModel.getSongFile());
+        songToSave.setSongFilePath(songFilePath);
+        songToSave.setSongLocation(cloudService.returnDirectLinkOfFile(songFilePath));
         songToSave.setSongGenre(genreService.findGenreByName(songBindingModel.getGenre()));
         songToSave.setSingle(single);
         songToSave.setUploader(userService.returnExistingUserByUsername(username));
@@ -108,9 +111,15 @@ public class songServiceImpl implements songService {
         return setToReturn;
     }
 
+    @Override
+    public void deleteSongById(Long songId) throws DbxException {
+        songEntity song = songRepo.findById(songId).get();
+        cloudService.deleteFile(song.getSongFilePath());
+        songRepo.delete(song);
+    }
+
     @Autowired
     public void setUserService(@Lazy userServiceImpl userService){
         this.userService = userService;
     }
-
 }

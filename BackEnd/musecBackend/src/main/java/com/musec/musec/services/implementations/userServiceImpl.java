@@ -1,5 +1,6 @@
 package com.musec.musec.services.implementations;
 
+import com.dropbox.core.DbxException;
 import com.musec.musec.data.enums.roleEnum;
 import com.musec.musec.data.models.bindingModels.changeCredentialsModels.*;
 import com.musec.musec.data.models.bindingModels.userRegisterBindingModel;
@@ -16,6 +17,7 @@ import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +30,7 @@ import java.util.Set;
 @Service
 public class userServiceImpl implements userService {
     private final queueServiceImpl queueService;
+    private final cloudServiceImpl cloudService;
     private final userRepository userRepo;
     private final roleRepository roleRepo;
     private final ModelMapper modelMapper;
@@ -35,11 +38,12 @@ public class userServiceImpl implements userService {
 
     public userServiceImpl(
             queueServiceImpl queueService,
-            userRepository userRepo,
+            cloudServiceImpl cloudService, userRepository userRepo,
             roleRepository roleRepo,
             ModelMapper modelMapper,
             PasswordEncoder passwordEncoder) {
         this.queueService = queueService;
+        this.cloudService = cloudService;
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
         this.modelMapper = modelMapper;
@@ -126,6 +130,17 @@ public class userServiceImpl implements userService {
             cookie.setMaxAge(0);
             response.addCookie(cookie);
         }
+    }
+
+    @Override
+    public void changeProfilePic(MultipartFile newProfilePic, String username) throws DbxException {
+        userEntity user = this.userRepo.findByUsername(username).get();
+        if(user.getProfilePicFilePath() != null){
+            cloudService.deleteFile(user.getProfilePicFilePath());
+        }
+        user.setProfilePicFilePath(cloudService.uploadProfilePic(newProfilePic));
+        user.setProfilePicLink(cloudService.returnDirectLinkOfFile(user.getProfilePicFilePath()));
+        userRepo.save(user);
     }
 
     @Override

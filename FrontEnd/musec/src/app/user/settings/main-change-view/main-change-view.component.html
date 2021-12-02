@@ -3,6 +3,10 @@
         <div class="profile-settings-container category">
             <p class="category-label">Profile Settings</p>
             <div class="profile-settings settings-group">
+                <div class="profile-pic-change setting">
+                    <p class="name-change-label label">Change your profile picture:</p>
+                    <a routerLink="/profile-settings/profile-pic" class="setting-redirect">Change</a>
+                </div>
                 <div class="name-change setting">
                     <p class="name-change-label label">Change your full name:</p>
                     <a routerLink="/profile-settings/full-name" class="setting-redirect">Change</a>
@@ -32,67 +36,35 @@
                 </div>-->
             </div>
         </div>
-        <div class="albums-singles-settings-container category">
-            <p class="category-label">Albums/Singles Settings</p>
+        <div class="albums-settings-container category" *ngIf="albums.length > 0">
+            <p class="category-label">Albums Settings</p>
             <div class="albums-singles-settings settings-group">
-                <div class="album">
-                    <p>Test Album</p>
+                <div class="album" *ngFor="let album of albums">
+                    <p>{{album.albumName}}</p>
                     <div class="album-control">
-                        <a class="setting-redirect" href="">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <a class="setting-redirect" href="">
-                            <i class="fas fa-times"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="album">
-                    <p>Test Album</p>
-                    <div class="album-control">
-                        <a class="setting-redirect" href="">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <a class="setting-redirect" href="">
-                            <i class="fas fa-times"></i>
-                        </a>
+                        <i (click)="deleteAlbum(album.id)" class="fas fa-times"></i>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="playlists-settings-container category">
+        <div class="singles-settings-container category" *ngIf="singles.length > 0">
+            <p class="category-label">Singles Settings</p>
+            <div class="albums-singles-settings settings-group">
+                <div class="album" *ngFor="let single of singles">
+                    <p>{{single.singleName}}</p>
+                    <div class="album-control">
+                        <i (click)="deleteSingle(single.id)" class="fas fa-times"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="playlists-settings-container category" *ngIf="playlists.length > 0">
             <p class="category-label">Playlists Settings</p>
             <div class="playlists-settings settings-group">
-                <div class="playlist">
-                    <p>Test Playlist</p>
+                <div class="playlist" *ngFor="let playlist of playlists">
+                    <p>{{playlist.playlistName}}</p>
                     <div class="playlist-control">
-                        <a class="setting-redirect" href="">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <a class="setting-redirect" href="">
-                            <i class="fas fa-times"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="playlist">
-                    <p>Test Playlist</p>
-                    <div class="playlist-control">
-                        <a class="setting-redirect" href="">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <a class="setting-redirect" href="">
-                            <i class="fas fa-times"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="playlist">
-                    <p>Test Playlist</p>
-                    <div class="playlist-control">
-                        <a class="setting-redirect" href="">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <a class="setting-redirect" href="">
-                            <i class="fas fa-times"></i>
-                        </a>
+                        <i (click)="deletePlaylist(playlist.id)" class="fas fa-times"></i>
                     </div>
                 </div>
             </div>

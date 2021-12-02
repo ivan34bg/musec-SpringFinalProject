@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="wrapper">
+        <img [src]="profilePicPreview" class="profile-pic-preview" *ngIf="profilePicPreview != null">
+        <form (ngSubmit)="onSubmit()" class="form" action="" ngNativeValidate>
+            <div class="new-profile-pic-container data-container">
+                <label for="new-profile-pic-input" class="profile-pic-label form-label">
+                    <input class="profile-pic-input" (input)="albumPicUploaded($event)" type="file" accept=".jpeg, .jpg, .png" name="new-profile-pic" id="new-profile-pic-input">
+                    Click here to upload new profile picture
+                </label>
+            </div>
+            <button [ngClass]="profilePicPreview == null? 'disabled' : '' " class="submit-button">Change profile picture</button>
+        </form>
+    </div>
+</div>

@@ -24,7 +24,7 @@ public class cloudServiceImpl implements cloudService {
                     .files()
                     .uploadBuilder(String.format("/songs/%s", song.getOriginalFilename()))
                     .uploadAndFinish(song.getInputStream());
-            return client.sharing().createSharedLinkWithSettings(meta.getPathDisplay()).getUrl().replace("dl=0", "raw=1");
+            return meta.getPathDisplay();
         } catch (DbxException | IOException e) {
             throw new RuntimeException("Error: Couldn't upload the song.");
         }
@@ -37,7 +37,7 @@ public class cloudServiceImpl implements cloudService {
                     .files()
                     .uploadBuilder(String.format("/album-pictures/%s", pic.getOriginalFilename()))
                     .uploadAndFinish(pic.getInputStream());
-            return client.sharing().createSharedLinkWithSettings(meta.getPathDisplay()).getUrl().replace("dl=0", "raw=1");
+            return meta.getPathDisplay();
         } catch (DbxException | IOException e) {
             throw new RuntimeException("Error: Couldn't upload the album picture.");
         }
@@ -50,9 +50,19 @@ public class cloudServiceImpl implements cloudService {
                     .files()
                     .uploadBuilder(String.format("/profile-pictures/%s", pic.getOriginalFilename()))
                     .uploadAndFinish(pic.getInputStream());
-            return client.sharing().createSharedLinkWithSettings(meta.getPathDisplay()).getUrl().replace("dl=0", "raw=1");
+            return meta.getPathDisplay();
         } catch (DbxException | IOException e) {
             throw new RuntimeException("Error: Couldn't upload the album picture.");
         }
+    }
+
+    @Override
+    public String returnDirectLinkOfFile(String path) throws DbxException {
+        return client.sharing().createSharedLinkWithSettings(path).getUrl().replace("dl=0", "raw=1");
+    }
+
+    @Override
+    public void deleteFile(String filePath) throws DbxException {
+        client.files().deleteV2(filePath);
     }
 }

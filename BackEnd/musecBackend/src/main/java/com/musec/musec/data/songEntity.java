@@ -15,6 +15,7 @@ public class songEntity extends baseEntity{
     @Length(min = 2, max = 20)
     private String songName;
     private String songLocation;
+    private String songFilePath;
     private Long plays;
     @ManyToOne
     private userEntity uploader;

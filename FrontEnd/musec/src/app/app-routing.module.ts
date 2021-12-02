@@ -19,6 +19,7 @@ import { EmailChangeViewComponent } from './user/settings/email-change-view/emai
 import { FullNameChangeViewComponent } from './user/settings/full-name-change-view/full-name-change-view.component';
 import { MainChangeViewComponent } from './user/settings/main-change-view/main-change-view.component';
 import { PasswordChangeViewComponent } from './user/settings/password-change-view/password-change-view.component';
+import { ProfilePicChangeViewComponent } from './user/settings/profile-pic-change-view/profile-pic-change-view.component';
 import { UsernameChangeViewComponent } from './user/settings/username-change-view/username-change-view.component';
 
 const routes: Routes = [
@@ -75,6 +76,11 @@ const routes: Routes = [
       {
         path: 'full-name',
         component: FullNameChangeViewComponent,
+        canActivate: [LoggedInGuardGuard]
+      },
+      {
+        path: 'profile-pic',
+        component: ProfilePicChangeViewComponent,
         canActivate: [LoggedInGuardGuard]
       }
     ]

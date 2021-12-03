@@ -2,6 +2,7 @@ package com.musec.musec.services.implementations;
 
 import com.dropbox.core.DbxException;
 import com.musec.musec.data.models.bindingModels.singleBindingModel;
+import com.musec.musec.data.models.viewModels.search.singleSearchViewModel;
 import com.musec.musec.data.models.viewModels.shortInfo.singleShortInfoViewModel;
 import com.musec.musec.data.models.viewModels.single.singleViewModel;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
@@ -77,6 +78,23 @@ public class singleServiceImpl implements singleService {
             singleShortInfoViewModel mappedSingle = new singleShortInfoViewModel();
             modelMapper.map(single, mappedSingle);
             setToReturn.add(mappedSingle);
+        }
+        return setToReturn;
+    }
+
+    @Override
+    public Set<singleSearchViewModel> searchSingleByName(String parameter) {
+        Set<singleSearchViewModel> setToReturn = new HashSet<>();
+        if(!parameter.equals("")){
+            Optional<Set<singleEntity>> singlesOrNull = singleRepo.findAllBySingleNameContains(parameter);
+            if(!singlesOrNull.get().isEmpty()){
+                for (singleEntity single:singlesOrNull.get()
+                     ) {
+                    singleSearchViewModel mappedSingle = new singleSearchViewModel();
+                    modelMapper.map(single, mappedSingle);
+                    setToReturn.add(mappedSingle);
+                }
+            }
         }
         return setToReturn;
     }

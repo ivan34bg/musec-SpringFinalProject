@@ -10,4 +10,5 @@ import java.util.Set;
 @Repository
 public interface singleRepository extends JpaRepository<singleEntity, Long> {
     Optional<Set<singleEntity>> findAllByUploader_Username(String username);
+    Optional<Set<singleEntity>> findAllBySingleNameContains(String parameter);
 }

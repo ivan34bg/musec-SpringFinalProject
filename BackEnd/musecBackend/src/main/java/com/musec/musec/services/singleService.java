@@ -2,6 +2,7 @@ package com.musec.musec.services;
 
 import com.dropbox.core.DbxException;
 import com.musec.musec.data.models.bindingModels.singleBindingModel;
+import com.musec.musec.data.models.viewModels.search.singleSearchViewModel;
 import com.musec.musec.data.models.viewModels.shortInfo.singleShortInfoViewModel;
 import com.musec.musec.data.models.viewModels.single.singleViewModel;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
@@ -15,4 +16,5 @@ public interface singleService {
     void deleteSingle(Long singleId) throws NotFoundException, DbxException;
     singleViewModel returnSingle(Long singleId) throws NotFoundException;
     Set<singleShortInfoViewModel> returnShortInfoOfSinglesOfLoggedUser(String username);
+    Set<singleSearchViewModel> searchSingleByName(String parameter);
 }

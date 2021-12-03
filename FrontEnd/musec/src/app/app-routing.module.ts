@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoggedInGuardGuard } from './core/guards/logged-in-guard.guard';
 import { LoggedOutGuardGuard } from './core/guards/logged-out-guard.guard';
 import { HomeLoggedComponent } from './core/home-logged/home-logged.component';
+import { SearchComponent } from './core/search/search.component';
 import { AlbumAddComponent } from './music/album-add/album-add.component';
 import { AlbumViewComponent } from './music/album-view/album-view.component';
 import { PlaylistAddComponent } from './music/playlist-add/playlist-add.component';
@@ -128,6 +129,11 @@ const routes: Routes = [
   {
     path: 'queue',
     component: QueueComponent,
+    canActivate: [LoggedInGuardGuard]
+  },
+  {
+    path: 'search',
+    component: SearchComponent,
     canActivate: [LoggedInGuardGuard]
   }
 ];

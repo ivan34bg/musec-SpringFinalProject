@@ -5,9 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface userRepository extends JpaRepository<userEntity, Long> {
     Optional<userEntity> findByUsername(String username);
     Optional<userEntity> findByEmail(String email);
+    Optional<Set<userEntity>> findAllByFullNameContains(String parameter);
 }

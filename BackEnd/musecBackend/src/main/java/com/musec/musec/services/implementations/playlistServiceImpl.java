@@ -1,6 +1,7 @@
 package com.musec.musec.services.implementations;
 
 import com.musec.musec.data.models.bindingModels.playlistBindingModel;
+import com.musec.musec.data.models.viewModels.search.playlistSearchViewModel;
 import com.musec.musec.data.models.viewModels.shortInfo.playlistShortInfoViewModel;
 import com.musec.musec.data.models.viewModels.playlist.playlistViewModel;
 import com.musec.musec.data.playlistEntity;
@@ -114,6 +115,23 @@ public class playlistServiceImpl implements playlistService {
             playlistSetToReturn.add(mappedPlaylist);
         }
         return playlistSetToReturn;
+    }
+
+    @Override
+    public Set<playlistSearchViewModel> searchPlaylistByName(String parameters) {
+        Set<playlistSearchViewModel> setToReturn = new HashSet<>();
+        if(!parameters.equals("")){
+            Optional<Set<playlistEntity>> playlistsOrNull = playlistRepo.findAllByPlaylistNameContains(parameters);
+            if(!playlistsOrNull.get().isEmpty()) {
+                for (playlistEntity playlist : playlistsOrNull.get()
+                ) {
+                    playlistSearchViewModel mappedPlaylist = new playlistSearchViewModel();
+                    modelMapper.map(playlist, mappedPlaylist);
+                    setToReturn.add(mappedPlaylist);
+                }
+            }
+        }
+        return setToReturn;
     }
 
     private boolean isCurrentPlaylistEditableByCurrentUser(playlistEntity playlist, String usernameOfUser)

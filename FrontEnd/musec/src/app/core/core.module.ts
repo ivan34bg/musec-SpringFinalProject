@@ -6,6 +6,7 @@ import { HomeLoggedComponent } from './home-logged/home-logged.component';
 import { RouterModule } from '@angular/router';
 import { NavLoggedOutComponent } from './nav-logged-out/nav-logged-out.component';
 import { FormsModule } from '@angular/forms';
+import { SearchComponent } from './search/search.component';
 
 
 
@@ -14,7 +15,8 @@ import { FormsModule } from '@angular/forms';
     NavComponent,
     PlayerComponent,
     HomeLoggedComponent,
-    NavLoggedOutComponent
+    NavLoggedOutComponent,
+    SearchComponent
   ],
   imports: [
     CommonModule,

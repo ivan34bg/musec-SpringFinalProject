@@ -4,6 +4,7 @@ import com.dropbox.core.DbxException;
 import com.musec.musec.data.models.bindingModels.albumBindingModel;
 import com.musec.musec.data.models.viewModels.album.albumViewModel;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
+import com.musec.musec.data.models.viewModels.search.albumSearchViewModel;
 import com.musec.musec.data.models.viewModels.shortInfo.albumShortInfoViewModel;
 import com.musec.musec.services.implementations.albumServiceImpl;
 import javassist.NotFoundException;
@@ -75,5 +76,10 @@ public class albumController {
     @GetMapping("")
     public ResponseEntity<Set<albumShortInfoViewModel>> returnShortInfoOfAlbumsOfLoggedUser(Principal principal){
         return ResponseEntity.ok(albumService.returnShortInfoOfAllAlbumsOfLoggedUser(principal.getName()));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Set<albumSearchViewModel>> searchAlbumByName(@RequestParam(name = "param") String parameters){
+        return ResponseEntity.ok(albumService.searchAlbumByName(parameters));
     }
 }

@@ -10,4 +10,5 @@ import java.util.Set;
 @Repository
 public interface albumRepository extends JpaRepository<albumEntity, Long> {
     Optional<Set<albumEntity>> findAllByUploader_Username(String username);
+    Optional<Set<albumEntity>> findAllByAlbumNameContains(String parameter);
 }

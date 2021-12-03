@@ -4,6 +4,7 @@ import com.dropbox.core.DbxException;
 import com.musec.musec.data.albumEntity;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
 import com.musec.musec.data.models.viewModels.album.albumSongViewModel;
+import com.musec.musec.data.models.viewModels.search.songSearchViewModel;
 import com.musec.musec.data.models.viewModels.songViewModel;
 import com.musec.musec.data.singleEntity;
 import com.musec.musec.data.songEntity;
@@ -88,17 +89,6 @@ public class songServiceImpl implements songService {
     }
 
     @Override
-    public songViewModel returnSongViewModelFromEntity(songEntity song) {
-        songViewModel modelToReturn = new songViewModel();
-        modelMapper.map(song, modelToReturn);
-        if(song.getAlbum() != null)
-            modelToReturn.setAlbumOrSingleName(song.getAlbum().getAlbumName());
-        else
-            modelToReturn.setAlbumOrSingleName(song.getSingle().getSingleName());
-        return modelToReturn;
-    }
-
-    @Override
     public Set<albumSongViewModel> returnSongViewModelSetFromFullSongSet(Set<songEntity> songs) {
         Set<albumSongViewModel> setToReturn = new HashSet<>();
         for (songEntity song :
@@ -116,6 +106,29 @@ public class songServiceImpl implements songService {
         songEntity song = songRepo.findById(songId).get();
         cloudService.deleteFile(song.getSongFilePath());
         songRepo.delete(song);
+    }
+
+    @Override
+    public Set<songSearchViewModel> searchSongBySongName(String parameters) {
+        Set<songSearchViewModel> setToReturn = new HashSet<>();
+        if(!parameters.equals("")){
+            Optional<Set<songEntity>> songsOrNull = songRepo.findAllBySongNameContains(parameters);
+            if(!songsOrNull.get().isEmpty()){
+                for (songEntity song:songsOrNull.get()
+                     ) {
+                    songSearchViewModel mappedSong = new songSearchViewModel();
+                    modelMapper.map(song, mappedSong);
+                    if(song.getAlbum() != null){
+                        mappedSong.setAlbumId(song.getAlbum().getId());
+                    }
+                    if(song.getSingle() != null){
+                        mappedSong.setSingleId(song.getSingle().getId());
+                    }
+                    setToReturn.add(mappedSong);
+                }
+            }
+        }
+        return setToReturn;
     }
 
     @Autowired

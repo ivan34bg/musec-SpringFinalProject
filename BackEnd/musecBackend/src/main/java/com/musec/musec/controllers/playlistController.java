@@ -1,6 +1,7 @@
 package com.musec.musec.controllers;
 
 import com.musec.musec.data.models.bindingModels.playlistBindingModel;
+import com.musec.musec.data.models.viewModels.search.playlistSearchViewModel;
 import com.musec.musec.data.models.viewModels.shortInfo.playlistShortInfoViewModel;
 import com.musec.musec.data.models.viewModels.playlist.playlistViewModel;
 import com.musec.musec.services.implementations.playlistServiceImpl;
@@ -88,5 +89,10 @@ public class playlistController {
     @GetMapping("")
     public ResponseEntity<Set<playlistShortInfoViewModel>> returnPlaylistsOfUser(Principal principal){
         return ResponseEntity.ok(playlistService.returnShortInfoOfLoggedUserPlaylists(principal.getName()));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Set<playlistSearchViewModel>> searchPlaylistByName(@RequestParam(name = "param") String parameters){
+        return ResponseEntity.ok(playlistService.searchPlaylistByName(parameters));
     }
 }

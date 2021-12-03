@@ -7,6 +7,7 @@ import com.musec.musec.data.models.bindingModels.userRegisterBindingModel;
 import com.musec.musec.data.models.viewModels.profile.artistProfileViewModel;
 import com.musec.musec.data.models.viewModels.profile.userProfilePlaylistViewModel;
 import com.musec.musec.data.models.viewModels.profile.userProfileViewModel;
+import com.musec.musec.data.models.viewModels.search.userSearchViewModel;
 import com.musec.musec.data.playlistEntity;
 import com.musec.musec.data.roleEntity;
 import com.musec.musec.data.userEntity;
@@ -184,6 +185,23 @@ public class userServiceImpl implements userService {
         userEntity user = fetchUserAndCheckIfPasswordIsValid(usernameOfLoggedUser, bindingModel.getOldPassword());
         user.setBirthday(LocalDate.parse(bindingModel.getNewBirthday()));
         userRepo.save(user);
+    }
+
+    @Override
+    public Set<userSearchViewModel> searchUsersByFullName(String parameter) {
+        Set<userSearchViewModel> setToReturn = new HashSet<>();
+        if(!parameter.equals("")){
+            Optional<Set<userEntity>> usersOrNull = userRepo.findAllByFullNameContains(parameter);
+            if(!usersOrNull.get().isEmpty()){
+                for (userEntity user:usersOrNull.get()
+                ) {
+                    userSearchViewModel mappedUser = new userSearchViewModel();
+                    modelMapper.map(user, mappedUser);
+                    setToReturn.add(mappedUser);
+                }
+            }
+        }
+        return setToReturn;
     }
 
     private Set<userProfilePlaylistViewModel> privatePlaylistChecker(Set<playlistEntity> playlists){

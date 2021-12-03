@@ -2,6 +2,7 @@ package com.musec.musec.controllers;
 
 import com.dropbox.core.DbxException;
 import com.musec.musec.data.models.bindingModels.singleBindingModel;
+import com.musec.musec.data.models.viewModels.search.singleSearchViewModel;
 import com.musec.musec.data.models.viewModels.shortInfo.singleShortInfoViewModel;
 import com.musec.musec.data.models.viewModels.single.singleViewModel;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
@@ -74,5 +75,10 @@ public class singleController {
             return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Set<singleSearchViewModel>> searchSingleByName(@RequestParam("param") String parameters){
+        return ResponseEntity.ok(singleService.searchSingleByName(parameters));
     }
 }

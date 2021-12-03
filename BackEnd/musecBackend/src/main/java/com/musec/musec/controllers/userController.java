@@ -5,6 +5,7 @@ import com.musec.musec.data.models.bindingModels.changeCredentialsModels.*;
 import com.musec.musec.data.models.bindingModels.profilePicBindingModel;
 import com.musec.musec.data.models.bindingModels.userRegisterBindingModel;
 import com.musec.musec.data.models.viewModels.profile.userProfileViewModel;
+import com.musec.musec.data.models.viewModels.search.userSearchViewModel;
 import com.musec.musec.services.implementations.userServiceImpl;
 import javassist.NotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/user")
@@ -123,5 +125,10 @@ public class userController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Set<userSearchViewModel>> searchUserByFullName(@RequestParam(name = "param") String parameter){
+        return ResponseEntity.ok(userService.searchUsersByFullName(parameter));
     }
 }

@@ -5,6 +5,7 @@ import com.musec.musec.data.albumEntity;
 import com.musec.musec.data.models.bindingModels.albumBindingModel;
 import com.musec.musec.data.models.viewModels.album.albumViewModel;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
+import com.musec.musec.data.models.viewModels.search.albumSearchViewModel;
 import com.musec.musec.data.models.viewModels.shortInfo.albumShortInfoViewModel;
 import com.musec.musec.data.songEntity;
 import com.musec.musec.repositories.albumRepository;
@@ -90,6 +91,23 @@ public class albumServiceImpl implements albumService {
             albumShortInfoViewModel mappedAlbum = new albumShortInfoViewModel();
             modelMapper.map(album, mappedAlbum);
             setToReturn.add(mappedAlbum);
+        }
+        return setToReturn;
+    }
+
+    @Override
+    public Set<albumSearchViewModel> searchAlbumByName(String parameter) {
+        Set<albumSearchViewModel> setToReturn = new HashSet<>();
+        if(!parameter.equals("")){
+            Optional<Set<albumEntity>> albumsOrNull = albumRepo.findAllByAlbumNameContains(parameter);
+            if(!albumsOrNull.get().isEmpty()){
+                for (albumEntity album:albumsOrNull.get()
+                     ) {
+                    albumSearchViewModel mappedAlbum = new albumSearchViewModel();
+                    modelMapper.map(album, mappedAlbum);
+                    setToReturn.add(mappedAlbum);
+                }
+            }
         }
         return setToReturn;
     }

@@ -128,3 +128,13 @@
     border-bottom-right-radius: 26px;
     cursor: pointer;
 }
+
+.disabled{
+    display: none;
+}
+
+.rounded{
+    border-top-right-radius: 26px;
+    border-bottom-right-radius: 26px;
+    width: 257px;
+}

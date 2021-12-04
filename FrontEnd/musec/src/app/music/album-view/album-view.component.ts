@@ -55,14 +55,17 @@ export class AlbumViewComponent implements OnInit {
   }
 
   addToQueue(songId: Number){
-  this.playerService.addSongToQueue(songId);
+    this.playerService.addSongToQueue(songId);
   }
 
   addSongToPlaylistPopup(songId: Number){
     this.songId = songId;
   }
   addSongToPlaylist(){
-    this.playlistService.addSongToPlaylist(this.playlistId, this.songId);
+    if(this.playlistId > -1){
+      this.playlistService.addSongToPlaylist(this.playlistId, this.songId);
+      alert("The song was added to the playlist")
+    }
     this.songId = -1;
     this.playlistId = -1;
   }

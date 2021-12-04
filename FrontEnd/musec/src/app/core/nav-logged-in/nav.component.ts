@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -10,17 +11,15 @@ export class NavComponent implements OnInit {
 
   isOpened:boolean = false;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+  }
 
   ngOnInit(): void {
   }
 
   get isUserLoggedIn(){
     return this.userService.isUserLogged();
-  }
-
-  openDropdown(event:Event){
-    console.log(event.target);
   }
 
   logout(){

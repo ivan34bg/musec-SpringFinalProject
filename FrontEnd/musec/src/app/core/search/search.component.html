@@ -1,3 +1,48 @@
 <div class="container">
-    
+    <div class="content-wrapper">
+        <div class="label-term">
+            <p class="search-label label">Search term:</p>
+            <p class="search-term">{{param}}</p>
+        </div>
+        <div class="search-results" *ngIf="
+        foundAlbums.length > 0 || 
+        foundSingles.length > 0 ||
+        foundPlaylists.length > 0 ||
+        foundSongs.length > 0 || 
+        foundUsers.length > 0
+        ">
+            <div class="album-results results" *ngIf="foundAlbums.length > 0">
+                <p class="label">Albums:</p>
+                <p routerLink="/album/{{album.id}}" class="result album-result" *ngFor="let album of foundAlbums">- {{album.albumName}}</p>
+            </div>
+            <div class="single-results results" *ngIf="foundSingles.length > 0">
+                <p class="label">Single:</p>
+                <p routerLink="/single/{{single.id}}" class="result single-result" *ngFor="let single of foundSingles">- {{single.singleName}}</p>
+            </div>
+            <div class="playlist-results results" *ngIf="foundPlaylists.length > 0">
+                <p class="label">Playlists:</p>
+                <p routerLink="/playlist/{{playlist.id}}" class="result playlist-result" *ngFor="let playlist of foundPlaylists">- {{playlist.playlistName}}</p>
+            </div>
+            <div class="artist-results results" *ngIf="foundUsers.length > 0">
+                <p class="label">Artists:</p>
+                <p routerLink="/profile/{{user.id}}" class="result artist-result" *ngFor="let user of foundUsers">- {{user.fullName}}</p>
+            </div>
+            <div class="song-results results" *ngIf="foundSongs.length > 0">
+                <p class="label">Songs:</p>
+                <div class="song" *ngFor="let song of foundSongs">
+                    <p *ngIf="song.albumId != null" routerLink="/album/{{song.albumId}}" class="result song-result">- {{song.songName}}</p>
+                    <p *ngIf="song.singleId != null" routerLink="/single/{{song.singleId}}" class="result song-result">- {{song.songName}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="no-results-container" *ngIf="
+        foundAlbums.length == 0 && 
+        foundSingles.length == 0 && 
+        foundPlaylists.length == 0 &&
+        foundSongs.length == 0 && 
+        foundUsers.length == 0
+        ">
+            <p class="no-results">No results found...</p>
+        </div>
+    </div>
 </div>

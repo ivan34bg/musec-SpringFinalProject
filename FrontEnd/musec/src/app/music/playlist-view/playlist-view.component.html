@@ -30,7 +30,7 @@
                         {{song.single.singleName}}
                     </p>
 
-                    <i (click)="delete(song.id)" class="delete-btn fas fa-times"></i>
+                    <i *ngIf="playlistInfo.canEdit" (click)="delete(song.id)" class="delete-btn fas fa-times"></i>
                 </div>
             </div>
         </div>

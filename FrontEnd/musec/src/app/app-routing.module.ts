@@ -132,7 +132,7 @@ const routes: Routes = [
     canActivate: [LoggedInGuardGuard]
   },
   {
-    path: 'search',
+    path: 'search/:param',
     component: SearchComponent,
     canActivate: [LoggedInGuardGuard]
   }

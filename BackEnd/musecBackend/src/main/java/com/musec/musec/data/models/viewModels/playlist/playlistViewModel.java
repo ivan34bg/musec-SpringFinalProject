@@ -9,6 +9,7 @@ import java.util.Set;
 @Setter
 public class playlistViewModel {
     private String playlistName;
+    private boolean canEdit;
     private playlistCreatorViewModel playlistCreator;
     private Set<playlistSongViewModel> songs;
 }

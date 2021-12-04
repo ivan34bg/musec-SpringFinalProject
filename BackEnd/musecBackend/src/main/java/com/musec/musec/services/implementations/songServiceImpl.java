@@ -111,7 +111,7 @@ public class songServiceImpl implements songService {
     @Override
     public Set<songSearchViewModel> searchSongBySongName(String parameters) {
         Set<songSearchViewModel> setToReturn = new HashSet<>();
-        if(!parameters.equals("")){
+        if(!parameters.trim().equals("")){
             Optional<Set<songEntity>> songsOrNull = songRepo.findAllBySongNameContains(parameters);
             if(!songsOrNull.get().isEmpty()){
                 for (songEntity song:songsOrNull.get()

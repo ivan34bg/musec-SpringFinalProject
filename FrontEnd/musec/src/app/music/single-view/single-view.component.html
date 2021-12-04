@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" [ngClass]="songId !=-1? 'toned-down' : '' ">
     <div class="image-artist-container">
         <img class="album-image" [src]="singleInfo.singlePicLocation" alt="">
         <div class="artist-album-name">
@@ -10,16 +10,27 @@
                 <p class="artist-name">{{singleInfo.uploader.fullName}}</p>
             </a>
         </div>
-
     </div>
     <div class="album-music-container" >
-        <div class="song-row" (click)="addToQueue(singleInfo.song.id)">
-            <p class="song-number">
+        <div class="song-row">
+            <p class="song-number" (click)="addToQueue(singleInfo.song.id)">
                 1
             </p>
-            <p class="song-name">
+            <p class="song-name" (click)="addToQueue(singleInfo.song.id)">
                 {{singleInfo.song.songName}}
             </p>
+            <i *ngIf="doesUserHavePlaylists" (click)="addSongToPlaylistPopup(singleInfo.song.id)" class="playlists-button fas fa-plus"></i>
         </div>
+    </div>
+</div>
+<div  class="popup-container" [ngClass]="songId != -1? 'visible' : ''">
+    <div class="playlist-popup">
+        <form>
+            <label for="playlists">Choose a playlist to save this song into:</label>
+            <select name="playlists" id="" [(ngModel)]="playlistId">
+                <option *ngFor="let playlist of playlists" [value]="playlist.id">{{playlist.playlistName}}</option>
+            </select>
+            <button class="submit-button" (click)="addSongToPlaylist()">Submit</button>
+        </form>
     </div>
 </div>

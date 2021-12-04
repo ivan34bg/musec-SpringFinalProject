@@ -29,8 +29,8 @@
     </div>
     <div class="searchbar-wrapper">
         <form action="" class="search">
-            <input type="text" class="searchbar">
-            <button (click)="openDropdown($event)" class="search-button">
+            <input [ngClass]="searchInput.value == ''? 'rounded':''" #searchInput type="text" class="searchbar">
+            <button [ngClass]="searchInput.value == ''? 'disabled':''" routerLink="/search/{{searchInput.value}}" class="search-button">
                     <i class="fas fa-search"></i>
             </button>
         </form>

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -33,5 +33,9 @@ export class AlbumService {
 
   deleteAlbum(albumId: Number): Observable<Object>{
     return this.http.delete(this.SERVER_ADDRESS + '/album/' + albumId, {withCredentials: true});
+  }
+
+  searchAlbums(param: string): Observable<Object>{
+    return this.http.get(this.SERVER_ADDRESS + '/album/search', {withCredentials: true, params: new HttpParams().set("param", param)})
   }
 }

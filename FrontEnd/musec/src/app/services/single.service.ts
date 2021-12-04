@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -29,5 +29,9 @@ export class SingleService {
   }
   deleteSingle(singleId: Number): Observable<Object>{
     return this.http.delete(this.SERVER_ADDRESS + '/single/' + singleId, {withCredentials: true});
+  }
+
+  searchSingle(param: string): Observable<Object>{
+    return this.http.get(this.SERVER_ADDRESS + '/single/search', {withCredentials: true, params: new HttpParams().set("param", param)})
   }
 }

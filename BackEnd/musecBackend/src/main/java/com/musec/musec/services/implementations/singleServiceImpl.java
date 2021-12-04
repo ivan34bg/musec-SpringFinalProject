@@ -85,7 +85,7 @@ public class singleServiceImpl implements singleService {
     @Override
     public Set<singleSearchViewModel> searchSingleByName(String parameter) {
         Set<singleSearchViewModel> setToReturn = new HashSet<>();
-        if(!parameter.equals("")){
+        if(!parameter.trim().equals("")){
             Optional<Set<singleEntity>> singlesOrNull = singleRepo.findAllBySingleNameContains(parameter);
             if(!singlesOrNull.get().isEmpty()){
                 for (singleEntity single:singlesOrNull.get()

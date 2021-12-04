@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -49,5 +49,9 @@ export class PlaylistService {
 
   deletePlaylist(playlistId: Number): Observable<Object>{
     return this.http.delete(this.SERVER_ADDRESS + '/playlist/' + playlistId, {withCredentials: true});
+  }
+
+  searchPlaylist(param: string): Observable<Object>{
+    return this.http.get(this.SERVER_ADDRESS + '/playlist/search', {withCredentials: true, params: new HttpParams().set("param", param)})
   }
 }

@@ -10,7 +10,6 @@
                 <p class="artist-name">{{albumInfo.albumCreator.fullName}}</p>
             </a>
         </div>
-
     </div>
     <div class="album-music-container">
         <div  class="song-row" *ngFor="let song of albumInfo.albumSongs">
@@ -35,6 +34,5 @@
             </select>
             <button (click)="addSongToPlaylist()">Submit</button>
         </form>
-
     </div>
 </div>

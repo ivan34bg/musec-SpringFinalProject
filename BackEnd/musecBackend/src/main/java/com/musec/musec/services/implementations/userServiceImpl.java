@@ -190,14 +190,16 @@ public class userServiceImpl implements userService {
     @Override
     public Set<userSearchViewModel> searchUsersByFullName(String parameter) {
         Set<userSearchViewModel> setToReturn = new HashSet<>();
-        if(!parameter.equals("")){
+        if(!parameter.trim().equals("")){
             Optional<Set<userEntity>> usersOrNull = userRepo.findAllByFullNameContains(parameter);
             if(!usersOrNull.get().isEmpty()){
                 for (userEntity user:usersOrNull.get()
                 ) {
-                    userSearchViewModel mappedUser = new userSearchViewModel();
-                    modelMapper.map(user, mappedUser);
-                    setToReturn.add(mappedUser);
+                    if(user.getRoles().stream().filter(r -> r.getName() == roleEnum.ARTIST).count() > 0){
+                        userSearchViewModel mappedUser = new userSearchViewModel();
+                        modelMapper.map(user, mappedUser);
+                        setToReturn.add(mappedUser);
+                    }
                 }
             }
         }

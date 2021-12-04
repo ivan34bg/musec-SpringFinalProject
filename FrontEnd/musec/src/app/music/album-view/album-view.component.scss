@@ -182,7 +182,7 @@ p{
     border: none;
 }
 
-.playlist-popup button {
+.playlist-popup button{
     width: 100%;
     background-color: transparent;
     border: solid 2px white;
@@ -192,6 +192,10 @@ p{
     color: white;
     padding: 6px 0px;
     margin-bottom: 2%;
+}
+
+.playlist-popup button:hover{
+    cursor: pointer;
 }
 
 .toned-down{

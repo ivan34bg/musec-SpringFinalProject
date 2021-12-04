@@ -83,6 +83,12 @@ public class playlistServiceImpl implements playlistService {
         if(playlist.isPublic()){
             playlistViewModel playlistToReturn = new playlistViewModel();
             modelMapper.map(playlist, playlistToReturn);
+            if(playlist.isOpenToPublicEditsOrNot())
+                playlistToReturn.setCanEdit(true);
+            else if(usernameOfUser.equals(playlist.getPlaylistCreator().getUsername()))
+                playlistToReturn.setCanEdit(true);
+            else
+                playlistToReturn.setCanEdit(false);
             return playlistToReturn;
         }
         else{
@@ -120,14 +126,16 @@ public class playlistServiceImpl implements playlistService {
     @Override
     public Set<playlistSearchViewModel> searchPlaylistByName(String parameters) {
         Set<playlistSearchViewModel> setToReturn = new HashSet<>();
-        if(!parameters.equals("")){
+        if(!parameters.trim().equals("")){
             Optional<Set<playlistEntity>> playlistsOrNull = playlistRepo.findAllByPlaylistNameContains(parameters);
             if(!playlistsOrNull.get().isEmpty()) {
                 for (playlistEntity playlist : playlistsOrNull.get()
                 ) {
-                    playlistSearchViewModel mappedPlaylist = new playlistSearchViewModel();
-                    modelMapper.map(playlist, mappedPlaylist);
-                    setToReturn.add(mappedPlaylist);
+                    if(playlist.isPublic()){
+                        playlistSearchViewModel mappedPlaylist = new playlistSearchViewModel();
+                        modelMapper.map(playlist, mappedPlaylist);
+                        setToReturn.add(mappedPlaylist);
+                    }
                 }
             }
         }

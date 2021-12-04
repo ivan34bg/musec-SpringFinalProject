@@ -98,7 +98,7 @@ public class albumServiceImpl implements albumService {
     @Override
     public Set<albumSearchViewModel> searchAlbumByName(String parameter) {
         Set<albumSearchViewModel> setToReturn = new HashSet<>();
-        if(!parameter.equals("")){
+        if(!parameter.trim().equals("")){
             Optional<Set<albumEntity>> albumsOrNull = albumRepo.findAllByAlbumNameContains(parameter);
             if(!albumsOrNull.get().isEmpty()){
                 for (albumEntity album:albumsOrNull.get()

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import * as CryptoJS from 'crypto-js';
@@ -167,7 +167,11 @@ export class UserService {
     )
   }
 
+  searchUsers(param: string): Observable<Object>{
+    return this.http.get(this.SERVER_ADDRESS + '/user/search', {withCredentials: true, params: new HttpParams().set("param", param)})
+  }
+
   passwordEncoder(purePassword: string):string {
     return(CryptoJS.SHA512(purePassword).toString());
-  }
+  }  
 }

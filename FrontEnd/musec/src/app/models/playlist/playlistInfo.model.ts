@@ -5,6 +5,7 @@ export class playlistInfo{
     private _playlistName: String = '';
     private _playlistCreator = new playlistInfoCreator();
     private _songs: playlistInfoSong[] = new Array();
+    private _canEdit = false;
 
     constructor(){}
 
@@ -25,5 +26,11 @@ export class playlistInfo{
     }
     public set songs(value: playlistInfoSong[]) {
         this._songs = value;
+    }    
+    public get canEdit() {
+        return this._canEdit;
+    }
+    public set canEdit(value) {
+        this._canEdit = value;
     }
 }

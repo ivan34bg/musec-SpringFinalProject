@@ -26,4 +26,6 @@ public interface userService {
     void changeFullNameOfLoggedUser(changeFullNameBindingModel bindingModel, String usernameOfLoggedUser) throws Exception;
     void changeBirthdayOfLoggedUser(changeBirthdayBindingModel bindingModel, String usernameOfLoggedUser) throws Exception;
     Set<userSearchViewModel> searchUsersByFullName(String parameter);
+    void isUserArtist(String username) throws NotFoundException;
+    void isUserAdmin(String username) throws NotFoundException;
 }

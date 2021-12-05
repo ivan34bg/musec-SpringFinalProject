@@ -1,19 +1,22 @@
 package com.musec.musec.services.implementations;
 
 import com.dropbox.core.DbxException;
+import com.musec.musec.data.enums.roleEnum;
 import com.musec.musec.data.models.bindingModels.singleBindingModel;
 import com.musec.musec.data.models.viewModels.search.singleSearchViewModel;
 import com.musec.musec.data.models.viewModels.shortInfo.singleShortInfoViewModel;
 import com.musec.musec.data.models.viewModels.single.singleViewModel;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
 import com.musec.musec.data.singleEntity;
+import com.musec.musec.data.userEntity;
 import com.musec.musec.repositories.singleRepository;
 import com.musec.musec.services.singleService;
 import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import javax.management.relation.RoleNotFoundException;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -26,7 +29,13 @@ public class singleServiceImpl implements singleService {
     private final singleRepository singleRepo;
     private final ModelMapper modelMapper;
 
-    public singleServiceImpl(cloudServiceImpl cloudService, singleRepository singleRepo, songServiceImpl songService, userServiceImpl userService, queueServiceImpl queueService, ModelMapper modelMapper) {
+    public singleServiceImpl(
+            cloudServiceImpl cloudService,
+            singleRepository singleRepo,
+            songServiceImpl songService,
+            userServiceImpl userService,
+            queueServiceImpl queueService,
+            ModelMapper modelMapper) {
         this.cloudService = cloudService;
         this.singleRepo = singleRepo;
         this.songService = songService;
@@ -36,18 +45,27 @@ public class singleServiceImpl implements singleService {
     }
 
     @Override
-    public Long createSingle(singleBindingModel singleBindingModel, String currentUserUsername) throws RuntimeException, DbxException {
-        singleEntity single = new singleEntity();
-        single.setSingleName(singleBindingModel.getSingleName());
-        String singlePicFilePath = cloudService.uploadAlbumPic(singleBindingModel.getSinglePic());
-        single.setSinglePicFilePath(singlePicFilePath);
-        single.setSinglePicLocation(cloudService.returnDirectLinkOfFile(singlePicFilePath));
-        single.setUploader(userService.returnExistingUserByUsername(currentUserUsername));
-        return singleRepo.save(single).getId();
+    public Long createSingle(singleBindingModel singleBindingModel, String currentUserUsername) throws
+            RuntimeException,
+            DbxException,
+            RoleNotFoundException {
+        userEntity user = userService.returnExistingUserByUsername(currentUserUsername);
+        if(user.getRoles().stream().anyMatch(r -> r.getRoleName().equals(roleEnum.ARTIST))) {
+            singleEntity single = new singleEntity();
+            single.setSingleName(singleBindingModel.getSingleName());
+            String singlePicFilePath = cloudService.uploadAlbumPic(singleBindingModel.getSinglePic());
+            single.setSinglePicFilePath(singlePicFilePath);
+            single.setSinglePicLocation(cloudService.returnDirectLinkOfFile(singlePicFilePath));
+            single.setUploader(userService.returnExistingUserByUsername(currentUserUsername));
+            return singleRepo.save(single).getId();
+        }
+        throw new RoleNotFoundException("User is not an artist");
     }
 
     @Override
-    public void addSongToSingle(songBindingModel songBindingModel, Long singleId, String username) throws NotFoundException, DbxException {
+    public void addSongToSingle(songBindingModel songBindingModel, Long singleId, String username) throws
+            NotFoundException,
+            DbxException {
         singleEntity single = isSinglePresent(singleId);
         songService.saveSongWithSingle(single, songBindingModel, username);
     }
@@ -72,7 +90,7 @@ public class singleServiceImpl implements singleService {
     @Override
     public Set<singleShortInfoViewModel> returnShortInfoOfSinglesOfLoggedUser(String username) {
         Optional<Set<singleEntity>> singlesOrNull = singleRepo.findAllByUploader_Username(username);
-        Set<singleShortInfoViewModel> setToReturn = new HashSet<>();
+        Set<singleShortInfoViewModel> setToReturn = new LinkedHashSet<>();
         for (singleEntity single:singlesOrNull.get()
              ) {
             singleShortInfoViewModel mappedSingle = new singleShortInfoViewModel();
@@ -84,7 +102,7 @@ public class singleServiceImpl implements singleService {
 
     @Override
     public Set<singleSearchViewModel> searchSingleByName(String parameter) {
-        Set<singleSearchViewModel> setToReturn = new HashSet<>();
+        Set<singleSearchViewModel> setToReturn = new LinkedHashSet<>();
         if(!parameter.trim().equals("")){
             Optional<Set<singleEntity>> singlesOrNull = singleRepo.findAllBySingleNameContains(parameter);
             if(!singlesOrNull.get().isEmpty()){

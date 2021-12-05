@@ -2,19 +2,22 @@ package com.musec.musec.services.implementations;
 
 import com.dropbox.core.DbxException;
 import com.musec.musec.data.albumEntity;
+import com.musec.musec.data.enums.roleEnum;
 import com.musec.musec.data.models.bindingModels.albumBindingModel;
 import com.musec.musec.data.models.viewModels.album.albumViewModel;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
 import com.musec.musec.data.models.viewModels.search.albumSearchViewModel;
 import com.musec.musec.data.models.viewModels.shortInfo.albumShortInfoViewModel;
 import com.musec.musec.data.songEntity;
+import com.musec.musec.data.userEntity;
 import com.musec.musec.repositories.albumRepository;
 import com.musec.musec.services.albumService;
 import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import javax.management.relation.RoleNotFoundException;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -43,14 +46,20 @@ public class albumServiceImpl implements albumService {
     }
 
     @Override
-    public Long createAlbum(albumBindingModel albumBindingModel, String currentUserUsername) throws DbxException {
-        albumEntity newAlbum = new albumEntity();
-        newAlbum.setAlbumName(albumBindingModel.getAlbumName());
-        String albumPicFilePath = cloudService.uploadAlbumPic(albumBindingModel.getAlbumPic());
-        newAlbum.setAlbumPicFilePath(albumPicFilePath);
-        newAlbum.setAlbumPicLocation(cloudService.returnDirectLinkOfFile(albumPicFilePath));
-        newAlbum.setUploader(userService.returnExistingUserByUsername(currentUserUsername));
-        return albumRepo.save(newAlbum).getId();
+    public Long createAlbum(albumBindingModel albumBindingModel, String currentUserUsername) throws
+            DbxException,
+            RoleNotFoundException {
+        userEntity user = userService.returnExistingUserByUsername(currentUserUsername);
+        if(user.getRoles().stream().anyMatch(r -> r.getRoleName().equals(roleEnum.ARTIST))){
+            albumEntity newAlbum = new albumEntity();
+            newAlbum.setAlbumName(albumBindingModel.getAlbumName());
+            String albumPicFilePath = cloudService.uploadAlbumPic(albumBindingModel.getAlbumPic());
+            newAlbum.setAlbumPicFilePath(albumPicFilePath);
+            newAlbum.setAlbumPicLocation(cloudService.returnDirectLinkOfFile(albumPicFilePath));
+            newAlbum.setUploader(userService.returnExistingUserByUsername(currentUserUsername));
+            return albumRepo.save(newAlbum).getId();
+        }
+        throw new RoleNotFoundException("User isn't an artist");
     }
 
     @Override
@@ -85,7 +94,7 @@ public class albumServiceImpl implements albumService {
     @Override
     public Set<albumShortInfoViewModel> returnShortInfoOfAllAlbumsOfLoggedUser(String username) {
         Optional<Set<albumEntity>> albumsOrNull = albumRepo.findAllByUploader_Username(username);
-        Set<albumShortInfoViewModel> setToReturn = new HashSet<>();
+        Set<albumShortInfoViewModel> setToReturn = new LinkedHashSet<>();
         for (albumEntity album:albumsOrNull.get()
              ) {
             albumShortInfoViewModel mappedAlbum = new albumShortInfoViewModel();
@@ -97,7 +106,7 @@ public class albumServiceImpl implements albumService {
 
     @Override
     public Set<albumSearchViewModel> searchAlbumByName(String parameter) {
-        Set<albumSearchViewModel> setToReturn = new HashSet<>();
+        Set<albumSearchViewModel> setToReturn = new LinkedHashSet<>();
         if(!parameter.trim().equals("")){
             Optional<Set<albumEntity>> albumsOrNull = albumRepo.findAllByAlbumNameContains(parameter);
             if(!albumsOrNull.get().isEmpty()){

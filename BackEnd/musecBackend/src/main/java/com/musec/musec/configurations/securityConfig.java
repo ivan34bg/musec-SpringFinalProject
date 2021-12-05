@@ -5,6 +5,7 @@ import com.musec.musec.security.loginSuccessHandler;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -37,9 +38,11 @@ public class securityConfig extends WebSecurityConfigurerAdapter{
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/register").permitAll()
-                .and()
-                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/user/register").permitAll()
+                .antMatchers("/user/admin", "/admin/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/album/song/**", "/single/create", "/single/song/**")
+                .hasRole("ARTIST")
+                .antMatchers(HttpMethod.DELETE, "/album/**", "/single/**").hasRole("ARTIST")
                 .antMatchers("/**").authenticated()
                 .and()
                 .formLogin()

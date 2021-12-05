@@ -41,14 +41,7 @@
     color: white;
 }
 
-.genre-box:hover{
-    width: 26vmin;
-    height: 25vmin;
-    margin-right: 1.1%;
-    margin-left: 1.24%;
-    margin-top: 2%;
-    cursor: pointer;
-}
+
 
 .genre-box .genre-name{
     width: 100%;
@@ -64,6 +57,7 @@
 
 .genre-box:nth-child(2n + 2){
     background: url("/assets/stage.jpg");
+    color: black;
     background-position: center;
     background-size: cover;
 }
@@ -76,6 +70,7 @@
 
 .genre-box:nth-child(3n + 4){
     background: url("/assets/djboard.jpg");
+    color: white;
     background-position: center;
     background-size: cover;
 }
@@ -85,6 +80,15 @@
     background-position: center;
     background-size: cover;
     color: black;
+}
+
+.genre-box:hover{
+    background: white;
+    transition: linear 500ms;
+    .genre-name{
+        font-size: 30px;
+        color: black;
+    }
 }
 
 .top10-wrapper{

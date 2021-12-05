@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.relation.RoleNotFoundException;
 import java.security.Principal;
 import java.util.Set;
 
@@ -25,12 +26,14 @@ public class albumController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Long> createAlbum(albumBindingModel bindingModel, Principal principal) {
+    public ResponseEntity<?> createAlbum(albumBindingModel bindingModel, Principal principal) {
         Long albumId;
         try {
             albumId = albumService.createAlbum(bindingModel, principal.getName());
-        } catch (Exception e) {
+        } catch (DbxException e) {
             return ResponseEntity.internalServerError().build();
+        } catch (RoleNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok(albumId);
     }

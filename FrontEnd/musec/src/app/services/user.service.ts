@@ -61,6 +61,10 @@ export class UserService {
     return this.isLoggedIn;
   }
 
+  isUserArtist(): Observable<object>{
+    return this.http.get(this.SERVER_ADDRESS + "/user/artist", {withCredentials: true});
+  }
+
 
   serverIsUserLogged(): Observable<boolean>{
     return this.http.get<boolean>(this.SERVER_ADDRESS + '/user/logged-in-test', {withCredentials: true});

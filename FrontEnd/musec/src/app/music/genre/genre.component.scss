@@ -1,6 +1,7 @@
 .container{
     height: auto;
     width: 100vw;
+    min-height: 82vh;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -8,44 +9,27 @@
     font-family: 'Fira Sans Condensed', sans-serif;
     color: white;
     padding-bottom: 18vh;
-}
-
-.wrapper{
-    width: 50%;
-    height: auto;
-    min-height: 60vh;
     background-color: black;
-    margin-top: 6%;
-    border-radius: 20px;
-    padding-bottom: 3%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
 }
 
 p{
     margin: 0;
 }
 
-.upper-part{
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    margin-top: 5%;
-}
-
-.upper-part .playlist-title{
-    font-size: 25px;
-    border-bottom: solid white 1px;
-    font-weight: bold;
-}
-
 .album-music-container{
     width: 100%;
-    margin-top: 20%;
+    margin-top: 7%;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.genre-name{
+    font-size: 40px;
+    margin-bottom: 3%;
+    width: 80%;
+    font-weight: bold;
+    border-bottom: 2px solid white;
 }
 
 .song-row{
@@ -56,6 +40,10 @@ p{
     border-bottom: solid 1px #a4a9af;
     border-bottom-left-radius: 10px;
     margin-bottom: 1%;
+}
+
+.control-button:hover{
+    color: #a4a9af;
     cursor: pointer;
 }
 
@@ -75,17 +63,22 @@ p{
     justify-content: space-around;
 }
 
-.delete-btn, .song-album, .song-artist, .song-name{
-    line-height: 200%;
-    text-align: center;
-}
-
-.song-album:hover, .song-artist:hover, .delete-btn:hover{
-    color: #a4a9af;
+.song-info:hover{
     cursor: pointer;
+    background: rgb(26, 26, 26);
+    border-top-right-radius: 10px;
 }
 
 .info{
     flex-basis: 30%;
+    text-align: center;
+    flex-basis: content;
 }
 
+.song-artist{
+    cursor: pointer;
+}
+
+.song-album:hover, .song-artist:hover{
+    color: #a4a9af;
+}

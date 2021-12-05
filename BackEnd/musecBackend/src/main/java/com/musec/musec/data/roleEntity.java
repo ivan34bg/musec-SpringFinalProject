@@ -13,7 +13,7 @@ import java.util.Set;
 @Setter
 public class roleEntity extends baseEntity {
     @Enumerated(value = EnumType.STRING)
-    private roleEnum name;
+    private roleEnum roleName;
     @ManyToMany(mappedBy = "roles")
     private Set<userEntity> users;
 }

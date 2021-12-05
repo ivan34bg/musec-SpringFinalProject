@@ -12,7 +12,7 @@
         </div>
     </div>
     <div class="album-music-container">
-        <div  class="song-row" *ngFor="let song of albumInfo.albumSongs">
+        <div class="song-row" *ngFor="let song of albumInfo.albumSongs">
             <div class="song-row-info">
                 <p class="song-number" (click)="addToQueue(song.id)">
                     {{albumInfo.albumSongs.indexOf(song) + 1}}

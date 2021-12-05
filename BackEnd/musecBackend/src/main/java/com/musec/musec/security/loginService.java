@@ -37,7 +37,7 @@ public class loginService implements UserDetailsService {
         List<GrantedAuthority> roles = user
                 .getRoles()
                 .stream()
-                .map(r -> new SimpleGrantedAuthority("ROLE_" + r.getName()))
+                .map(r -> new SimpleGrantedAuthority("ROLE_" + r.getRoleName()))
                 .collect(Collectors.toList());
         return new User(user.getUsername(), user.getPassword(), roles);
     }

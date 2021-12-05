@@ -24,7 +24,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -58,7 +58,7 @@ public class userServiceImpl implements userService {
                 userEntity newUser = new userEntity();
                 modelMapper.map(bindingModel, newUser);
                 newUser.setPassword(passwordEncoder.encode(bindingModel.getPassword()));
-                newUser.setRoles(Set.of(roleRepo.getByName(roleEnum.USER)));
+                newUser.setRoles(Set.of(roleRepo.getByRoleName(roleEnum.USER)));
                 newUser.setBirthday(LocalDate.parse(bindingModel.getBirthday()));
                 newUser.setProfilePicLink(
                         "https://www.dropbox.com/s/fv5ctkjbntsaubt/1200px-Question_Mark.svg.png?raw=1"
@@ -84,13 +84,13 @@ public class userServiceImpl implements userService {
         Optional<userEntity> userOrNull = userRepo.findByUsername(username);
         if(userOrNull.isPresent()){
             userEntity user = userOrNull.get();
-            if(user.getRoles().stream().anyMatch(r -> r.getName() == roleEnum.ARTIST)){
+            if(user.getRoles().stream().anyMatch(r -> r.getRoleName() == roleEnum.ARTIST)){
                 artistProfileViewModel userToReturn = new artistProfileViewModel();
                 modelMapper.map(user, userToReturn);
-                userToReturn.setRoleNames(new HashSet<>());
+                userToReturn.setRoleNames(new LinkedHashSet<>());
                 for (roleEntity role:user.getRoles()
                      ) {
-                    userToReturn.getRoleNames().add(role.getName().name());
+                    userToReturn.getRoleNames().add(role.getRoleName().name());
                 }
                 if(!showPrivate) {
                     userToReturn.setPlaylists(privatePlaylistChecker(user.getPlaylists()));
@@ -100,10 +100,10 @@ public class userServiceImpl implements userService {
             else {
                 userProfileViewModel userToReturn = new userProfileViewModel();
                 modelMapper.map(user, userToReturn);
-                userToReturn.setRoleNames(new HashSet<>());
+                userToReturn.setRoleNames(new LinkedHashSet<>());
                 for (roleEntity role:user.getRoles()
                 ) {
-                    userToReturn.getRoleNames().add(role.getName().name());
+                    userToReturn.getRoleNames().add(role.getRoleName().name());
                 }
                 if(!showPrivate){
                     userToReturn.setPlaylists(privatePlaylistChecker(user.getPlaylists()));
@@ -189,13 +189,13 @@ public class userServiceImpl implements userService {
 
     @Override
     public Set<userSearchViewModel> searchUsersByFullName(String parameter) {
-        Set<userSearchViewModel> setToReturn = new HashSet<>();
+        Set<userSearchViewModel> setToReturn = new LinkedHashSet<>();
         if(!parameter.trim().equals("")){
             Optional<Set<userEntity>> usersOrNull = userRepo.findAllByFullNameContains(parameter);
             if(!usersOrNull.get().isEmpty()){
                 for (userEntity user:usersOrNull.get()
                 ) {
-                    if(user.getRoles().stream().filter(r -> r.getName() == roleEnum.ARTIST).count() > 0){
+                    if(user.getRoles().stream().filter(r -> r.getRoleName() == roleEnum.ARTIST).count() > 0){
                         userSearchViewModel mappedUser = new userSearchViewModel();
                         modelMapper.map(user, mappedUser);
                         setToReturn.add(mappedUser);
@@ -206,8 +206,22 @@ public class userServiceImpl implements userService {
         return setToReturn;
     }
 
+    @Override
+    public void isUserArtist(String username) throws NotFoundException {
+        userEntity user = userRepo.findByUsername(username).get();
+        if(user.getRoles().stream().noneMatch(r -> r.getRoleName().equals(roleEnum.ARTIST)))
+            throw new NotFoundException("");
+    }
+
+    @Override
+    public void isUserAdmin(String username) throws NotFoundException {
+        userEntity user = userRepo.findByUsername(username).get();
+        if(user.getRoles().stream().noneMatch(r -> r.getRoleName().equals(roleEnum.ARTIST)))
+            throw new NotFoundException("");
+    }
+
     private Set<userProfilePlaylistViewModel> privatePlaylistChecker(Set<playlistEntity> playlists){
-        Set<userProfilePlaylistViewModel> mappedPlaylists = new HashSet<>();
+        Set<userProfilePlaylistViewModel> mappedPlaylists = new LinkedHashSet<>();
         for (playlistEntity playlist:playlists
         ) {
             if(playlist.isPublic()){

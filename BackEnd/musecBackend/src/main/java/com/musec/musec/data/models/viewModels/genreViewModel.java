@@ -9,5 +9,4 @@ import java.awt.*;
 @Setter
 public class genreViewModel {
     private String name;
-    private Color color;
 }

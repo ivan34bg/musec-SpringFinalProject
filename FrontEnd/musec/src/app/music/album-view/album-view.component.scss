@@ -99,26 +99,9 @@ p{
 .song-row{
     display: flex;
     flex-direction: row;
-    position: relative;
     width: 80%;
     margin-bottom: 1%;
-    z-index: 1;
-}
-
-.song-row:before{
-    background: linear-gradient(178deg, rgba(0,0,0,1) 58%, rgba(124,12,12,1) 100%);
-    display: block;
-    position: absolute;
-    content: '';
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    z-index: -1;
-    transition: opacity 0.5s;
-}
-
-.song-row:hover::before{
-    opacity: 1;
+    cursor: pointer;
 }
 
 .song-row-info{
@@ -128,6 +111,13 @@ p{
     border-bottom-left-radius: 10px;
     display: flex;
     flex-direction: row;
+}
+
+.song-row-info:hover{
+    background-color: rgb(20, 20, 20);
+    border-top-left-radius: 10px;
+    //border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .playlists-button{

@@ -8,7 +8,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
-
+  isUserArtist = false;
   isOpened:boolean = false;
 
   constructor(private userService: UserService, private router: Router) {
@@ -16,6 +16,14 @@ export class NavComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userService.isUserArtist().subscribe(
+      response => {
+        this.isUserArtist = true;
+      },
+      error => {
+        this.isUserArtist = false;
+      }
+    )
   }
 
   get isUserLoggedIn(){

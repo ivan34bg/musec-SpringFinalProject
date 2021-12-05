@@ -4,50 +4,9 @@
             Genres:
         </p>
         <div class="genres-container">
-            <a href="https://google.com" class="genre-box">
+            <a routerLink="/genre/{{genre.id}}" class="genre-box" *ngFor="let genre of genres">
                 <p class="genre-name">
-                    Example
-                </p>
-            </a>
-            <a href="https://google.com" class="genre-box">
-                <p class="genre-name">
-                    Example 2
-                </p>
-            </a>
-            <a href="https://google.com" class="genre-box">
-                <p class="genre-name">
-                    Example
-                </p>
-            </a>
-            <a href="https://google.com" class="genre-box">
-                <p class="genre-name">
-                    Example 2
-                </p>
-            </a>
-            <a href="https://google.com" class="genre-box">
-                <p class="genre-name">
-                    Example
-                </p>
-            </a>
-
-            <a href="https://google.com" class="genre-box">
-                <p class="genre-name">
-                    Example
-                </p>
-            </a>
-            <a href="https://google.com" class="genre-box">
-                <p class="genre-name">
-                    Example 2
-                </p>
-            </a>
-            <a href="https://google.com" class="genre-box">
-                <p class="genre-name">
-                    Example
-                </p>
-            </a>
-            <a href="https://google.com" class="genre-box">
-                <p class="genre-name">
-                    Example 2
+                    {{genre.genreName}}
                 </p>
             </a>
             <a href="https://google.com" class="genre-box">

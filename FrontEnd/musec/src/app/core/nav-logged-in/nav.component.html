@@ -10,8 +10,8 @@
             <div class="dropdown-content-wrapper">
                 <div class="dropdown-content">
                     <a routerLink="/playlist/create" class="dropdown-link">New playlist</a>
-                    <a routerLink="/album/create" class="dropdown-link">New album</a>
-                    <a routerLink="/single/create" class="dropdown-link">New single</a>
+                    <a *ngIf="isUserArtist" routerLink="/album/create" class="dropdown-link">New album</a>
+                    <a *ngIf="isUserArtist" routerLink="/single/create" class="dropdown-link">New single</a>
                 </div>
             </div>
         </div>

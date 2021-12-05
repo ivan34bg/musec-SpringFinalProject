@@ -8,10 +8,14 @@ import com.musec.musec.data.models.viewModels.single.singleViewModel;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
 import javassist.NotFoundException;
 
+import javax.management.relation.RoleNotFoundException;
 import java.util.Set;
 
 public interface singleService {
-    Long createSingle(singleBindingModel singleBindingModel, String currentUserUsername) throws Exception;
+    Long createSingle(singleBindingModel singleBindingModel, String currentUserUsername) throws
+            RuntimeException,
+            DbxException,
+            RoleNotFoundException;
     void addSongToSingle(songBindingModel songBindingModel, Long id, String username) throws Exception;
     void deleteSingle(Long singleId) throws NotFoundException, DbxException;
     singleViewModel returnSingle(Long singleId) throws NotFoundException;

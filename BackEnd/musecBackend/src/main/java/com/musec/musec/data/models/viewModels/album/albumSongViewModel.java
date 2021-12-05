@@ -10,5 +10,4 @@ import java.awt.*;
 public class albumSongViewModel {
     private Long id;
     private String songName;
-    private Color songGenreColor;
 }

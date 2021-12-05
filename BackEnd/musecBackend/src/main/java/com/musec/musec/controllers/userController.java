@@ -11,9 +11,7 @@ import javassist.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
@@ -130,5 +128,25 @@ public class userController {
     @GetMapping("/search")
     public ResponseEntity<Set<userSearchViewModel>> searchUserByFullName(@RequestParam(name = "param") String parameter){
         return ResponseEntity.ok(userService.searchUsersByFullName(parameter));
+    }
+
+    @GetMapping("/artist")
+    public ResponseEntity<?> isUserAnArtist(Principal principal){
+        try {
+            userService.isUserArtist(principal.getName());
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/admin")
+    public ResponseEntity<?> isUserAdmin(Principal principal){
+        try {
+            userService.isUserAdmin(principal.getName());
+        } catch (NotFoundException e) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().build();
     }
 }

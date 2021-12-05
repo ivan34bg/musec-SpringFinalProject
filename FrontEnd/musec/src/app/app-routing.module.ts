@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ArtistGuard } from './core/guards/artist.guard';
 import { LoggedInGuardGuard } from './core/guards/logged-in-guard.guard';
 import { LoggedOutGuardGuard } from './core/guards/logged-out-guard.guard';
 import { HomeLoggedComponent } from './core/home-logged/home-logged.component';
 import { SearchComponent } from './core/search/search.component';
 import { AlbumAddComponent } from './music/album-add/album-add.component';
 import { AlbumViewComponent } from './music/album-view/album-view.component';
+import { GenreComponent } from './music/genre/genre.component';
 import { PlaylistAddComponent } from './music/playlist-add/playlist-add.component';
 import { PlaylistViewComponent } from './music/playlist-view/playlist-view.component';
 import { QueueComponent } from './music/queue/queue.component';
@@ -94,7 +96,7 @@ const routes: Routes = [
   {
     path: 'album/create',
     component: AlbumAddComponent,
-    canActivate: [LoggedInGuardGuard]
+    canActivate: [LoggedInGuardGuard, ArtistGuard],
   },
   {
     path: 'album/:id',
@@ -114,7 +116,7 @@ const routes: Routes = [
   {
     path: 'single/create',
     component: SingleAddComponent,
-    canActivate: [LoggedInGuardGuard]
+    canActivate: [LoggedInGuardGuard, ArtistGuard]
   },
   {
     path: 'single/:id',
@@ -134,6 +136,11 @@ const routes: Routes = [
   {
     path: 'search/:param',
     component: SearchComponent,
+    canActivate: [LoggedInGuardGuard]
+  },
+  {
+    path: 'genre/:id',
+    component: GenreComponent,
     canActivate: [LoggedInGuardGuard]
   }
 ];

@@ -11,7 +11,7 @@ import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Service
@@ -29,7 +29,7 @@ public class queueServiceImpl implements queueService {
     @Override
     public Set<queueSongViewModel> returnQueueOfUser(String username) {
         queueEntity queue = queueRepo.findByUser_Username(username).get();
-        Set<queueSongViewModel> songCollection = new HashSet<>();
+        Set<queueSongViewModel> songCollection = new LinkedHashSet<>();
         if(queue.getSongs().size() > 0) {
             for (songEntity song : queue.getSongs()
             ) {
@@ -49,7 +49,7 @@ public class queueServiceImpl implements queueService {
     @Override
     public Set<queueFullSongViewModel> returnFullSongInfo(String username) {
         queueEntity queue = queueRepo.findByUser_Username(username).get();
-        Set<queueFullSongViewModel> setToSend = new HashSet<>();
+        Set<queueFullSongViewModel> setToSend = new LinkedHashSet<>();
         for (songEntity song:queue.getSongs()
              ) {
             queueFullSongViewModel mappedSong = new queueFullSongViewModel();

@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.relation.RoleNotFoundException;
 import java.security.Principal;
 import java.util.Set;
 
@@ -31,6 +32,8 @@ public class singleController {
             id = singleService.createSingle(singleBindingModel, principal.getName());
         } catch (RuntimeException | DbxException e) {
             return ResponseEntity.internalServerError().build();
+        } catch (RoleNotFoundException e) {
+            return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(id);
     }

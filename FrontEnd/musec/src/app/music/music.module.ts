@@ -9,6 +9,7 @@ import { SingleViewComponent } from './single-view/single-view.component';
 import { FormsModule } from '@angular/forms';
 import { SingleAddComponent } from './single-add/single-add.component';
 import { QueueComponent } from './queue/queue.component';
+import { GenreComponent } from './genre/genre.component';
 
 
 
@@ -20,7 +21,8 @@ import { QueueComponent } from './queue/queue.component';
     PlaylistAddComponent,
     SingleViewComponent,
     SingleAddComponent,
-    QueueComponent
+    QueueComponent,
+    GenreComponent
   ],
   imports: [
     CommonModule,

@@ -14,7 +14,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -113,7 +113,7 @@ public class playlistServiceImpl implements playlistService {
     @Override
     public Set<playlistShortInfoViewModel> returnShortInfoOfLoggedUserPlaylists(String usernameOfUser) {
         Optional<Set<playlistEntity>> playlistsOrNull = playlistRepo.findByPlaylistCreator_Username(usernameOfUser);
-        Set<playlistShortInfoViewModel> playlistSetToReturn = new HashSet<>();
+        Set<playlistShortInfoViewModel> playlistSetToReturn = new LinkedHashSet<>();
         for (playlistEntity playlist:playlistsOrNull.get()
         ) {
             playlistShortInfoViewModel mappedPlaylist = new playlistShortInfoViewModel();
@@ -125,7 +125,7 @@ public class playlistServiceImpl implements playlistService {
 
     @Override
     public Set<playlistSearchViewModel> searchPlaylistByName(String parameters) {
-        Set<playlistSearchViewModel> setToReturn = new HashSet<>();
+        Set<playlistSearchViewModel> setToReturn = new LinkedHashSet<>();
         if(!parameters.trim().equals("")){
             Optional<Set<playlistEntity>> playlistsOrNull = playlistRepo.findAllByPlaylistNameContains(parameters);
             if(!playlistsOrNull.get().isEmpty()) {

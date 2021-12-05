@@ -5,7 +5,6 @@ import com.musec.musec.data.albumEntity;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
 import com.musec.musec.data.models.viewModels.album.albumSongViewModel;
 import com.musec.musec.data.models.viewModels.search.songSearchViewModel;
-import com.musec.musec.data.models.viewModels.songViewModel;
 import com.musec.musec.data.singleEntity;
 import com.musec.musec.data.songEntity;
 import com.musec.musec.repositories.songRepository;
@@ -16,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -90,12 +89,11 @@ public class songServiceImpl implements songService {
 
     @Override
     public Set<albumSongViewModel> returnSongViewModelSetFromFullSongSet(Set<songEntity> songs) {
-        Set<albumSongViewModel> setToReturn = new HashSet<>();
+        Set<albumSongViewModel> setToReturn = new LinkedHashSet<>();
         for (songEntity song :
                 songs) {
             albumSongViewModel mappedSong = new albumSongViewModel();
             modelMapper.map(song, mappedSong);
-            mappedSong.setSongGenreColor(song.getSongGenre().getColor());
             setToReturn.add(mappedSong);
         }
         return setToReturn;
@@ -110,7 +108,7 @@ public class songServiceImpl implements songService {
 
     @Override
     public Set<songSearchViewModel> searchSongBySongName(String parameters) {
-        Set<songSearchViewModel> setToReturn = new HashSet<>();
+        Set<songSearchViewModel> setToReturn = new LinkedHashSet<>();
         if(!parameters.trim().equals("")){
             Optional<Set<songEntity>> songsOrNull = songRepo.findAllBySongNameContains(parameters);
             if(!songsOrNull.get().isEmpty()){

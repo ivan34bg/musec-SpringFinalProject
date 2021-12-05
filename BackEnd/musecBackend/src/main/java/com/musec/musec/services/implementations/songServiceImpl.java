@@ -5,6 +5,7 @@ import com.musec.musec.data.albumEntity;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
 import com.musec.musec.data.models.viewModels.album.albumSongViewModel;
 import com.musec.musec.data.models.viewModels.search.songSearchViewModel;
+import com.musec.musec.data.models.viewModels.top10songs.songTopTenViewModel;
 import com.musec.musec.data.singleEntity;
 import com.musec.musec.data.songEntity;
 import com.musec.musec.repositories.songRepository;
@@ -125,6 +126,19 @@ public class songServiceImpl implements songService {
                     setToReturn.add(mappedSong);
                 }
             }
+        }
+        return setToReturn;
+    }
+
+    @Override
+    public Set<songTopTenViewModel> loadTopTenSongs() {
+        Set<songEntity> songs = songRepo.getTopByOrderByPlaysAsc();
+        Set<songTopTenViewModel> setToReturn = new LinkedHashSet<>();
+        for (songEntity song :
+                songs) {
+            songTopTenViewModel mappedSong = new songTopTenViewModel();
+            modelMapper.map(song, mappedSong);
+            setToReturn.add(mappedSong);
         }
         return setToReturn;
     }

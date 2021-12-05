@@ -14,6 +14,10 @@ export class GenreService {
     return this.http.get(this.SERVER_ADDRESS + '/genre/short', {withCredentials: true});
   }
 
+  genreShortAll(): Observable<Object>{
+    return this.http.get(this.SERVER_ADDRESS + '/genre/short/all', {withCredentials: true});
+  }
+
   fetchGenreSongsById(genreId: Number): Observable<Object>{
     return this.http.get(this.SERVER_ADDRESS + '/genre/' + genreId, {withCredentials: true});
   }

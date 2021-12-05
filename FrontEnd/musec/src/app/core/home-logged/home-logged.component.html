@@ -9,7 +9,7 @@
                     {{genre.genreName}}
                 </p>
             </a>
-            <a href="https://google.com" class="genre-box">
+            <a *ngIf="!allGenresLoaded" (click)="loadAllGenres()" class="genre-box">
                 <p class="genre-name">
                     . . .
                 </p>
@@ -21,84 +21,14 @@
             Top 10 today:
         </p>
         <div class="top10-songs-container">
-            <div class="song-row">
-                <img src="/assets/mountain.jpg" alt="" class="small-song-image">
+            <div class="song-row" *ngFor="let song of songs" (click)="addToQueue(song.id)">
+                <img src="{{song.album.albumPicLocation}}" alt="" class="small-song-image" *ngIf="song.album != null">
+                <img src="{{song.single.singlePicLocation}}" alt="" class="small-song-image" *ngIf="song.single != null">
                 <div class="row-text">
-                    <a href="https://google.com" class="song-title">Test song</a>
-                    <a href="https://google.com" class="artist-title">Test artist</a>
-                    <a href="https://google.com" class="album-title">Test album</a>
-                </div>
-            </div>
-            <div class="song-row">
-                <img src="/assets/piano.jpg" alt="" class="small-song-image">
-                <div class="row-text">
-                    <a href="https://google.com" class="song-title">Test song</a>
-                    <a href="https://google.com" class="artist-title">Test artist</a>
-                    <a href="https://google.com" class="album-title">Test album</a>
-                </div>
-            </div>
-            <div class="song-row">
-                <img src="/assets/mountain.jpg" alt="" class="small-song-image">
-                <div class="row-text">
-                    <a href="https://google.com" class="song-title">Test song</a>
-                    <a href="https://google.com" class="artist-title">Test artist</a>
-                    <a href="https://google.com" class="album-title">Test album</a>
-                </div>
-            </div>
-            <div class="song-row">
-                <img src="/assets/piano.jpg" alt="" class="small-song-image">
-                <div class="row-text">
-                    <a href="https://google.com" class="song-title">Test song</a>
-                    <a href="https://google.com" class="artist-title">Test artist</a>
-                    <a href="https://google.com" class="album-title">Test album</a>
-                </div>
-            </div>
-            <div class="song-row">
-                <img src="/assets/mountain.jpg" alt="" class="small-song-image">
-                <div class="row-text">
-                    <a href="https://google.com" class="song-title">Test song</a>
-                    <a href="https://google.com" class="artist-title">Test artist</a>
-                    <a href="https://google.com" class="album-title">Test album</a>
-                </div>
-            </div>
-            <div class="song-row">
-                <img src="/assets/piano.jpg" alt="" class="small-song-image">
-                <div class="row-text">
-                    <a href="https://google.com" class="song-title">Test song</a>
-                    <a href="https://google.com" class="artist-title">Test artist</a>
-                    <a href="https://google.com" class="album-title">Test album</a>
-                </div>
-            </div>
-            <div class="song-row">
-                <img src="/assets/mountain.jpg" alt="" class="small-song-image">
-                <div class="row-text">
-                    <a href="https://google.com" class="song-title">Test song</a>
-                    <a href="https://google.com" class="artist-title">Test artist</a>
-                    <a href="https://google.com" class="album-title">Test album</a>
-                </div>
-            </div>
-            <div class="song-row">
-                <img src="/assets/piano.jpg" alt="" class="small-song-image">
-                <div class="row-text">
-                    <a href="https://google.com" class="song-title">Test song</a>
-                    <a href="https://google.com" class="artist-title">Test artist</a>
-                    <a href="https://google.com" class="album-title">Test album</a>
-                </div>
-            </div>
-            <div class="song-row">
-                <img src="/assets/mountain.jpg" alt="" class="small-song-image">
-                <div class="row-text">
-                    <a href="https://google.com" class="song-title">Test song</a>
-                    <a href="https://google.com" class="artist-title">Test artist</a>
-                    <a href="https://google.com" class="album-title">Test album</a>
-                </div>
-            </div>
-            <div class="song-row">
-                <img src="/assets/piano.jpg" alt="" class="small-song-image">
-                <div class="row-text">
-                    <a href="https://google.com" class="song-title">Test song</a>
-                    <a href="https://google.com" class="artist-title">Test artist</a>
-                    <a href="https://google.com" class="album-title">Test album</a>
+                    <a class="song-title">{{song.songName}}</a>
+                    <a routerLink="/profile/{{song.uploader.id}}" class="artist-title">{{song.uploader.fullName}}</a>
+                    <a routerLink="/album/{{song.album.id}}" class="album-title" *ngIf="song.album != null">{{song.album.albumName}}</a>
+                    <a routerLink="/single/{{song.single.id}}" class="album-title" *ngIf="song.single != null">{{song.single.singleName}}</a>
                 </div>
             </div>
         </div>

@@ -27,6 +27,11 @@ public class genreController {
         return ResponseEntity.ok(genreService.loadNineGenres());
     }
 
+    @GetMapping("/short/all")
+    public ResponseEntity<Set<genreShortInfoViewModel>> loadAllGenres(){
+        return ResponseEntity.ok(genreService.loadShortAllGenres());
+    }
+
     @GetMapping("/{genreId}")
     public ResponseEntity<genreExpandedInfoViewModel> returnGenreAndSongsById(@PathVariable Long genreId){
         genreExpandedInfoViewModel genreToReturn;

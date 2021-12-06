@@ -20,6 +20,7 @@ export class PlayerService {
   addSongToQueue(songId: Number){
     this.http.post(this.SERVER_ADDRESS + '/queue/song/' + songId,"", {withCredentials: true}).subscribe(
       response => {
+        alert("The song was added to the queue")
       },
       error => {
         alert(error.error);

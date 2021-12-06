@@ -30,12 +30,16 @@
                                 {{music.songFile.name}}
                             </p>
                             <input class="song-name-input" type="text" name="" id="" [value]="music.songName" [(ngModel)] = 'music.songName' [ngModelOptions]="{standalone: true}">
-                            <input class="song-genre-input" type="text" name="" id="" [value]="music.songGenre" [(ngModel)] = 'music.songGenre' [ngModelOptions]="{standalone: true}">
+                            <select class="song-genre-input" name="song-genre" id="" [(ngModel)]='music.songGenre' >
+                                <option *ngFor="let genre of genres" value="{{genre.genreName}}">{{genre.genreName}}</option>
+                            </select>
+                            <!--<input class="song-genre-input" type="text" name="" id="" [value]="music.songGenre" [(ngModel)] = 'music.songGenre' [ngModelOptions]="{standalone: true}">-->
                         </div>
                     </div>
                 </div>
             </div>
         </form>
-        <button (click)="onSubmit()" class="submit-button">Submit</button>
+        <i class="rotating fas fa-spinner" *ngIf="isWorking"></i>
+        <button (click)="onSubmit()" [ngClass]="singleName != '' && singlePic != null && music != null ? '' : 'invalid' " class="submit-button" *ngIf="!isWorking">Submit</button>
     </div>
 </div>

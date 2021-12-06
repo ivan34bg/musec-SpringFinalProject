@@ -8,7 +8,8 @@
                     Click here to upload new profile picture
                 </label>
             </div>
-            <button [ngClass]="profilePicPreview == null? 'disabled' : '' " class="submit-button">Change profile picture</button>
+            <i class="rotating fas fa-spinner" *ngIf="isChanging"></i>
+            <button [ngClass]="profilePicPreview == null? 'disabled' : '' " class="submit-button" *ngIf="!isChanging">Change profile picture</button>
         </form>
     </div>
 </div>

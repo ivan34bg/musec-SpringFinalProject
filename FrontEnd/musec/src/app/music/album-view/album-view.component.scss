@@ -47,10 +47,32 @@ p{
     color: white;
 }
 
+.name-listen{
+    display: flex;  
+    flex-basis: 50%; 
+}
+
 .album-name{
     font-size: 40px;
     color: #a4a9af;
     font-weight: bold;
+    margin-right: 5%;
+}
+
+.listen-button{
+    font-family: 'Fira Sans Condensed', sans-serif;
+    color: white;
+    background-color: transparent;
+    border: 1px white solid;
+    font-size: 26px;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.listen-button:hover{
+    color: #a4a9af;
+    border-color: #a4a9af;
+    cursor: pointer;
 }
 
 .artist-info .artist-image{
@@ -113,10 +135,9 @@ p{
     flex-direction: row;
 }
 
-.song-row-info:hover{
+.song-row:hover{
     background-color: rgb(20, 20, 20);
     border-top-left-radius: 10px;
-    //border-bottom-right-radius: 10px;
     border-top-right-radius: 10px;
 }
 

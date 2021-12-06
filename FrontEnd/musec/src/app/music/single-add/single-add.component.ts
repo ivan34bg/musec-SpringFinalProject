@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { songAlbumUpload } from 'src/app/models/album-upload/song.model';
+import { genreShortInfo } from 'src/app/models/genre/genreShortInfo.model';
+import { GenreService } from 'src/app/services/genre.service';
 import { SingleService } from 'src/app/services/single.service';
 
 @Component({
@@ -9,15 +11,26 @@ import { SingleService } from 'src/app/services/single.service';
   styleUrls: ['./single-add.component.scss']
 })
 export class SingleAddComponent implements OnInit {
-
+  genres: genreShortInfo[] = new Array();
   singleName: string = '';
   singlePic: File | undefined;
   singlePicPreview: any;
   music: songAlbumUpload | undefined;
+  isWorking = false;
 
-  constructor(private singleService: SingleService, private router: Router) { }
+  constructor(
+    private genreService: GenreService,
+    private singleService: SingleService, 
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
+    this.genreService.genreShortAll().subscribe(
+      response => {
+        this.genres = JSON.parse(JSON.stringify(response));
+      },
+      error => {}
+    )
   }
 
   albumPicUploaded(event: any){
@@ -48,6 +61,7 @@ export class SingleAddComponent implements OnInit {
   }
 
   onSubmit(){
+    this.isWorking = true;
     let singleInfoForm = new FormData();
     singleInfoForm.append('singleName', this.singleName);
     singleInfoForm.append('singlePic', this.singlePic!);

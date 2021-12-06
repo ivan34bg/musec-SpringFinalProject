@@ -26,6 +26,7 @@ public class singleServiceImpl implements singleService {
     private final songServiceImpl songService;
     private final userServiceImpl userService;
     private final queueServiceImpl queueService;
+    private final playlistServiceImpl playlistService;
     private final singleRepository singleRepo;
     private final ModelMapper modelMapper;
 
@@ -35,12 +36,13 @@ public class singleServiceImpl implements singleService {
             songServiceImpl songService,
             userServiceImpl userService,
             queueServiceImpl queueService,
-            ModelMapper modelMapper) {
-        this.cloudService = cloudService;
+            playlistServiceImpl playlistService, ModelMapper modelMapper) {
         this.singleRepo = singleRepo;
+        this.cloudService = cloudService;
         this.songService = songService;
         this.userService = userService;
         this.queueService = queueService;
+        this.playlistService = playlistService;
         this.modelMapper = modelMapper;
     }
 
@@ -74,6 +76,7 @@ public class singleServiceImpl implements singleService {
     public void deleteSingle(Long singleId) throws NotFoundException, DbxException {
         singleEntity singleToDelete = isSinglePresent(singleId);
         queueService.removeSongFromEveryQueue(singleToDelete.getSong());
+        playlistService.removeSongFromEveryPlaylist(singleToDelete.getSong());
         songService.deleteSongById(singleToDelete.getSong().getId());
         cloudService.deleteFile(singleToDelete.getSinglePicFilePath());
         singleRepo.delete(singleToDelete);

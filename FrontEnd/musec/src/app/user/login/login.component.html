@@ -3,16 +3,17 @@
         <div class="logo-container">
             <p class="logo">Musec</p>
         </div>
-        <form class="login-form" action="" (submit) = "login()">
+        <form class="login-form" action="" (submit) = "login()" ngNativeValidate>
             <div class="username-container data-container">
                 <label for="username" class="form-label">Username:</label>
-                <input type="text" name="username" id="username-input" [(ngModel)] = "username">
+                <input type="text" name="username" id="username-input" [(ngModel)] = "username" required minlength="2" maxlength="10">
             </div>
             <div class="password-container data-container">
                 <label for="password" class="form-label">Password:</label>
-                <input type="password" name="password" id="password-input" [(ngModel)] = "password">
+                <input type="password" name="password" id="password-input" [(ngModel)] = "password" required>
             </div>
-            <button class="submit-button">Login</button>
+            <i class="rotating fas fa-spinner" *ngIf="isWorking"></i>
+            <button class="submit-button" *ngIf="!isWorking">Login</button>
         </form>
         <p class="register-prompt">You don't have an account yet? Better <a routerLink="/register">register</a> fast!</p>
     </div>

@@ -130,11 +130,19 @@
 }
 
 .disabled{
-    display: none;
+    color: #a4a9af;
+    pointer-events: none;
 }
 
 .rounded{
     border-top-right-radius: 26px;
     border-bottom-right-radius: 26px;
     width: 271px;
+}
+
+.search-container{
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
 }

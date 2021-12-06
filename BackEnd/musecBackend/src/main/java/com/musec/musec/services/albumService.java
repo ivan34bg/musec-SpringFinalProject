@@ -18,4 +18,5 @@ public interface albumService {
     albumViewModel returnAlbum(Long id) throws NotFoundException;
     Set<albumShortInfoViewModel> returnShortInfoOfAllAlbumsOfLoggedUser(String username);
     Set<albumSearchViewModel> searchAlbumByName(String parameter);
+    void addAlbumToQueue(Long albumId, String username) throws NotFoundException;
 }

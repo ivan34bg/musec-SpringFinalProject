@@ -16,6 +16,7 @@ export class MainChangeViewComponent implements OnInit {
   playlists: playlistShortInfo[] = new Array();
   albums: albumShortInfo[] = new Array();
   singles: singleShortInfo[] = new Array();
+  isDeleting = false;
 
   constructor(
     private playlistService: PlaylistService, 
@@ -28,6 +29,7 @@ export class MainChangeViewComponent implements OnInit {
   }
 
   deletePlaylist(playlistId: Number){
+    this.isDeleting = true;
     this.playlistService.deletePlaylist(playlistId).subscribe(
       response => {
         this.syncPage();
@@ -37,6 +39,7 @@ export class MainChangeViewComponent implements OnInit {
   }
 
   deleteAlbum(albumId: Number){
+    this.isDeleting = true;
     this.albumService.deleteAlbum(albumId).subscribe(
       response => {
         this.playerService.isSynced = false;
@@ -47,6 +50,7 @@ export class MainChangeViewComponent implements OnInit {
   }
 
   deleteSingle(singleId: Number){
+    this.isDeleting = true;
     this.singleService.deleteSingle(singleId).subscribe(
       response => {
         this.playerService.isSynced = false;
@@ -60,6 +64,7 @@ export class MainChangeViewComponent implements OnInit {
     this.playlistService.returnUserPlaylistsShortInfo().subscribe(
       response => {
         this.playlists = JSON.parse(JSON.stringify(response));
+        this.isDeleting = false;
       },
       error => {}
     );

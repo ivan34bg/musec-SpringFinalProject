@@ -99,3 +99,19 @@
 .register-prompt a:hover{
     color: #a4a9af;
 }
+
+.rotating{
+    animation: rotation 4s infinite linear;
+    margin-top: auto;
+    margin-bottom: 20%;
+    font-size: 36px;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}

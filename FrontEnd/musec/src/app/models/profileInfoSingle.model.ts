@@ -1,7 +1,8 @@
 export class profileInfoSingle{
     constructor(
         private _id: String,
-        private _name: String
+        private _name: String,
+        private _singlePicLocation: String
     ){}
 
     public get name(): String {
@@ -15,5 +16,11 @@ export class profileInfoSingle{
     }
     public set id(value: String) {
         this._id = value;
+    }    
+    public get singlePicLocation(): String {
+        return this._singlePicLocation;
+    }
+    public set singlePicLocation(value: String) {
+        this._singlePicLocation = value;
     }
 }

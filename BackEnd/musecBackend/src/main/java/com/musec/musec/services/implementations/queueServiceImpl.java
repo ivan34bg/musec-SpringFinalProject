@@ -78,6 +78,17 @@ public class queueServiceImpl implements queueService {
     }
 
     @Override
+    public void addCollectionToQueue(Set<songEntity> songs, String username) {
+        this.emptyQueue(username);
+        queueEntity queue = queueRepo.findByUser_Username(username).get();
+        for (songEntity song:songs
+             ) {
+            queue.getSongs().add(song);
+        }
+        queueRepo.save(queue);
+    }
+
+    @Override
     public void removeSongFromQueue(Long songId, String username) throws NotFoundException {
         queueEntity queue = queueRepo.findByUser_Username(username).get();
         if(queue.getSongs().stream().anyMatch(s -> s.getId().equals(songId))){

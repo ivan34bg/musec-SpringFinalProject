@@ -72,16 +72,6 @@ p{
     width: 80%;
 }
 
-.album-music-container .song-row{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    font-size: 22px;
-    border-bottom: solid 1px #a4a9af;
-    border-bottom-left-radius: 10px;
-    margin-bottom: 1%;
-}
-
 .song-row .song-number{
     font-size: 30px;
     border: solid 1px #a4a9af;
@@ -101,12 +91,18 @@ p{
 .song-row{
     display: flex;
     flex-direction: row;
-    width: 80%;
+    width: 100%;
     font-size: 22px;
     border-bottom: solid 1px #a4a9af;
     border-bottom-left-radius: 10px;
     margin-bottom: 1%;
     cursor: pointer;
+}
+
+.song-row:hover{
+    background-color: rgb(20, 20, 20);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .playlists-button{

@@ -23,12 +23,14 @@ public class playlistServiceImpl implements playlistService {
     private final playlistRepository playlistRepo;
     private final userServiceImpl userService;
     private final songServiceImpl songService;
+    private final queueServiceImpl queueService;
     private final ModelMapper modelMapper;
 
-    public playlistServiceImpl(playlistRepository playlistRepo, userServiceImpl userService, songServiceImpl songService, ModelMapper modelMapper) {
+    public playlistServiceImpl(playlistRepository playlistRepo, userServiceImpl userService, songServiceImpl songService, queueServiceImpl queueService, ModelMapper modelMapper) {
         this.playlistRepo = playlistRepo;
         this.userService = userService;
         this.songService = songService;
+        this.queueService = queueService;
         this.modelMapper = modelMapper;
     }
 
@@ -104,15 +106,14 @@ public class playlistServiceImpl implements playlistService {
 
     @Override
     public void doesUserHavePlaylists(String usernameOfUser) throws NotFoundException {
-        System.out.println(playlistRepo.findByPlaylistCreator_Username(usernameOfUser));
-        if(playlistRepo.findByPlaylistCreator_Username(usernameOfUser).get().size() == 0){
+        if(playlistRepo.findAllByPlaylistCreator_Username(usernameOfUser).get().size() == 0){
             throw new NotFoundException("User has no playlists");
         }
     }
 
     @Override
     public Set<playlistShortInfoViewModel> returnShortInfoOfLoggedUserPlaylists(String usernameOfUser) {
-        Optional<Set<playlistEntity>> playlistsOrNull = playlistRepo.findByPlaylistCreator_Username(usernameOfUser);
+        Optional<Set<playlistEntity>> playlistsOrNull = playlistRepo.findAllByPlaylistCreator_Username(usernameOfUser);
         Set<playlistShortInfoViewModel> playlistSetToReturn = new LinkedHashSet<>();
         for (playlistEntity playlist:playlistsOrNull.get()
         ) {
@@ -140,6 +141,25 @@ public class playlistServiceImpl implements playlistService {
             }
         }
         return setToReturn;
+    }
+
+    @Override
+    public void removeSongFromEveryPlaylist(songEntity song) {
+        Set<playlistEntity> playlists = playlistRepo.getAllBySongsContains(song);
+        for (playlistEntity playlist:
+                playlists) {
+            playlist.getSongs().remove(song);
+        }
+    }
+
+    @Override
+    public void addPlaylistToQueue(Long playlistId, String username) throws NotFoundException {
+        Optional<playlistEntity> playlistOrNull = playlistRepo.findById(playlistId);
+        if(playlistOrNull.isPresent()){
+            queueService.addCollectionToQueue(playlistOrNull.get().getSongs(), username);
+        }
+        else throw new NotFoundException("Playlist cannot be found");
+
     }
 
     private boolean isCurrentPlaylistEditableByCurrentUser(playlistEntity playlist, String usernameOfUser)

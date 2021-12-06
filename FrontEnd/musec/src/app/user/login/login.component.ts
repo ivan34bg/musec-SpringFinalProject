@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 export class LoginComponent implements OnInit {
   username = "";
   password = "";
+  isWorking = false;
 
   constructor(private userService: UserService) { }
 
@@ -16,6 +17,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
+    this.isWorking = true;
     this.userService.loginUser(this.username, this.password);
   }
 }

@@ -5,7 +5,7 @@ import com.musec.musec.data.albumEntity;
 import com.musec.musec.data.models.bindingModels.songBindingModel;
 import com.musec.musec.data.models.viewModels.album.albumSongViewModel;
 import com.musec.musec.data.models.viewModels.search.songSearchViewModel;
-import com.musec.musec.data.models.viewModels.top10songs.songTopTenViewModel;
+import com.musec.musec.data.models.viewModels.top10songs.songNewestTenViewModel;
 import com.musec.musec.data.singleEntity;
 import com.musec.musec.data.songEntity;
 import com.musec.musec.repositories.songRepository;
@@ -119,9 +119,11 @@ public class songServiceImpl implements songService {
                     modelMapper.map(song, mappedSong);
                     if(song.getAlbum() != null){
                         mappedSong.setAlbumId(song.getAlbum().getId());
+                        mappedSong.setAlbumName(song.getAlbum().getAlbumName());
                     }
                     if(song.getSingle() != null){
                         mappedSong.setSingleId(song.getSingle().getId());
+                        mappedSong.setSingleName(song.getSingle().getSingleName());
                     }
                     setToReturn.add(mappedSong);
                 }
@@ -131,12 +133,12 @@ public class songServiceImpl implements songService {
     }
 
     @Override
-    public Set<songTopTenViewModel> loadTopTenSongs() {
-        Set<songEntity> songs = songRepo.getTopByOrderByPlaysAsc();
-        Set<songTopTenViewModel> setToReturn = new LinkedHashSet<>();
+    public Set<songNewestTenViewModel> loadNewestTenSongs() {
+        Set<songEntity> songs = songRepo.getTop10ByOrderByIdDesc();
+        Set<songNewestTenViewModel> setToReturn = new LinkedHashSet<>();
         for (songEntity song :
                 songs) {
-            songTopTenViewModel mappedSong = new songTopTenViewModel();
+            songNewestTenViewModel mappedSong = new songNewestTenViewModel();
             modelMapper.map(song, mappedSong);
             setToReturn.add(mappedSong);
         }

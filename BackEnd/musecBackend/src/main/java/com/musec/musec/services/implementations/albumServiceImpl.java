@@ -28,6 +28,7 @@ public class albumServiceImpl implements albumService {
     private final songServiceImpl songService;
     private final userServiceImpl userService;
     private final queueServiceImpl queueService;
+    private final playlistServiceImpl playlistService;
     private final ModelMapper modelMapper;
 
 
@@ -35,13 +36,14 @@ public class albumServiceImpl implements albumService {
             albumRepository albumRepo,
             cloudServiceImpl cloudService,
             songServiceImpl songService,
-            userServiceImpl userService, queueServiceImpl queueService, ModelMapper modelMapper
+            userServiceImpl userService, queueServiceImpl queueService, playlistServiceImpl playlistService, ModelMapper modelMapper
     ) {
         this.albumRepo = albumRepo;
         this.cloudService = cloudService;
         this.songService = songService;
         this.userService = userService;
         this.queueService = queueService;
+        this.playlistService = playlistService;
         this.modelMapper = modelMapper;
     }
 
@@ -75,6 +77,7 @@ public class albumServiceImpl implements albumService {
         albumEntity albumToDelete = isAlbumPresent(albumId);
         for (songEntity song:albumToDelete.getSongs()
              ) {
+            playlistService.removeSongFromEveryPlaylist(song);
             queueService.removeSongFromEveryQueue(song);
             songService.deleteSongById(song.getId());
         }
@@ -119,6 +122,16 @@ public class albumServiceImpl implements albumService {
             }
         }
         return setToReturn;
+    }
+
+    @Override
+    public void addAlbumToQueue(Long albumId, String username) throws NotFoundException {
+        Optional<albumEntity> albumOrNull = albumRepo.findById(albumId);
+        if (albumOrNull.isPresent()){
+            queueService.addCollectionToQueue(albumOrNull.get().getSongs(), username);
+        }
+        else throw new NotFoundException("Album cannot be found");
+
     }
 
     private albumEntity isAlbumPresent(Long albumId) throws NotFoundException {

@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 export class ProfilePicChangeViewComponent implements OnInit {
   profilePic: File|undefined
   profilePicPreview: any;
+  isChanging = false;
 
   constructor(private userService: UserService) { }
 
@@ -33,6 +34,7 @@ export class ProfilePicChangeViewComponent implements OnInit {
   }
 
   onSubmit(){
+    this.isChanging = true;
     this.userService.changeProfilePic(this.profilePic!);
   }
 }

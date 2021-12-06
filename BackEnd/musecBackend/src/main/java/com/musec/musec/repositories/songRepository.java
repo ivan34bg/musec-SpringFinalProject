@@ -11,5 +11,5 @@ import java.util.Set;
 @Repository
 public interface songRepository extends JpaRepository<songEntity, Long> {
     Optional<Set<songEntity>> findAllBySongNameContains(String parameter);
-    Set<songEntity> getTopByOrderByPlaysAsc();
+    Set<songEntity> getTop10ByOrderByIdDesc();
 }

@@ -43,6 +43,10 @@ export class PlaylistService {
     )
   }
 
+  addSongToPlaylistObservable(playlistId: Number, songId: Number): Observable<Object>{
+    return this.http.post(this.SERVER_ADDRESS + "/playlist/song/" + playlistId, songId.toString(), {withCredentials: true, });
+  }
+
   deleteSongFromPlaylist(playlistId: Number, songId: Number) : Observable<Object>{
     return this.http.delete(this.SERVER_ADDRESS + '/playlist/song/' + playlistId, {body: songId, withCredentials: true});
   }
@@ -53,5 +57,9 @@ export class PlaylistService {
 
   searchPlaylist(param: string): Observable<Object>{
     return this.http.get(this.SERVER_ADDRESS + '/playlist/search', {withCredentials: true, params: new HttpParams().set("param", param)})
+  }
+
+  listenToPlaylist(playlistId: Number): Observable<Object>{
+    return this.http.post(this.SERVER_ADDRESS + '/playlist/' + playlistId + '/queue', '', {withCredentials: true});
   }
 }

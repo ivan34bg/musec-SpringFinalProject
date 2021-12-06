@@ -2,9 +2,13 @@
     <div class="image-artist-container">
         <img class="album-image" [src]="albumInfo.albumPicLink" alt="">
         <div class="artist-album-name">
-            <p class="album-name">
-                {{albumInfo.albumName}}
-            </p>
+            <div class="name-listen">
+                <p class="album-name">
+                    {{albumInfo.albumName}}
+                </p>
+                <button (click)="listenTheAlbum()" class="listen-button">Listen</button>
+            </div>
+
             <a routerLink="/profile/{{albumInfo.albumCreator.id}}" class="artist-info">
                 <img class="artist-image" [src]="albumInfo.albumCreator.profilePicLink" alt="">
                 <p class="artist-name">{{albumInfo.albumCreator.fullName}}</p>

@@ -105,6 +105,13 @@ p{
     margin-bottom: 5%;
 }
 
+.single{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5%;
+}
+
 .album:hover{
     background-color: #1f1f1f;
     cursor: pointer;
@@ -114,17 +121,27 @@ p{
     font-size: 24px;
 }
 
-.single-name, .playlist-name{
+.playlist-name{
     margin-bottom: 5%;
     text-align: center;
 }
 
-.single-name:hover, .playlist-name:hover{
+.single:hover, .playlist-name:hover{
     background-color: #1f1f1f;
     cursor: pointer;
 }
 
 .album-image{
+    min-width: 100px;
+    min-height: 100px;
+    width: 100px;
+    height: 100px;
+    object-fit: fill;
+    border-radius: 50px;
+    margin-right: 5%;
+}
+
+.single-image{
     min-width: 100px;
     min-height: 100px;
     width: 100px;

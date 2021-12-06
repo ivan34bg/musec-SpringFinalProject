@@ -5,8 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class songTopTenSingleViewModel {
+public class songNewestTenUploaderViewModel {
     private Long id;
-    private String singleName;
-    private String singlePicLocation;
+    private String fullName;
 }

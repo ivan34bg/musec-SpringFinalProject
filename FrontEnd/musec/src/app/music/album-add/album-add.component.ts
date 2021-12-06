@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { songAlbumUpload } from 'src/app/models/album-upload/song.model';
+import { genreShortInfo } from 'src/app/models/genre/genreShortInfo.model';
 import { AlbumService } from 'src/app/services/album.service';
+import { GenreService } from 'src/app/services/genre.service';
 
 @Component({
   selector: 'app-album-add',
@@ -9,15 +11,27 @@ import { AlbumService } from 'src/app/services/album.service';
   styleUrls: ['./album-add.component.scss']
 })
 export class AlbumAddComponent implements OnInit {
+  genres: genreShortInfo[] = new Array();
   albumId: Number = -1;
   albumName: string = '';
   albumPic: File | undefined;
   albumPicPreview: any;
   music: songAlbumUpload[] = new Array();
+  isWorking = false;
 
-  constructor(private albumService: AlbumService, private router: Router) { }
+  constructor(
+    private albumService: AlbumService, 
+    private genreService: GenreService,
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
+    this.genreService.genreShortAll().subscribe(
+      response => {
+        this.genres = JSON.parse(JSON.stringify(response));
+      },
+      error => {}
+    )
   }
 
   albumPicUploaded(event: any){
@@ -75,6 +89,7 @@ export class AlbumAddComponent implements OnInit {
   }
 
   onSubmit(){
+    this.isWorking = true;
     let albumInfoForm = new FormData();
     albumInfoForm.append("albumName", this.albumName);
     albumInfoForm.append("albumPic", this.albumPic!);
@@ -87,8 +102,8 @@ export class AlbumAddComponent implements OnInit {
           songForm.append("songFile", song.songFile);
           songForm.append("genre", song.songGenre);
           this.albumService.uploadSongToAlbum(songForm, parseInt(JSON.stringify(response)))
-          this.router.navigate(["/my-profile"]);
         }
+        this.router.navigate(["/my-profile"]);
       },
       error => {
         console.log(error.error);

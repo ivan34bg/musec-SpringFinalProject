@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class songTopTenAlbumViewModel {
+public class songNewestTenAlbumViewModel {
     private Long id;
     private String albumName;
     private String albumPicLocation;

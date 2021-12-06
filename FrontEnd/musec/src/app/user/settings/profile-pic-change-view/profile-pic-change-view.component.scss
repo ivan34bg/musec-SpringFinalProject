@@ -91,3 +91,19 @@
     color: #a4a9af;
     pointer-events: none;
 }
+
+.rotating{
+    animation: rotation 4s infinite linear;
+    margin-bottom: 15%;
+    margin-top: 15%;
+    font-size: 38px;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}

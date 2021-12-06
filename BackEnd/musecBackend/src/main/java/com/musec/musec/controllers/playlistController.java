@@ -95,4 +95,14 @@ public class playlistController {
     public ResponseEntity<Set<playlistSearchViewModel>> searchPlaylistByName(@RequestParam(name = "param") String parameters){
         return ResponseEntity.ok(playlistService.searchPlaylistByName(parameters));
     }
+
+    @PostMapping("/{playlistId}/queue")
+    public ResponseEntity<?> addWholePlaylistToQueue(@PathVariable Long playlistId, Principal principal){
+        try {
+            playlistService.addPlaylistToQueue(playlistId, principal.getName());
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
+    }
 }

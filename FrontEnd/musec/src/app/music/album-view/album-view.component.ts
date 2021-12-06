@@ -64,9 +64,17 @@ export class AlbumViewComponent implements OnInit {
   addSongToPlaylist(){
     if(this.playlistId > -1){
       this.playlistService.addSongToPlaylist(this.playlistId, this.songId);
-      alert("The song was added to the playlist")
     }
     this.songId = -1;
     this.playlistId = -1;
+  }
+
+  listenTheAlbum(){
+    this.albumService.listenToAlbum(this.activatedRoute.snapshot.params.id).subscribe(
+      response => {
+        this.playerService.isSynced = false;
+      },
+      error => {}
+    )
   }
 }

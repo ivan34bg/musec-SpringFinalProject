@@ -1,9 +1,16 @@
-<div class="container">
-    <div class="wrapper">
+<div class="container" [ngClass]="addSongPopup? 'toned-down' : '' ">
+    <div class="wrapper" >
         <div class="upper-part">
-            <p class="playlist-title">
-                {{playlistInfo.playlistName}}
-            </p>
+            <div class="playlist-title">
+                <p class="title">
+                    {{playlistInfo.playlistName}}
+                </p>
+                <div class="buttons">
+                    <button (click)="listenThePlaylist()" class="listen-button">Listen</button>
+                    <button *ngIf="playlistInfo.canEdit" class="add-button" (click)="addSongPopup = true">Add Song</button>
+                </div>
+            </div>
+
             <p class="creator-username">
                 {{playlistInfo.playlistCreator.fullName}}
             </p>
@@ -35,8 +42,21 @@
             </div>
         </div>
     </div>
-
 </div>
-
+<div class="search-container" [ngClass]="addSongPopup? 'visible' : '' ">
+    <div class="search-wrapper">
+        <form>
+            <input class="search-input" type="text" [(ngModel)]="param" [ngModelOptions]="{standalone: true}">
+            <button class="search-button" (click)="search()"> <i class="fas fa-search"></i> </button>
+        </form>
+        <div class="results">
+            <div (click)="addSongToPlaylist(song.id)" class="result" *ngFor="let song of songs">
+                <p class="result-song-name">{{song.songName}}</p>
+                <p class="result-song-single-name" *ngIf="song.singleName">{{song.singleName}}</p>
+                <p class="result-song-album-name" *ngIf="song.albumName">{{song.albumName}}</p>
+            </div>
+        </div>
+    </div>
+</div>
   
 

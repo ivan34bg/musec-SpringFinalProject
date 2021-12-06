@@ -20,6 +20,7 @@
             <div class="singles-container" *ngIf="isArtist">
                 <div class="singles-label label">Singles:</div>
                 <div routerLink="/single/{{single.id}}" class="single" *ngFor="let single of this.userInfo.singles">
+                    <img [src]="single.singlePicLocation" alt="" class="single-image">
                     <p class="single-name">
                         {{single.name}}
                     </p>

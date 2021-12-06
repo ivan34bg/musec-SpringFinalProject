@@ -61,7 +61,6 @@ export class SingleViewComponent implements OnInit {
   addSongToPlaylist(){
     if(this.playlistId > -1){
       this.playlistService.addSongToPlaylist(this.playlistId, this.songId);
-      alert("The song was added to the playlist")
     }
     this.songId = -1;
     this.playlistId = -1;

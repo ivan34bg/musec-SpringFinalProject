@@ -42,7 +42,8 @@
                 <div class="album" *ngFor="let album of albums">
                     <p>{{album.albumName}}</p>
                     <div class="album-control">
-                        <i (click)="deleteAlbum(album.id)" class="fas fa-times"></i>
+                        <i class="rotating fas fa-spinner" *ngIf="isDeleting"></i>
+                        <i (click)="deleteAlbum(album.id)" class="fas fa-times" *ngIf="!isDeleting"></i>
                     </div>
                 </div>
             </div>
@@ -53,7 +54,8 @@
                 <div class="album" *ngFor="let single of singles">
                     <p>{{single.singleName}}</p>
                     <div class="album-control">
-                        <i (click)="deleteSingle(single.id)" class="fas fa-times"></i>
+                        <i class="rotating fas fa-spinner" *ngIf="isDeleting"></i>
+                        <i (click)="deleteSingle(single.id)" class="fas fa-times" *ngIf="!isDeleting"></i>
                     </div>
                 </div>
             </div>
@@ -64,7 +66,8 @@
                 <div class="playlist" *ngFor="let playlist of playlists">
                     <p>{{playlist.playlistName}}</p>
                     <div class="playlist-control">
-                        <i (click)="deletePlaylist(playlist.id)" class="fas fa-times"></i>
+                        <i class="rotating fas fa-spinner" *ngIf="isDeleting"></i>
+                        <i (click)="deletePlaylist(playlist.id)" class="fas fa-times" *ngIf="!isDeleting"></i>
                     </div>
                 </div>
             </div>

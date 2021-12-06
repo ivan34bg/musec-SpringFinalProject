@@ -38,4 +38,8 @@ export class AlbumService {
   searchAlbums(param: string): Observable<Object>{
     return this.http.get(this.SERVER_ADDRESS + '/album/search', {withCredentials: true, params: new HttpParams().set("param", param)})
   }
+
+  listenToAlbum(albumId: Number): Observable<Object>{
+    return this.http.post(this.SERVER_ADDRESS + '/album/' + albumId + '/queue', '', {withCredentials: true});
+  }
 }

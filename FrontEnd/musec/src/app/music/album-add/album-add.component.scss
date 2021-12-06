@@ -52,7 +52,7 @@ p {
     color: #a4a9af;
 }
 
-input{
+input, select{
     width: 90%;
     font-size: 20px;
     padding: 3px 9px;
@@ -143,4 +143,26 @@ input:focus{
 .submit-button:hover{
     cursor: pointer;
     color: #a4a9af;
+}
+
+.invalid{
+    border-color: #a4a9af;
+    color: #a4a9af;
+    pointer-events: none;
+}
+
+.rotating{
+    animation: rotation 4s infinite linear;
+    color: white;
+    font-size: 36px;
+    margin-bottom: 5%;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
 }

@@ -25,11 +25,11 @@
                 </div>
             </div>
         </div>
-        <a (click)="logout()" class="main-link">Logout</a>
+        <a (click)="logout()" class="main-link" style="cursor: pointer;">Logout</a>
     </div>
     <div class="searchbar-wrapper">
         <form action="" class="search">
-            <input [ngClass]="searchInput.value == ''? 'rounded':''" #searchInput type="text" class="searchbar">
+            <input #searchInput type="text" class="searchbar">
             <button [ngClass]="searchInput.value == ''? 'disabled':''" routerLink="/search/{{searchInput.value}}" class="search-button">
                     <i class="fas fa-search"></i>
             </button>

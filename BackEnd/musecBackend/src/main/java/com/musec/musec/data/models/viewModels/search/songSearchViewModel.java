@@ -9,5 +9,7 @@ public class songSearchViewModel {
     private Long id;
     private String songName;
     private Long albumId;
+    private String albumName;
     private Long singleId;
+    private String singleName;
 }

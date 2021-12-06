@@ -15,7 +15,7 @@ export class SongService {
     return this.http.get(this.SERVER_ADDRESS + "/song/search", {withCredentials: true, params: new HttpParams().set('param', param)})
   }
 
-  loadTopTenSongs(): Observable<Object>{
-    return this.http.get(this.SERVER_ADDRESS + '/song/top-ten', {withCredentials: true});
+  loadTenNewestSongs(): Observable<Object>{
+    return this.http.get(this.SERVER_ADDRESS + '/song/newest-ten', {withCredentials: true});
   }
 }

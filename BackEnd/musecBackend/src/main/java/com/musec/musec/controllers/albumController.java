@@ -85,4 +85,14 @@ public class albumController {
     public ResponseEntity<Set<albumSearchViewModel>> searchAlbumByName(@RequestParam(name = "param") String parameters){
         return ResponseEntity.ok(albumService.searchAlbumByName(parameters));
     }
+
+    @PostMapping("/{albumId}/queue")
+    public ResponseEntity<?> addWholeAlbumToQueue(@PathVariable Long albumId, Principal principal){
+        try {
+            albumService.addAlbumToQueue(albumId, principal.getName());
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
+    }
 }

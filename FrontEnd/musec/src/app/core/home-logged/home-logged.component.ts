@@ -30,8 +30,9 @@ export class HomeLoggedComponent implements OnInit {
       error => {}
     )
 
-    this.songService.loadTopTenSongs().subscribe(
+    this.songService.loadTenNewestSongs().subscribe(
       response => {
+        console.log(JSON.parse(JSON.stringify(response)));
         this.songs = JSON.parse(JSON.stringify(response));
       },
       error => {}

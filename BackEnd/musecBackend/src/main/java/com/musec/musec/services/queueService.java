@@ -13,6 +13,7 @@ public interface queueService {
     Set<queueFullSongViewModel> returnFullSongInfo(String username);
     void createQueue(userEntity user);
     void addSongToQueue(Long songId, String username) throws Exception;
+    void addCollectionToQueue(Set<songEntity> songs, String username);
     void removeSongFromQueue(Long songId, String username) throws NotFoundException;
     void removeSongFromEveryQueue(songEntity song);
     void emptyQueue(String username);

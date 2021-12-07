@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { NavLoggedOutComponent } from './nav-logged-out/nav-logged-out.component';
 import { FormsModule } from '@angular/forms';
 import { SearchComponent } from './search/search.component';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 
 
 
@@ -16,7 +17,8 @@ import { SearchComponent } from './search/search.component';
     PlayerComponent,
     HomeLoggedComponent,
     NavLoggedOutComponent,
-    SearchComponent
+    SearchComponent,
+    AdminPanelComponent
   ],
   imports: [
     CommonModule,

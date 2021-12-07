@@ -24,7 +24,7 @@
                 <p routerLink="/playlist/{{playlist.id}}" class="result playlist-result" *ngFor="let playlist of foundPlaylists">- {{playlist.playlistName}}</p>
             </div>
             <div class="artist-results results" *ngIf="foundUsers.length > 0">
-                <p class="label">Artists:</p>
+                <p class="label">Users:</p>
                 <p routerLink="/profile/{{user.id}}" class="result artist-result" *ngFor="let user of foundUsers">- {{user.fullName}}</p>
             </div>
             <div class="song-results results" *ngIf="foundSongs.length > 0">

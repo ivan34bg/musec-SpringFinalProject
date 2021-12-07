@@ -63,15 +63,26 @@ public class singleController {
         return ResponseEntity.ok(singleToReturn);
     }
 
-    @GetMapping("")
+    @GetMapping("/user")
     public ResponseEntity<Set<singleShortInfoViewModel>> returnShortInfoOfAllSingles(Principal principal){
-        return ResponseEntity.ok(singleService.returnShortInfoOfSinglesOfLoggedUser(principal.getName()));
+        return ResponseEntity.ok(singleService.returnShortInfoOfSinglesOfUserByUsername(principal.getName()));
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<Set<singleShortInfoViewModel>> returnShortInfoOfSinglesOfUserById(@PathVariable Long userId){
+        Set<singleShortInfoViewModel> singles;
+        try {
+            singles = singleService.returnShortInfoOfSinglesOfUserById(userId);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(singles);
     }
 
     @DeleteMapping("/{singleId}")
-    public ResponseEntity<?> deleteSingleById(@PathVariable Long singleId){
+    public ResponseEntity<?> deleteSingleById(@PathVariable Long singleId, Principal principal){
         try {
-            singleService.deleteSingle(singleId);
+            singleService.publicDeleteSingle(singleId, principal.getName());
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (DbxException e) {

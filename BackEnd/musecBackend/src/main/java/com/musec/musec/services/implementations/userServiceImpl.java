@@ -11,7 +11,6 @@ import com.musec.musec.data.models.viewModels.search.userSearchViewModel;
 import com.musec.musec.data.playlistEntity;
 import com.musec.musec.data.roleEntity;
 import com.musec.musec.data.userEntity;
-import com.musec.musec.repositories.roleRepository;
 import com.musec.musec.repositories.userRepository;
 import com.musec.musec.services.userService;
 import javassist.NotFoundException;
@@ -20,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.management.relation.RoleNotFoundException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,21 +32,22 @@ import java.util.Set;
 public class userServiceImpl implements userService {
     private final queueServiceImpl queueService;
     private final cloudServiceImpl cloudService;
+    private final roleServiceImpl roleService;
     private final userRepository userRepo;
-    private final roleRepository roleRepo;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
     public userServiceImpl(
             queueServiceImpl queueService,
-            cloudServiceImpl cloudService, userRepository userRepo,
-            roleRepository roleRepo,
+            cloudServiceImpl cloudService,
+            userRepository userRepo,
+            roleServiceImpl roleService,
             ModelMapper modelMapper,
             PasswordEncoder passwordEncoder) {
         this.queueService = queueService;
         this.cloudService = cloudService;
         this.userRepo = userRepo;
-        this.roleRepo = roleRepo;
+        this.roleService = roleService;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
     }
@@ -58,7 +59,7 @@ public class userServiceImpl implements userService {
                 userEntity newUser = new userEntity();
                 modelMapper.map(bindingModel, newUser);
                 newUser.setPassword(passwordEncoder.encode(bindingModel.getPassword()));
-                newUser.setRoles(Set.of(roleRepo.getByRoleName(roleEnum.USER)));
+                newUser.setRoles(Set.of(roleService.returnRoleByName("USER")));
                 newUser.setBirthday(LocalDate.parse(bindingModel.getBirthday()));
                 newUser.setProfilePicLink(
                         "https://www.dropbox.com/s/fv5ctkjbntsaubt/1200px-Question_Mark.svg.png?raw=1"
@@ -76,6 +77,15 @@ public class userServiceImpl implements userService {
     @Override
     public userEntity returnExistingUserByUsername(String username) {
         return userRepo.findByUsername(username).get();
+    }
+
+    @Override
+    public userEntity returnUserById(Long userId) throws NotFoundException {
+        Optional<userEntity> user = userRepo.findById(userId);
+        if(user.isPresent()){
+            return user.get();
+        }
+        throw new NotFoundException("User cannot be found");
     }
 
     @Override
@@ -195,11 +205,9 @@ public class userServiceImpl implements userService {
             if(!usersOrNull.get().isEmpty()){
                 for (userEntity user:usersOrNull.get()
                 ) {
-                    if(user.getRoles().stream().filter(r -> r.getRoleName() == roleEnum.ARTIST).count() > 0){
-                        userSearchViewModel mappedUser = new userSearchViewModel();
-                        modelMapper.map(user, mappedUser);
-                        setToReturn.add(mappedUser);
-                    }
+                    userSearchViewModel mappedUser = new userSearchViewModel();
+                    modelMapper.map(user, mappedUser);
+                    setToReturn.add(mappedUser);
                 }
             }
         }
@@ -214,10 +222,63 @@ public class userServiceImpl implements userService {
     }
 
     @Override
-    public void isUserAdmin(String username) throws NotFoundException {
+    public void isUserArtistById(Long userId) throws NotFoundException {
+        Optional<userEntity> user = userRepo.findById(userId);
+        if(user.isPresent()){
+            isUserArtist(user.get().getUsername());
+        }
+        else throw new NotFoundException("User with this id cannot be found");
+    }
+
+    @Override
+    public boolean isUserAdmin(String username) {
         userEntity user = userRepo.findByUsername(username).get();
-        if(user.getRoles().stream().noneMatch(r -> r.getRoleName().equals(roleEnum.ARTIST)))
-            throw new NotFoundException("");
+        return user.getRoles().stream().anyMatch(r -> r.getRoleName().equals(roleEnum.ADMIN));
+    }
+
+    @Override
+    public boolean isUserAdminById(Long userId) throws NotFoundException{
+        Optional<userEntity> user = userRepo.findById(userId);
+        if(user.isPresent()){
+            return isUserAdmin(user.get().getUsername());
+        }
+        else throw new NotFoundException("User with this id cannot be found");
+
+    }
+
+    //Admin methods
+
+    @Override
+    public void addRoleToUser(Long userId, String roleName) throws Exception {
+        Optional<userEntity> user = userRepo.findById(userId);
+        if(user.isPresent()){
+            roleEntity role = roleService.returnRoleByName(roleName);
+            if (user.get().getRoles().stream().noneMatch(r -> r.getRoleName().name().equals("ADMIN"))){
+                if(!user.get().getRoles().contains(role)){
+                    user.get().getRoles().add(role);
+                    userRepo.save(user.get());
+                }
+                else throw new Exception("User already has this role");
+            }
+            else throw new Exception("Cannot change roles of other admins");
+        }
+        else throw new NotFoundException("User not found");
+    }
+
+    @Override
+    public void removeRoleOfUser(Long userId, String roleName) throws Exception {
+        Optional<userEntity> user = userRepo.findById(userId);
+        if(user.isPresent()){
+            roleEntity role = roleService.returnRoleByName(roleName);
+            if (user.get().getRoles().stream().noneMatch(r -> r.getRoleName().name().equals("ADMIN"))) {
+                if (user.get().getRoles().contains(role)) {
+                    user.get().getRoles().remove(role);
+                    userRepo.save(user.get());
+                } else throw new Exception("User does not have this role");
+            }
+            else throw new Exception("Cannot change roles of other admins");
+        }
+        else throw new NotFoundException("User not found");
     }
 
     private Set<userProfilePlaylistViewModel> privatePlaylistChecker(Set<playlistEntity> playlists){

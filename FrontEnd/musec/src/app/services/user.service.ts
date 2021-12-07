@@ -61,10 +61,21 @@ export class UserService {
     return this.isLoggedIn;
   }
 
-  isUserArtist(): Observable<object>{
+  isLoggedUserArtist(): Observable<object>{
     return this.http.get(this.SERVER_ADDRESS + "/user/artist", {withCredentials: true});
   }
 
+  isLoggedUserAdmin(): Observable<Object>{
+    return this.http.get(this.SERVER_ADDRESS + '/user/admin', {withCredentials: true});
+  }
+
+  isOtherUserArtist(userId: Number): Observable<Object>{
+    return this.http.get(this.SERVER_ADDRESS + '/user/artist/' + userId, {withCredentials: true});
+  }
+
+  isOtherUserAdmin(userId: Number): Observable<Object>{
+    return this.http.get(this.SERVER_ADDRESS + '/user/admin/' + userId, {withCredentials: true});
+  }
 
   serverIsUserLogged(): Observable<boolean>{
     return this.http.get<boolean>(this.SERVER_ADDRESS + '/user/logged-in-test', {withCredentials: true});
@@ -178,4 +189,12 @@ export class UserService {
   passwordEncoder(purePassword: string):string {
     return(CryptoJS.SHA512(purePassword).toString());
   }  
+
+  addArtistRoleToUser(userId: Number): Observable<Object>{
+    return this.http.post(this.SERVER_ADDRESS + '/admin/role/' + userId, '', {withCredentials: true, params: new HttpParams().append("role", "ARTIST")});
+  }
+
+  removeArtistRoleOfUser(userId: Number): Observable<Object>{
+    return this.http.delete(this.SERVER_ADDRESS + '/admin/role/' + userId, {withCredentials: true, params: new HttpParams().append('role', 'ARTIST')});
+  }
 }

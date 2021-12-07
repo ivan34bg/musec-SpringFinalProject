@@ -9,6 +9,7 @@ import com.musec.musec.data.userEntity;
 import javassist.NotFoundException;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.management.relation.RoleNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
@@ -16,6 +17,7 @@ import java.util.Set;
 public interface userService {
     void registerUser(userRegisterBindingModel bindingModel) throws Exception;
     userEntity returnExistingUserByUsername(String username);
+    userEntity returnUserById(Long userId) throws NotFoundException;
     userProfileViewModel returnUserOrArtistProfileViewByUsername(String username, Boolean showPrivate) throws NotFoundException;
     userProfileViewModel returnUserOrArtistProfileViewById(Long userId) throws NotFoundException;
     void logoutUser(HttpServletRequest request, HttpServletResponse response);
@@ -27,5 +29,10 @@ public interface userService {
     void changeBirthdayOfLoggedUser(changeBirthdayBindingModel bindingModel, String usernameOfLoggedUser) throws Exception;
     Set<userSearchViewModel> searchUsersByFullName(String parameter);
     void isUserArtist(String username) throws NotFoundException;
-    void isUserAdmin(String username) throws NotFoundException;
+    void isUserArtistById(Long userId) throws NotFoundException;
+    boolean isUserAdmin(String username) throws NotFoundException;
+    boolean isUserAdminById(Long userId) throws NotFoundException, RoleNotFoundException;
+
+    void addRoleToUser(Long userId, String roleName) throws Exception;
+    void removeRoleOfUser(Long userId, String roleName) throws Exception;
 }

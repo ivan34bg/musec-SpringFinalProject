@@ -16,7 +16,7 @@ export class NavComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.isUserArtist().subscribe(
+    this.userService.isLoggedUserArtist().subscribe(
       response => {
         this.isUserArtist = true;
       },

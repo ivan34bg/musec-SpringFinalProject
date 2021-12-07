@@ -73,13 +73,22 @@ public class singleServiceImpl implements singleService {
     }
 
     @Override
-    public void deleteSingle(Long singleId) throws NotFoundException, DbxException {
+    public void publicDeleteSingle(Long singleId, String username) throws
+            NotFoundException,
+            DbxException,
+            IllegalCallerException {
         singleEntity singleToDelete = isSinglePresent(singleId);
-        queueService.removeSongFromEveryQueue(singleToDelete.getSong());
-        playlistService.removeSongFromEveryPlaylist(singleToDelete.getSong());
-        songService.deleteSongById(singleToDelete.getSong().getId());
-        cloudService.deleteFile(singleToDelete.getSinglePicFilePath());
-        singleRepo.delete(singleToDelete);
+        if(singleToDelete.getUploader().getUsername().equals(username)){
+            deleteSingle(singleId);
+        }
+        else throw new IllegalCallerException("Only the uploader of a single can delete it");
+    }
+
+    @Override
+    public void adminDeleteSingle(Long singleId, String username) throws NotFoundException, DbxException {
+        if(userService.isUserAdmin(username)){
+            deleteSingle(singleId);
+        }
     }
 
     @Override
@@ -91,7 +100,7 @@ public class singleServiceImpl implements singleService {
     }
 
     @Override
-    public Set<singleShortInfoViewModel> returnShortInfoOfSinglesOfLoggedUser(String username) {
+    public Set<singleShortInfoViewModel> returnShortInfoOfSinglesOfUserByUsername(String username) {
         Optional<Set<singleEntity>> singlesOrNull = singleRepo.findAllByUploader_Username(username);
         Set<singleShortInfoViewModel> setToReturn = new LinkedHashSet<>();
         for (singleEntity single:singlesOrNull.get()
@@ -101,6 +110,11 @@ public class singleServiceImpl implements singleService {
             setToReturn.add(mappedSingle);
         }
         return setToReturn;
+    }
+
+    @Override
+    public Set<singleShortInfoViewModel> returnShortInfoOfSinglesOfUserById(Long userId) throws NotFoundException {
+        return returnShortInfoOfSinglesOfUserByUsername(userService.returnUserById(userId).getUsername());
     }
 
     @Override
@@ -126,5 +140,14 @@ public class singleServiceImpl implements singleService {
             return singleOrNull.get();
         }
         else throw new NotFoundException("Cannot find this single");
+    }
+
+    protected void deleteSingle(Long singleId) throws NotFoundException, DbxException {
+        singleEntity singleToDelete = isSinglePresent(singleId);
+        queueService.removeSongFromEveryQueue(singleToDelete.getSong());
+        playlistService.removeSongFromEveryPlaylist(singleToDelete.getSong());
+        songService.deleteSongById(singleToDelete.getSong().getId());
+        cloudService.deleteFile(singleToDelete.getSinglePicFilePath());
+        singleRepo.delete(singleToDelete);
     }
 }

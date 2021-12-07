@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminPanelComponent } from './core/admin-panel/admin-panel.component';
+import { AdminGuard } from './core/guards/admin.guard';
 import { ArtistGuard } from './core/guards/artist.guard';
 import { LoggedInGuardGuard } from './core/guards/logged-in-guard.guard';
 import { LoggedOutGuardGuard } from './core/guards/logged-out-guard.guard';
@@ -142,6 +144,11 @@ const routes: Routes = [
     path: 'genre/:id',
     component: GenreComponent,
     canActivate: [LoggedInGuardGuard]
+  },
+  {
+    path: 'admin-panel/:id',
+    component: AdminPanelComponent,
+    canActivate: [LoggedInGuardGuard, AdminGuard]
   }
 ];
 

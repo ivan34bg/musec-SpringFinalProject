@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.relation.RoleNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
@@ -131,7 +132,7 @@ public class userController {
     }
 
     @GetMapping("/artist")
-    public ResponseEntity<?> isUserAnArtist(Principal principal){
+    public ResponseEntity<?> isLoggedUserArtist(Principal principal){
         try {
             userService.isUserArtist(principal.getName());
         } catch (NotFoundException e) {
@@ -140,13 +141,33 @@ public class userController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/admin")
-    public ResponseEntity<?> isUserAdmin(Principal principal){
+    @GetMapping("/artist/{userId}")
+    public ResponseEntity<?> isUserArtist(@PathVariable Long userId){
         try {
-            userService.isUserAdmin(principal.getName());
+            userService.isUserArtistById(userId);
         } catch (NotFoundException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().build();
+        return  ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/admin")
+    public ResponseEntity<?> isLoggedUserAdmin(Principal principal){
+            if(userService.isUserAdmin(principal.getName())){
+                return ResponseEntity.ok().build();
+            }
+            return ResponseEntity.notFound().build();
+
+    }
+
+    @GetMapping("/admin/{userId}")
+    public ResponseEntity<?> isUserAdmin(@PathVariable Long userId){
+        boolean isUserAdmin;
+        try {
+            isUserAdmin = userService.isUserAdminById(userId);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(isUserAdmin);
     }
 }

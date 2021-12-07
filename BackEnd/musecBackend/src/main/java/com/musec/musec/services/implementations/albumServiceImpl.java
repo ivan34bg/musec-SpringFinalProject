@@ -73,16 +73,22 @@ public class albumServiceImpl implements albumService {
     }
 
     @Override
-    public void deleteAlbum(Long albumId) throws NotFoundException, DbxException {
+    public void publicDeleteAlbum(Long albumId, String username) throws
+            NotFoundException,
+            DbxException,
+            IllegalCallerException {
         albumEntity albumToDelete = isAlbumPresent(albumId);
-        for (songEntity song:albumToDelete.getSongs()
-             ) {
-            playlistService.removeSongFromEveryPlaylist(song);
-            queueService.removeSongFromEveryQueue(song);
-            songService.deleteSongById(song.getId());
+        if(albumToDelete.getUploader().getUsername().equals(username)){
+            deleteAlbum(albumId);
         }
-        cloudService.deleteFile(albumToDelete.getAlbumPicFilePath());
-        albumRepo.delete(albumToDelete);
+        else throw new IllegalCallerException("Only the uploader of a single can delete it");
+    }
+
+    @Override
+    public void adminDeleteAlbum(Long albumId, String username) throws NotFoundException, DbxException {
+        if(userService.isUserAdmin(username)){
+            deleteAlbum(albumId);
+        }
     }
 
     @Override
@@ -95,7 +101,7 @@ public class albumServiceImpl implements albumService {
     }
 
     @Override
-    public Set<albumShortInfoViewModel> returnShortInfoOfAllAlbumsOfLoggedUser(String username) {
+    public Set<albumShortInfoViewModel> returnShortInfoOfAllAlbumsOfUserByUsername(String username) {
         Optional<Set<albumEntity>> albumsOrNull = albumRepo.findAllByUploader_Username(username);
         Set<albumShortInfoViewModel> setToReturn = new LinkedHashSet<>();
         for (albumEntity album:albumsOrNull.get()
@@ -105,6 +111,12 @@ public class albumServiceImpl implements albumService {
             setToReturn.add(mappedAlbum);
         }
         return setToReturn;
+    }
+
+    @Override
+    public Set<albumShortInfoViewModel> returnShortInfoOfAllAlbumsOfUserById(Long userId) throws NotFoundException {
+        userEntity user = userService.returnUserById(userId);
+        return  returnShortInfoOfAllAlbumsOfUserByUsername(user.getUsername());
     }
 
     @Override
@@ -140,5 +152,17 @@ public class albumServiceImpl implements albumService {
             return albumOrNull.get();
         }
         throw new NotFoundException("Album cannot be found.");
+    }
+
+    protected void deleteAlbum(Long albumId) throws NotFoundException, DbxException {
+        albumEntity albumToDelete = isAlbumPresent(albumId);
+        for (songEntity song:albumToDelete.getSongs()
+        ) {
+            playlistService.removeSongFromEveryPlaylist(song);
+            queueService.removeSongFromEveryQueue(song);
+            songService.deleteSongById(song.getId());
+        }
+        cloudService.deleteFile(albumToDelete.getAlbumPicFilePath());
+        albumRepo.delete(albumToDelete);
     }
 }

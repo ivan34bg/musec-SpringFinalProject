@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="wrapper">
+        <div class="profile-settings-container category">
+            <p class="category-label">Role Setttings</p>
+            <div class="profile-settings settings-group">
+                <div class="role-settings">
+                    <div class="artist-settings">
+                        <p>Artist role:</p>
+                        <button class="artist-button" *ngIf="!isUserArtist" (click)="addArtistRoleToUser()">Give Artist role</button>
+                        <button class="artist-button" *ngIf="isUserArtist" (click)="removeArtistRoleOfUser()">Remove Artist role</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="albums-settings-container category" *ngIf="isUserArtist && albums.length > 0">
+            <p class="category-label">Albums Settings</p>
+            <div class="albums-singles-settings settings-group">
+                <div class="album" *ngFor="let album of albums">
+                    <p>{{album.albumName}}</p>
+                    <div class="album-control">
+                        <i class="rotating fas fa-spinner" *ngIf="isWorking"></i>
+                        <i class="fas fa-times" (click)="deleteAlbum(album.id)" *ngIf="!isWorking"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="singles-settings-container category" *ngIf="isUserArtist && singles.length > 0"> 
+            <p class="category-label">Singles Settings</p>
+            <div class="albums-singles-settings settings-group">
+                <div class="album" *ngFor="let single of singles">
+                    <p>{{single.singleName}}</p>
+                    <div class="album-control">
+                        <i class="rotating fas fa-spinner" *ngIf="isWorking"></i>
+                        <i class="fas fa-times" (click)="deleteSingle(single.id)" *ngIf="!isWorking"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

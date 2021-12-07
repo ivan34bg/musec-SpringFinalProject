@@ -11,11 +11,17 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ProfileDetailsComponent implements OnInit {
   public userInfo = new profileInfo();
+  public isSelfProfile = false;
+  public isAdmin = true;
   public isArtist = false;
+  public userId = -1;
 
-  constructor(private userService: UserService, private http: HttpClient, private activatedRoute: ActivatedRoute) { }
+  constructor(
+    private userService: UserService, 
+    private activatedRoute: ActivatedRoute
+    ) { }
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.userService.profileDetailsFetcher(this.activatedRoute.snapshot.params.id).subscribe(
       response => {
         let user = JSON.parse(JSON.stringify(response));
@@ -31,5 +37,23 @@ export class ProfileDetailsComponent implements OnInit {
       },
       error => {}
     )
+    if(this.activatedRoute.snapshot.params.id == undefined){
+      this.isSelfProfile = true;
+    }
+    else {
+      this.isSelfProfile = false;
+      this.userService.isOtherUserAdmin(this.activatedRoute.snapshot.params.id).subscribe(
+        response => {
+          if(JSON.stringify(response) == "true"){
+            this.isAdmin = true;
+          }
+          else{
+            this.isAdmin = false;
+            this.userId = this.activatedRoute.snapshot.params.id;
+          }
+        },
+        error => {}
+      )
+    }
   }
 }

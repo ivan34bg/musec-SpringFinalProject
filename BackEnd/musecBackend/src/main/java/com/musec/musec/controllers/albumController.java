@@ -64,9 +64,9 @@ public class albumController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteAlbum(@PathVariable("id") Long albumId){
+    public ResponseEntity<?> deleteAlbum(@PathVariable("id") Long albumId, Principal principal){
         try {
-            albumService.deleteAlbum(albumId);
+            albumService.publicDeleteAlbum(albumId, principal.getName());
         } catch (NotFoundException e) {
             //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();
@@ -76,9 +76,20 @@ public class albumController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("")
+    @GetMapping("/user")
     public ResponseEntity<Set<albumShortInfoViewModel>> returnShortInfoOfAlbumsOfLoggedUser(Principal principal){
-        return ResponseEntity.ok(albumService.returnShortInfoOfAllAlbumsOfLoggedUser(principal.getName()));
+        return ResponseEntity.ok(albumService.returnShortInfoOfAllAlbumsOfUserByUsername(principal.getName()));
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<Set<albumShortInfoViewModel>> returnShortInfoOfAlbumsOfUserById(@PathVariable Long userId){
+        Set<albumShortInfoViewModel> albums;
+        try {
+            albums = albumService.returnShortInfoOfAllAlbumsOfUserById(userId);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(albums);
     }
 
     @GetMapping("/search")

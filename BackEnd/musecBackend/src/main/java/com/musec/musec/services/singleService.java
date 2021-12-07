@@ -17,8 +17,10 @@ public interface singleService {
             DbxException,
             RoleNotFoundException;
     void addSongToSingle(songBindingModel songBindingModel, Long id, String username) throws Exception;
-    void deleteSingle(Long singleId) throws NotFoundException, DbxException;
+    void publicDeleteSingle(Long singleId, String username) throws NotFoundException, DbxException;
+    void adminDeleteSingle(Long singleId, String username) throws NotFoundException, DbxException;
     singleViewModel returnSingle(Long singleId) throws NotFoundException;
-    Set<singleShortInfoViewModel> returnShortInfoOfSinglesOfLoggedUser(String username);
+    Set<singleShortInfoViewModel> returnShortInfoOfSinglesOfUserByUsername(String username);
+    Set<singleShortInfoViewModel> returnShortInfoOfSinglesOfUserById(Long userId) throws NotFoundException;
     Set<singleSearchViewModel> searchSingleByName(String parameter);
 }

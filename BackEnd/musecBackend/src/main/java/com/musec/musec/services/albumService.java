@@ -14,9 +14,11 @@ import java.util.Set;
 public interface albumService {
     Long createAlbum(albumBindingModel albumBindingModel, String currentUserUsername) throws DbxException, RoleNotFoundException;
     void addSongToAlbum(Long id, songBindingModel songBindingModel, String username) throws Exception;
-    void deleteAlbum(Long albumId) throws NotFoundException, DbxException;
+    void publicDeleteAlbum(Long albumId, String username) throws NotFoundException, DbxException;
+    void adminDeleteAlbum(Long albumId, String username) throws NotFoundException, DbxException;
     albumViewModel returnAlbum(Long id) throws NotFoundException;
-    Set<albumShortInfoViewModel> returnShortInfoOfAllAlbumsOfLoggedUser(String username);
+    Set<albumShortInfoViewModel> returnShortInfoOfAllAlbumsOfUserByUsername(String username);
+    Set<albumShortInfoViewModel> returnShortInfoOfAllAlbumsOfUserById(Long userId) throws NotFoundException;
     Set<albumSearchViewModel> searchAlbumByName(String parameter);
     void addAlbumToQueue(Long albumId, String username) throws NotFoundException;
 }

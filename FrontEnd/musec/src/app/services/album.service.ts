@@ -28,11 +28,19 @@ export class AlbumService {
   }
 
   returnShortInfoOfAlbums(): Observable<Object>{
-    return this.http.get(this.SERVER_ADDRESS + '/album', {withCredentials: true});
+    return this.http.get(this.SERVER_ADDRESS + '/album/user', {withCredentials: true});
+  }
+
+  returnShortInfoOfAlbumsOfUserById(userId: Number): Observable<Object>{
+    return this.http.get(this.SERVER_ADDRESS + '/album/user/' + userId, {withCredentials: true});
   }
 
   deleteAlbum(albumId: Number): Observable<Object>{
     return this.http.delete(this.SERVER_ADDRESS + '/album/' + albumId, {withCredentials: true});
+  }
+
+  adminDeleteAlbum(albumId: Number): Observable<Object>{
+    return this.http.delete(this.SERVER_ADDRESS + '/admin/album/' + albumId, {withCredentials: true});
   }
 
   searchAlbums(param: string): Observable<Object>{

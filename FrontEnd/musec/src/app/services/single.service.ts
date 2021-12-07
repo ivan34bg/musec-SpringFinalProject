@@ -25,10 +25,19 @@ export class SingleService {
     );
   }
   returnShortInfoOfSingles(): Observable<Object>{
-    return this.http.get(this.SERVER_ADDRESS + '/single', {withCredentials: true});
+    return this.http.get(this.SERVER_ADDRESS + '/single/user', {withCredentials: true});
   }
+
+  returnShortInfoOfSinglesOfUserById(userId: Number): Observable<Object>{
+    return this.http.get(this.SERVER_ADDRESS + '/single/user/' + userId, {withCredentials: true});
+  }
+
   deleteSingle(singleId: Number): Observable<Object>{
     return this.http.delete(this.SERVER_ADDRESS + '/single/' + singleId, {withCredentials: true});
+  }
+
+  adminDeleteSingle(singleId: Number): Observable<Object>{
+    return this.http.delete(this.SERVER_ADDRESS + '/admin/single/' + singleId, {withCredentials: true});
   }
 
   searchSingle(param: string): Observable<Object>{

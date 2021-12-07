@@ -7,6 +7,7 @@
                 <div class="roles-container">
                     <p class="role" *ngFor="let role of userInfo.roleNames">{{role}}</p>
                 </div>
+                <button *ngIf="!isSelfProfile && !isAdmin" routerLink="/admin-panel/{{userId}}" class="admin-button">Administrate</button>
             </div>
         </div>
         <div class="user-music-wrapper">

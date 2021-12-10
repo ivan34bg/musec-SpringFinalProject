@@ -7,6 +7,7 @@ import com.musec.musec.data.models.viewModels.playlist.playlistViewModel;
 import com.musec.musec.services.implementations.playlistServiceImpl;
 import javassist.NotFoundException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +49,8 @@ public class playlistController {
         } catch (NotFoundException e) {
             //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(403).build();
         }
         return ResponseEntity.ok().build();
     }
@@ -60,6 +63,8 @@ public class playlistController {
             //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();
         } catch (RequestRejectedException e){
+            return ResponseEntity.status(403).build();
+        } catch (CloneNotSupportedException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok().build();
@@ -72,6 +77,8 @@ public class playlistController {
         } catch (NotFoundException e) {
             //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();
+        } catch (RequestRejectedException e) {
+            return ResponseEntity.status(403).build();
         }
         return ResponseEntity.ok().build();
     }

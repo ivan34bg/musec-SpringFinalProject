@@ -50,7 +50,7 @@ public class genreServiceImpl implements genreService {
         for (int i = setToReturn.size() - 1; i > 8; i--){
             setToReturn.remove(i);
         }
-        return new LinkedHashSet<genreShortInfoViewModel>(setToReturn);
+        return new LinkedHashSet<>(setToReturn);
     }
 
     @Override

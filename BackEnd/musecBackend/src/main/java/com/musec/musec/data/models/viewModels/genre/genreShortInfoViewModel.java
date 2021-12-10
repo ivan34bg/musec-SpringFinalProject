@@ -1,6 +1,5 @@
 package com.musec.musec.data.models.viewModels.genre;
 
-import com.musec.musec.data.enums.genreEnum;
 import lombok.Getter;
 import lombok.Setter;
 

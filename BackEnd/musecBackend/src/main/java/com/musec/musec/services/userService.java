@@ -28,8 +28,8 @@ public interface userService {
     void changeFullNameOfLoggedUser(changeFullNameBindingModel bindingModel, String usernameOfLoggedUser) throws Exception;
     void changeBirthdayOfLoggedUser(changeBirthdayBindingModel bindingModel, String usernameOfLoggedUser) throws Exception;
     Set<userSearchViewModel> searchUsersByFullName(String parameter);
-    void isUserArtist(String username) throws NotFoundException;
-    void isUserArtistById(Long userId) throws NotFoundException;
+    boolean isUserArtist(String username) throws NotFoundException;
+    boolean isUserArtistById(Long userId) throws NotFoundException;
     boolean isUserAdmin(String username) throws NotFoundException;
     boolean isUserAdminById(Long userId) throws NotFoundException, RoleNotFoundException;
 

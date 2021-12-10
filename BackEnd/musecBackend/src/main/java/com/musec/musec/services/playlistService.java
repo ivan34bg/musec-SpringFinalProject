@@ -11,8 +11,8 @@ import java.util.Set;
 
 public interface playlistService {
     Long createPlaylist(playlistBindingModel playlistBindingModel, String usernameOfCurrentUser);
-    void addSongToPlaylist(Long playlistId, Long songId, String usernameOfUser) throws NotFoundException;
-    void removeSongFromPlaylist(Long playlistId, Long songId, String usernameOfUser) throws NotFoundException;
+    void addSongToPlaylist(Long playlistId, Long songId, String usernameOfUser) throws NotFoundException, CloneNotSupportedException;
+    void removeSongFromPlaylist(Long playlistId, Long songId, String usernameOfUser) throws NotFoundException, CloneNotSupportedException;
     void deletePlaylist(Long playlistId, String usernameOfUser) throws NotFoundException;
     playlistViewModel returnPlaylistById(Long playlistId, String usernameOfUser) throws NotFoundException;
     void doesUserHavePlaylists(String usernameOfUser) throws NotFoundException;

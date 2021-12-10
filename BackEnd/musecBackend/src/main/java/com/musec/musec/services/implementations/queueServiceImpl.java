@@ -110,6 +110,8 @@ public class queueServiceImpl implements queueService {
 
     @Override
     public void emptyQueue(String username) {
-        queueRepo.findByUser_Username(username).get().getSongs().clear();
+        queueEntity queue = queueRepo.findByUser_Username(username).get();
+        queue.getSongs().clear();
+        queueRepo.save(queue);
     }
 }

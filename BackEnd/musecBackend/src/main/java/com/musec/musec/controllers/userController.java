@@ -50,11 +50,7 @@ public class userController {
 
     @GetMapping("/self-profile")
     public ResponseEntity<userProfileViewModel> returnLoggedInUserProfileDetails(Principal principal){
-        try {
-            return ResponseEntity.ok(userService.returnUserOrArtistProfileViewByUsername(principal.getName(), true));
-        } catch (NotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(userService.returnUserOrArtistProfileViewByUsername(principal.getName(), true));
     }
 
     @GetMapping("/{userId}")
@@ -133,31 +129,31 @@ public class userController {
 
     @GetMapping("/artist")
     public ResponseEntity<?> isLoggedUserArtist(Principal principal){
+        boolean result;
         try {
-            userService.isUserArtist(principal.getName());
+            result = userService.isUserArtist(principal.getName());
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/artist/{userId}")
     public ResponseEntity<?> isUserArtist(@PathVariable Long userId){
+        boolean isUserArtist;
         try {
-            userService.isUserArtistById(userId);
+            isUserArtist = userService.isUserArtistById(userId);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         }
-        return  ResponseEntity.ok().build();
+        return  ResponseEntity.ok(isUserArtist);
     }
 
     @GetMapping("/admin")
     public ResponseEntity<?> isLoggedUserAdmin(Principal principal){
-            if(userService.isUserAdmin(principal.getName())){
-                return ResponseEntity.ok().build();
-            }
-            return ResponseEntity.notFound().build();
-
+        boolean isAdmin;
+        isAdmin = userService.isUserAdmin(principal.getName());
+        return ResponseEntity.ok(isAdmin);
     }
 
     @GetMapping("/admin/{userId}")

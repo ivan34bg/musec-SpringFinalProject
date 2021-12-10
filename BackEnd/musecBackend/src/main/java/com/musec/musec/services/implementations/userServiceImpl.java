@@ -19,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.management.relation.RoleNotFoundException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -89,39 +88,34 @@ public class userServiceImpl implements userService {
     }
 
     @Override
-    public userProfileViewModel returnUserOrArtistProfileViewByUsername(String username, Boolean showPrivate)
-            throws NotFoundException {
-        Optional<userEntity> userOrNull = userRepo.findByUsername(username);
-        if(userOrNull.isPresent()){
-            userEntity user = userOrNull.get();
-            if(user.getRoles().stream().anyMatch(r -> r.getRoleName() == roleEnum.ARTIST)){
-                artistProfileViewModel userToReturn = new artistProfileViewModel();
-                modelMapper.map(user, userToReturn);
-                userToReturn.setRoleNames(new LinkedHashSet<>());
-                for (roleEntity role:user.getRoles()
-                     ) {
-                    userToReturn.getRoleNames().add(role.getRoleName().name());
-                }
-                if(!showPrivate) {
-                    userToReturn.setPlaylists(privatePlaylistChecker(user.getPlaylists()));
-                }
-                return userToReturn;
+    public userProfileViewModel returnUserOrArtistProfileViewByUsername(String username, Boolean showPrivate) {
+        userEntity user = userRepo.findByUsername(username).get();
+        if(user.getRoles().stream().anyMatch(r -> r.getRoleName() == roleEnum.ARTIST)){
+            artistProfileViewModel userToReturn = new artistProfileViewModel();
+            modelMapper.map(user, userToReturn);
+            userToReturn.setRoleNames(new LinkedHashSet<>());
+            for (roleEntity role:user.getRoles()
+            ) {
+                userToReturn.getRoleNames().add(role.getRoleName().name());
             }
-            else {
-                userProfileViewModel userToReturn = new userProfileViewModel();
-                modelMapper.map(user, userToReturn);
-                userToReturn.setRoleNames(new LinkedHashSet<>());
-                for (roleEntity role:user.getRoles()
-                ) {
-                    userToReturn.getRoleNames().add(role.getRoleName().name());
-                }
-                if(!showPrivate){
-                    userToReturn.setPlaylists(privatePlaylistChecker(user.getPlaylists()));
-                }
-                return userToReturn;
+            if(!showPrivate) {
+                userToReturn.setPlaylists(privatePlaylistChecker(user.getPlaylists()));
             }
+            return userToReturn;
         }
-        throw new NotFoundException("Cannot find user with this username");
+        else {
+            userProfileViewModel userToReturn = new userProfileViewModel();
+            modelMapper.map(user, userToReturn);
+            userToReturn.setRoleNames(new LinkedHashSet<>());
+            for (roleEntity role:user.getRoles()
+            ) {
+                userToReturn.getRoleNames().add(role.getRoleName().name());
+            }
+            if(!showPrivate){
+                userToReturn.setPlaylists(privatePlaylistChecker(user.getPlaylists()));
+            }
+            return userToReturn;
+        }
     }
 
     @Override
@@ -215,17 +209,16 @@ public class userServiceImpl implements userService {
     }
 
     @Override
-    public void isUserArtist(String username) throws NotFoundException {
+    public boolean isUserArtist(String username) throws NotFoundException {
         userEntity user = userRepo.findByUsername(username).get();
-        if(user.getRoles().stream().noneMatch(r -> r.getRoleName().equals(roleEnum.ARTIST)))
-            throw new NotFoundException("");
+        return user.getRoles().stream().anyMatch(r -> r.getRoleName().equals(roleEnum.ARTIST));
     }
 
     @Override
-    public void isUserArtistById(Long userId) throws NotFoundException {
+    public boolean isUserArtistById(Long userId) throws NotFoundException {
         Optional<userEntity> user = userRepo.findById(userId);
         if(user.isPresent()){
-            isUserArtist(user.get().getUsername());
+            return isUserArtist(user.get().getUsername());
         }
         else throw new NotFoundException("User with this id cannot be found");
     }

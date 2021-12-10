@@ -43,7 +43,7 @@ public class playlistServiceImpl implements playlistService {
     }
 
     @Override
-    public void addSongToPlaylist(Long playlistId, Long songId, String usernameOfUser) throws NotFoundException, AccessDeniedException {
+    public void addSongToPlaylist(Long playlistId, Long songId, String usernameOfUser) throws NotFoundException, AccessDeniedException, CloneNotSupportedException {
         playlistEntity playlist = isPlaylistPresent(playlistId);
         if(isCurrentPlaylistEditableByCurrentUser(playlist, usernameOfUser)){
             songEntity songToAdd = songService.returnSongById(songId);
@@ -51,9 +51,9 @@ public class playlistServiceImpl implements playlistService {
                 playlist.getSongs().add(songToAdd);
                 playlistRepo.save(playlist);
             }
-            else
-                throw new RequestRejectedException("Playlist already contains this song");
+            else throw new CloneNotSupportedException("Playlist already contains this song");
         }
+        else throw new RequestRejectedException("Current user cannot edit this playlist");
     }
 
     @Override
@@ -67,6 +67,7 @@ public class playlistServiceImpl implements playlistService {
             }
             else throw new NotFoundException("Cannot find the song in the current playlist");
         }
+        else throw new RequestRejectedException("Current user cannot edit this playlist");
     }
 
 
@@ -97,6 +98,7 @@ public class playlistServiceImpl implements playlistService {
             if(playlist.getPlaylistCreator().getUsername().equals(usernameOfUser)){
                 playlistViewModel playlistToReturn = new playlistViewModel();
                 modelMapper.map(playlist, playlistToReturn);
+                playlistToReturn.setCanEdit(true);
                 return playlistToReturn;
             }
             throw new NotFoundException("Cannot find the current playlist");

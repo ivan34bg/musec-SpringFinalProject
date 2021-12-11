@@ -6,12 +6,12 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.File;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "musec_users")
 @Getter
 @Setter
 public class userEntity extends baseEntity{
@@ -21,6 +21,7 @@ public class userEntity extends baseEntity{
     @NotNull
     private String password;
     @Column(unique = true)
+    @Pattern(regexp = "[\\w]+[@][a-zA-Z0-9.]+", message = "Invalid email")
     @NotNull
     private String email;
     @NotNull
@@ -29,15 +30,15 @@ public class userEntity extends baseEntity{
     private String profilePicLink;
     private String profilePicFilePath;
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<roleEntity> roles;
+    private List<roleEntity> roles;
     @OneToMany(mappedBy = "uploader")
-    private Set<albumEntity> albums;
+    private List<albumEntity> albums;
     @OneToMany(mappedBy = "uploader")
-    private Set<singleEntity> singles;
+    private List<singleEntity> singles;
     @OneToMany(mappedBy = "playlistCreator")
-    private Set<playlistEntity> playlists;
+    private List<playlistEntity> playlists;
     @OneToMany(mappedBy = "uploader")
-    private Set<songEntity> songs;
+    private List<songEntity> songs;
     @OneToOne(mappedBy = "user")
     private queueEntity queue;
 }

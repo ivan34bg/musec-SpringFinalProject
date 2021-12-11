@@ -61,14 +61,6 @@
     outline: solid #a4a9af;
 }
 
-.invisible{
-    display: none;
-}
-
-.red{
-    background-color: red;
-}
-
 .register-form .submit-button{
     width: 100%;
     margin-top: auto;
@@ -105,4 +97,12 @@
 
 .register-prompt a:hover{
     color: #a4a9af;
+}
+
+.invisible{
+    display: none;
+}
+
+.red{
+    background-color: red;
 }

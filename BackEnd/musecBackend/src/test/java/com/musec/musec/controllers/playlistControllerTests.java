@@ -22,6 +22,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @SpringBootTest
@@ -226,7 +227,7 @@ public class playlistControllerTests {
     @Test
     @WithMockUser("test")
     void testAddPlaylistToQueue() throws Exception {
-        Set<songEntity> songs = Set.of(songRepo.getById(1L));
+        List<songEntity> songs = List.of(songRepo.getById(1L));
         playlistEntity playlist = playlistRepo.findById(1L).get();
         playlist.setSongs(songs);
         playlistRepo.save(playlist);

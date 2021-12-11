@@ -32,7 +32,6 @@ export class HomeLoggedComponent implements OnInit {
 
     this.songService.loadTenNewestSongs().subscribe(
       response => {
-        console.log(JSON.parse(JSON.stringify(response)));
         this.songs = JSON.parse(JSON.stringify(response));
       },
       error => {}
@@ -44,7 +43,6 @@ export class HomeLoggedComponent implements OnInit {
       response => {
         this.genres = JSON.parse(JSON.stringify(response));
         this.allGenresLoaded = true;
-        //window.scroll(0, 0);
       },
       error => {}
     )

@@ -5,7 +5,8 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import java.util.Set;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Table(name = "Songs")
@@ -13,6 +14,7 @@ import java.util.Set;
 @Setter
 public class songEntity extends baseEntity{
     @Length(min = 2, max = 20)
+    @NotNull
     private String songName;
     private String songLocation;
     private String songFilePath;
@@ -26,7 +28,7 @@ public class songEntity extends baseEntity{
     @OneToOne
     private singleEntity single;
     @ManyToMany(mappedBy = "songs")
-    private Set<playlistEntity> playlists;
+    private List<playlistEntity> playlists;
     @ManyToMany(mappedBy = "songs")
-    private Set<queueEntity> queues;
+    private List<queueEntity> queues;
 }

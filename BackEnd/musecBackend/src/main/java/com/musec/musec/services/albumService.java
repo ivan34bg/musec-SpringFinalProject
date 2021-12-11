@@ -9,7 +9,7 @@ import com.musec.musec.data.models.viewModels.shortInfo.albumShortInfoViewModel;
 import javassist.NotFoundException;
 
 import javax.management.relation.RoleNotFoundException;
-import java.util.Set;
+import java.util.List;
 
 public interface albumService {
     Long createAlbum(albumBindingModel albumBindingModel, String currentUserUsername) throws DbxException, RoleNotFoundException;
@@ -17,8 +17,8 @@ public interface albumService {
     void publicDeleteAlbum(Long albumId, String username) throws NotFoundException, DbxException;
     void adminDeleteAlbum(Long albumId, String username) throws NotFoundException, DbxException;
     albumViewModel returnAlbum(Long id) throws NotFoundException;
-    Set<albumShortInfoViewModel> returnShortInfoOfAllAlbumsOfUserByUsername(String username);
-    Set<albumShortInfoViewModel> returnShortInfoOfAllAlbumsOfUserById(Long userId) throws NotFoundException;
-    Set<albumSearchViewModel> searchAlbumByName(String parameter);
+    List<albumShortInfoViewModel> returnShortInfoOfAllAlbumsOfUserByUsername(String username);
+    List<albumShortInfoViewModel> returnShortInfoOfAllAlbumsOfUserById(Long userId) throws NotFoundException;
+    List<albumSearchViewModel> searchAlbumByName(String parameter);
     void addAlbumToQueue(Long albumId, String username) throws NotFoundException;
 }

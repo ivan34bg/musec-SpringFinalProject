@@ -13,8 +13,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class DataInit implements CommandLineRunner {
@@ -74,7 +74,7 @@ public class DataInit implements CommandLineRunner {
             );
             user.setFullName("admin adminov");
             user.setEmail("admin@admin.bg");
-            Set<roleEntity> roles = new HashSet<>();
+            List<roleEntity> roles = new ArrayList<>();
             roles.add(roleRepo.getByRoleName(roleEnum.USER));
             roles.add(roleRepo.getByRoleName(roleEnum.ADMIN));
             roles.add(roleRepo.getByRoleName(roleEnum.ARTIST));

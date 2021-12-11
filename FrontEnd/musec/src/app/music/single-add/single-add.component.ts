@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { interval } from 'rxjs';
 import { songAlbumUpload } from 'src/app/models/album-upload/song.model';
 import { genreShortInfo } from 'src/app/models/genre/genreShortInfo.model';
 import { GenreService } from 'src/app/services/genre.service';
@@ -17,6 +18,7 @@ export class SingleAddComponent implements OnInit {
   singlePicPreview: any;
   music: songAlbumUpload | undefined;
   isWorking = false;
+  areSongInputsValid = false;
 
   constructor(
     private genreService: GenreService,
@@ -31,6 +33,17 @@ export class SingleAddComponent implements OnInit {
       },
       error => {}
     )
+    interval(500).subscribe(() => {this.songInputChecker()})
+  }
+
+  songInputChecker(){
+    if(this.music != undefined){
+      if(!this.music.songName.length || !this.music.songGenre.length)
+        this.areSongInputsValid = false;
+      else 
+        this.areSongInputsValid = true;
+    }
+    
   }
 
   albumPicUploaded(event: any){

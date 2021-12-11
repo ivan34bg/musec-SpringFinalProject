@@ -15,6 +15,7 @@ import com.musec.musec.repositories.userRepository;
 import com.musec.musec.services.userService;
 import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,10 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.rmi.AccessException;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class userServiceImpl implements userService {
@@ -52,13 +52,13 @@ public class userServiceImpl implements userService {
     }
 
     @Override
-    public void registerUser(userRegisterBindingModel bindingModel) throws Exception {
+    public void registerUser(userRegisterBindingModel bindingModel) throws CloneNotSupportedException {
         if(userRepo.findByUsername(bindingModel.getUsername()).isEmpty()){
             if(userRepo.findByEmail(bindingModel.getEmail()).isEmpty()){
                 userEntity newUser = new userEntity();
                 modelMapper.map(bindingModel, newUser);
                 newUser.setPassword(passwordEncoder.encode(bindingModel.getPassword()));
-                newUser.setRoles(Set.of(roleService.returnRoleByName("USER")));
+                newUser.setRoles(List.of(roleService.returnRoleByName("USER")));
                 newUser.setBirthday(LocalDate.parse(bindingModel.getBirthday()));
                 newUser.setProfilePicLink(
                         "https://www.dropbox.com/s/fv5ctkjbntsaubt/1200px-Question_Mark.svg.png?raw=1"
@@ -67,10 +67,10 @@ public class userServiceImpl implements userService {
                 queueService.createQueue(newUser);
             }
             else
-                throw new Exception("Email has already been taken");
+                throw new CloneNotSupportedException("Email has already been taken");
         }
         else
-            throw new Exception("Username has already been taken");
+            throw new CloneNotSupportedException("Username has already been taken");
     }
 
     @Override
@@ -93,7 +93,7 @@ public class userServiceImpl implements userService {
         if(user.getRoles().stream().anyMatch(r -> r.getRoleName() == roleEnum.ARTIST)){
             artistProfileViewModel userToReturn = new artistProfileViewModel();
             modelMapper.map(user, userToReturn);
-            userToReturn.setRoleNames(new LinkedHashSet<>());
+            userToReturn.setRoleNames(new ArrayList<>());
             for (roleEntity role:user.getRoles()
             ) {
                 userToReturn.getRoleNames().add(role.getRoleName().name());
@@ -106,7 +106,7 @@ public class userServiceImpl implements userService {
         else {
             userProfileViewModel userToReturn = new userProfileViewModel();
             modelMapper.map(user, userToReturn);
-            userToReturn.setRoleNames(new LinkedHashSet<>());
+            userToReturn.setRoleNames(new ArrayList<>());
             for (roleEntity role:user.getRoles()
             ) {
                 userToReturn.getRoleNames().add(role.getRoleName().name());
@@ -150,52 +150,55 @@ public class userServiceImpl implements userService {
 
     @Override
     public void changeUsernameOfLoggedUser(changeUsernameBindingModel bindingModel, String usernameOfLoggedUser)
-            throws Exception {
+            throws NotFoundException, CloneNotSupportedException, AccessDeniedException {
         if(userRepo.findByUsername(bindingModel.getNewUsername()).isEmpty()){
             userEntity user = fetchUserAndCheckIfPasswordIsValid(usernameOfLoggedUser, bindingModel.getOldPassword());
             user.setUsername(bindingModel.getNewUsername());
             userRepo.save(user);
         }
-        else throw new Exception("Username is already taken");
+        else throw new CloneNotSupportedException("Username is already taken");
     }
 
     @Override
     public void changeEmailOfLoggedUser(changeEmailBindingModel bindingModel, String usernameOfLoggedUser)
-            throws Exception {
+            throws NotFoundException, AccessDeniedException, CloneNotSupportedException {
         if(userRepo.findByEmail(bindingModel.getNewEmail()).isEmpty()) {
             userEntity user = fetchUserAndCheckIfPasswordIsValid(usernameOfLoggedUser, bindingModel.getOldPassword());
             user.setEmail(bindingModel.getNewEmail());
             userRepo.save(user);
         }
-        else throw new Exception("Email is already taken");
+        else throw new CloneNotSupportedException("Email is already taken");
     }
 
     @Override
-    public void changePasswordOfLoggedUser(changePasswordBindingModel bindingModel, String usernameOfLoggedUser) throws Exception {
+    public void changePasswordOfLoggedUser(changePasswordBindingModel bindingModel, String usernameOfLoggedUser)
+            throws NotFoundException, AccessDeniedException {
         userEntity user = fetchUserAndCheckIfPasswordIsValid(usernameOfLoggedUser, bindingModel.getOldPassword());
         user.setPassword(passwordEncoder.encode(bindingModel.getNewPassword()));
         userRepo.save(user);
     }
 
     @Override
-    public void changeFullNameOfLoggedUser(changeFullNameBindingModel bindingModel, String usernameOfLoggedUser) throws Exception {
+    public void changeFullNameOfLoggedUser(changeFullNameBindingModel bindingModel, String usernameOfLoggedUser)
+            throws NotFoundException, AccessDeniedException {
         userEntity user = fetchUserAndCheckIfPasswordIsValid(usernameOfLoggedUser, bindingModel.getOldPassword());
         user.setFullName(bindingModel.getNewFullName());
         userRepo.save(user);
     }
 
     @Override
-    public void changeBirthdayOfLoggedUser(changeBirthdayBindingModel bindingModel, String usernameOfLoggedUser) throws Exception {
+    public void changeBirthdayOfLoggedUser(changeBirthdayBindingModel bindingModel, String usernameOfLoggedUser)
+            throws NotFoundException, AccessDeniedException {
         userEntity user = fetchUserAndCheckIfPasswordIsValid(usernameOfLoggedUser, bindingModel.getOldPassword());
         user.setBirthday(LocalDate.parse(bindingModel.getNewBirthday()));
         userRepo.save(user);
     }
 
     @Override
-    public Set<userSearchViewModel> searchUsersByFullName(String parameter) {
-        Set<userSearchViewModel> setToReturn = new LinkedHashSet<>();
+    public List<userSearchViewModel> searchUsersByFullName(String parameter) {
+        List<userSearchViewModel> setToReturn = new ArrayList<>();
         if(!parameter.trim().equals("")){
-            Optional<Set<userEntity>> usersOrNull = userRepo.findAllByFullNameContains(parameter);
+            Optional<List<userEntity>> usersOrNull = userRepo.findAllByFullNameContains(parameter);
             if(!usersOrNull.get().isEmpty()){
                 for (userEntity user:usersOrNull.get()
                 ) {
@@ -242,24 +245,24 @@ public class userServiceImpl implements userService {
     //Admin methods
 
     @Override
-    public void addRoleToUser(Long userId, String roleName) throws Exception {
+    public void addRoleToUser(Long userId, String roleName) throws CloneNotSupportedException, AccessException, NotFoundException {
         Optional<userEntity> user = userRepo.findById(userId);
         if(user.isPresent()){
-            roleEntity role = roleService.returnRoleByName(roleName);
             if (user.get().getRoles().stream().noneMatch(r -> r.getRoleName().name().equals("ADMIN"))){
+                roleEntity role = roleService.returnRoleByName(roleName);
                 if(!user.get().getRoles().contains(role)){
                     user.get().getRoles().add(role);
                     userRepo.save(user.get());
                 }
-                else throw new Exception("User already has this role");
+                else throw new CloneNotSupportedException("User already has this role");
             }
-            else throw new Exception("Cannot change roles of other admins");
+            else throw new AccessException("Cannot change roles of other admins");
         }
         else throw new NotFoundException("User not found");
     }
 
     @Override
-    public void removeRoleOfUser(Long userId, String roleName) throws Exception {
+    public void removeRoleOfUser(Long userId, String roleName) throws NotFoundException, AccessException {
         Optional<userEntity> user = userRepo.findById(userId);
         if(user.isPresent()){
             roleEntity role = roleService.returnRoleByName(roleName);
@@ -267,15 +270,15 @@ public class userServiceImpl implements userService {
                 if (user.get().getRoles().contains(role)) {
                     user.get().getRoles().remove(role);
                     userRepo.save(user.get());
-                } else throw new Exception("User does not have this role");
+                } else throw new NotFoundException("User does not have this role");
             }
-            else throw new Exception("Cannot change roles of other admins");
+            else throw new AccessException("Cannot change roles of other admins");
         }
         else throw new NotFoundException("User not found");
     }
 
-    private Set<userProfilePlaylistViewModel> privatePlaylistChecker(Set<playlistEntity> playlists){
-        Set<userProfilePlaylistViewModel> mappedPlaylists = new LinkedHashSet<>();
+    private List<userProfilePlaylistViewModel> privatePlaylistChecker(List<playlistEntity> playlists){
+        List<userProfilePlaylistViewModel> mappedPlaylists = new ArrayList<>();
         for (playlistEntity playlist:playlists
         ) {
             if(playlist.isPublic()){
@@ -286,14 +289,15 @@ public class userServiceImpl implements userService {
         }
         return mappedPlaylists;
     }
-    private userEntity fetchUserAndCheckIfPasswordIsValid(String usernameOfLoggedUser, String password) throws Exception {
+    private userEntity fetchUserAndCheckIfPasswordIsValid(String usernameOfLoggedUser, String password)
+            throws NotFoundException, AccessDeniedException {
         Optional<userEntity> userOrNull = userRepo.findByUsername(usernameOfLoggedUser);
         if(userOrNull.isPresent()){
             if(passwordEncoder.matches(password, userOrNull.get().getPassword())){
                 return userOrNull.get();
             }
-            throw new Exception("Password is wrong");
+            else throw new AccessDeniedException("Password is wrong");
         }
-        throw new NotFoundException("User not found");
+        else throw new NotFoundException("User not found");
     }
 }

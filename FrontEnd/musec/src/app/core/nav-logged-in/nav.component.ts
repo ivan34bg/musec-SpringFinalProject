@@ -18,10 +18,11 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
     this.userService.isLoggedUserArtist().subscribe(
       response => {
+        if(JSON.stringify(response) == 'true')
         this.isUserArtist = true;
+        else this.isUserArtist = false;
       },
       error => {
-        this.isUserArtist = false;
       }
     )
   }

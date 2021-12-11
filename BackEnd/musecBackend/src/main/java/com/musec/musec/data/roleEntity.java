@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "Roles")
@@ -15,5 +15,5 @@ public class roleEntity extends baseEntity {
     @Enumerated(value = EnumType.STRING)
     private roleEnum roleName;
     @ManyToMany(mappedBy = "roles")
-    private Set<userEntity> users;
+    private List<userEntity> users;
 }

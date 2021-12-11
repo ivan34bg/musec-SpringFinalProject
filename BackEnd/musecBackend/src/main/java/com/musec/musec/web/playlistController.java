@@ -1,4 +1,4 @@
-package com.musec.musec.controllers;
+package com.musec.musec.web;
 
 import com.musec.musec.data.models.bindingModels.playlistBindingModel;
 import com.musec.musec.data.models.viewModels.search.playlistSearchViewModel;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.Set;
+import java.util.List;
 
 @Controller
 @RequestMapping("/playlist")
@@ -36,7 +36,6 @@ public class playlistController {
         try {
             playlistToReturn = playlistService.returnPlaylistById(playlistId, principal.getName());
         } catch (NotFoundException e) {
-            //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(playlistToReturn);
@@ -47,7 +46,6 @@ public class playlistController {
         try {
             playlistService.deletePlaylist(playlistId, principal.getName());
         } catch (NotFoundException e) {
-            //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();
         } catch (AccessDeniedException e) {
             return ResponseEntity.status(403).build();
@@ -60,7 +58,6 @@ public class playlistController {
         try {
             playlistService.addSongToPlaylist(playlistId, Long.parseLong(songId), principal.getName());
         } catch (NotFoundException e) {
-            //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();
         } catch (RequestRejectedException e){
             return ResponseEntity.status(403).build();
@@ -75,7 +72,6 @@ public class playlistController {
         try {
             playlistService.removeSongFromPlaylist(playlistId, Long.parseLong(songId), principal.getName());
         } catch (NotFoundException e) {
-            //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();
         } catch (RequestRejectedException e) {
             return ResponseEntity.status(403).build();
@@ -94,12 +90,12 @@ public class playlistController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Set<playlistShortInfoViewModel>> returnPlaylistsOfUser(Principal principal){
+    public ResponseEntity<List<playlistShortInfoViewModel>> returnPlaylistsOfUser(Principal principal){
         return ResponseEntity.ok(playlistService.returnShortInfoOfLoggedUserPlaylists(principal.getName()));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Set<playlistSearchViewModel>> searchPlaylistByName(@RequestParam(name = "param") String parameters){
+    public ResponseEntity<List<playlistSearchViewModel>> searchPlaylistByName(@RequestParam(name = "param") String parameters){
         return ResponseEntity.ok(playlistService.searchPlaylistByName(parameters));
     }
 

@@ -23,6 +23,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
 import java.util.Set;
 
 @SpringBootTest
@@ -67,7 +68,7 @@ public class albumControllerTests {
 
         queueEntity queue = new queueEntity();
         queue.setUser(user);
-        queue.setSongs(Set.of(song));
+        queue.setSongs(List.of(song));
         queueRepo.save(queue);
     }
 

@@ -7,7 +7,7 @@ import com.musec.musec.data.models.viewModels.playlist.playlistViewModel;
 import com.musec.musec.data.songEntity;
 import javassist.NotFoundException;
 
-import java.util.Set;
+import java.util.List;
 
 public interface playlistService {
     Long createPlaylist(playlistBindingModel playlistBindingModel, String usernameOfCurrentUser);
@@ -16,8 +16,8 @@ public interface playlistService {
     void deletePlaylist(Long playlistId, String usernameOfUser) throws NotFoundException;
     playlistViewModel returnPlaylistById(Long playlistId, String usernameOfUser) throws NotFoundException;
     void doesUserHavePlaylists(String usernameOfUser) throws NotFoundException;
-    Set<playlistShortInfoViewModel> returnShortInfoOfLoggedUserPlaylists(String usernameOfUser);
-    Set<playlistSearchViewModel> searchPlaylistByName(String parameters);
+    List<playlistShortInfoViewModel> returnShortInfoOfLoggedUserPlaylists(String usernameOfUser);
+    List<playlistSearchViewModel> searchPlaylistByName(String parameters);
     void removeSongFromEveryPlaylist(songEntity song);
     void addPlaylistToQueue(Long playlistId, String username) throws NotFoundException;
 }

@@ -1,4 +1,4 @@
-package com.musec.musec.controllers;
+package com.musec.musec.web;
 
 import com.musec.musec.data.models.viewModels.queue.queueSongViewModel;
 import com.musec.musec.services.implementations.queueServiceImpl;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.Set;
+import java.util.List;
 
 @Controller
 @RequestMapping("/queue")
@@ -20,8 +20,8 @@ public class queueController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Set<queueSongViewModel>> returnQueueOfLoggedUser(Principal principal){
-        Set<queueSongViewModel> queueToReturn = queueService.returnQueueOfUser(principal.getName());
+    public ResponseEntity<List<queueSongViewModel>> returnQueueOfLoggedUser(Principal principal){
+        List<queueSongViewModel> queueToReturn = queueService.returnQueueOfUser(principal.getName());
         return ResponseEntity.ok(queueToReturn);
     }
 
@@ -42,7 +42,7 @@ public class queueController {
             queueService.addSongToQueue(songId, principal.getName());
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
-        } catch (Exception e) {
+        } catch (CloneNotSupportedException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok().build();

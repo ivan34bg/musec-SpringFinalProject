@@ -11,8 +11,8 @@ import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class queueServiceImpl implements queueService {
@@ -27,9 +27,9 @@ public class queueServiceImpl implements queueService {
     }
 
     @Override
-    public Set<queueSongViewModel> returnQueueOfUser(String username) {
+    public List<queueSongViewModel> returnQueueOfUser(String username) {
         queueEntity queue = queueRepo.findByUser_Username(username).get();
-        Set<queueSongViewModel> songCollection = new LinkedHashSet<>();
+        List<queueSongViewModel> songCollection = new ArrayList<>();
         if(queue.getSongs().size() > 0) {
             for (songEntity song : queue.getSongs()
             ) {
@@ -47,9 +47,9 @@ public class queueServiceImpl implements queueService {
     }
 
     @Override
-    public Set<queueFullSongViewModel> returnFullSongInfo(String username) {
+    public List<queueFullSongViewModel> returnFullSongInfo(String username) {
         queueEntity queue = queueRepo.findByUser_Username(username).get();
-        Set<queueFullSongViewModel> setToSend = new LinkedHashSet<>();
+        List<queueFullSongViewModel> setToSend = new ArrayList<>();
         for (songEntity song:queue.getSongs()
              ) {
             queueFullSongViewModel mappedSong = new queueFullSongViewModel();
@@ -67,18 +67,18 @@ public class queueServiceImpl implements queueService {
     }
 
     @Override
-    public void addSongToQueue(Long songId, String username) throws Exception {
+    public void addSongToQueue(Long songId, String username) throws CloneNotSupportedException, NotFoundException {
         songEntity song = songService.returnSongById(songId);
         queueEntity queue = queueRepo.findByUser_Username(username).get();
         if(queue.getSongs().contains(song)){
-            throw new Exception("This song is already queued");
+            throw new CloneNotSupportedException("This song is already queued");
         }
         queue.getSongs().add(song);
         queueRepo.save(queue);
     }
 
     @Override
-    public void addCollectionToQueue(Set<songEntity> songs, String username) {
+    public void addCollectionToQueue(List<songEntity> songs, String username) {
         this.emptyQueue(username);
         queueEntity queue = queueRepo.findByUser_Username(username).get();
         for (songEntity song:songs
@@ -100,7 +100,7 @@ public class queueServiceImpl implements queueService {
 
     @Override
     public void removeSongFromEveryQueue(songEntity song) {
-        Set<queueEntity> queuesContainingTheSong = queueRepo.findAllBySongsContains(song).get();
+        List<queueEntity> queuesContainingTheSong = queueRepo.findAllBySongsContains(song).get();
         for (queueEntity queue:queuesContainingTheSong
              ) {
             queue.getSongs().remove(song);

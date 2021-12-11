@@ -19,6 +19,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
 import java.util.Set;
 
 @SpringBootTest
@@ -65,7 +66,7 @@ public class playlistAddingSongTests {
 
         queueEntity queue = new queueEntity();
         queue.setUser(user);
-        queue.setSongs(Set.of(song));
+        queue.setSongs(List.of(song));
         queueRepo.save(queue);
     }
 
@@ -235,7 +236,7 @@ public class playlistAddingSongTests {
         playlist.setPlaylistCreator(userRepo.findByUsername("test").get());
         playlist.setPublic(true);
         playlist.setOpenToPublicEditsOrNot(true);
-        playlist.setSongs(Set.of(songRepo.findAll().get(0)));
+        playlist.setSongs(List.of(songRepo.findAll().get(0)));
         playlistRepo.save(playlist);
 
         mockMvc.perform(post("/playlist/song/1").content(songRepo.findAll().get(0).getId().toString()))

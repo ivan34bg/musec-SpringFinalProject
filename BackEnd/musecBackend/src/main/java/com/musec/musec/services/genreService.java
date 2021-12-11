@@ -6,11 +6,10 @@ import com.musec.musec.data.models.viewModels.genre.genreShortInfoViewModel;
 import javassist.NotFoundException;
 
 import java.util.List;
-import java.util.Set;
 
 public interface genreService {
     genreEntity findGenreByName(String genreName) throws NotFoundException;
-    Set<genreShortInfoViewModel> loadShortAllGenres();
-    Set<genreShortInfoViewModel> loadNineGenres();
+    List<genreShortInfoViewModel> loadShortAllGenres();
+    List<genreShortInfoViewModel> loadNineGenres();
     genreExpandedInfoViewModel loadSongsByGenreId(Long genreId) throws NotFoundException;
 }

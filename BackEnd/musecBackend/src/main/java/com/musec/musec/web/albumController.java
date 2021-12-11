@@ -1,4 +1,4 @@
-package com.musec.musec.controllers;
+package com.musec.musec.web;
 
 import com.dropbox.core.DbxException;
 import com.musec.musec.data.models.bindingModels.albumBindingModel;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.management.relation.RoleNotFoundException;
 import java.security.Principal;
-import java.util.Set;
+import java.util.List;
 
 @Controller
 @RequestMapping("/album")
@@ -43,7 +43,6 @@ public class albumController {
         try {
             albumService.addSongToAlbum(id, bindingModel, principal.getName());
         } catch (NotFoundException e) {
-            //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();
         }   catch (DbxException e){
             return ResponseEntity.internalServerError().build();
@@ -57,7 +56,6 @@ public class albumController {
         try {
             albumToReturn = albumService.returnAlbum(id);
         } catch (NotFoundException e) {
-            //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(albumToReturn);
@@ -68,7 +66,6 @@ public class albumController {
         try {
             albumService.publicDeleteAlbum(albumId, principal.getName());
         } catch (NotFoundException e) {
-            //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();
         } catch (DbxException e) {
             return ResponseEntity.internalServerError().build();
@@ -77,13 +74,13 @@ public class albumController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<Set<albumShortInfoViewModel>> returnShortInfoOfAlbumsOfLoggedUser(Principal principal){
+    public ResponseEntity<List<albumShortInfoViewModel>> returnShortInfoOfAlbumsOfLoggedUser(Principal principal){
         return ResponseEntity.ok(albumService.returnShortInfoOfAllAlbumsOfUserByUsername(principal.getName()));
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<Set<albumShortInfoViewModel>> returnShortInfoOfAlbumsOfUserById(@PathVariable Long userId){
-        Set<albumShortInfoViewModel> albums;
+    public ResponseEntity<List<albumShortInfoViewModel>> returnShortInfoOfAlbumsOfUserById(@PathVariable Long userId){
+        List<albumShortInfoViewModel> albums;
         try {
             albums = albumService.returnShortInfoOfAllAlbumsOfUserById(userId);
         } catch (NotFoundException e) {
@@ -93,7 +90,7 @@ public class albumController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Set<albumSearchViewModel>> searchAlbumByName(@RequestParam(name = "param") String parameters){
+    public ResponseEntity<List<albumSearchViewModel>> searchAlbumByName(@RequestParam(name = "param") String parameters){
         return ResponseEntity.ok(albumService.searchAlbumByName(parameters));
     }
 

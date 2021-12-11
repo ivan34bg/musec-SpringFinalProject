@@ -17,9 +17,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.management.relation.RoleNotFoundException;
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class albumServiceImpl implements albumService {
@@ -101,9 +99,9 @@ public class albumServiceImpl implements albumService {
     }
 
     @Override
-    public Set<albumShortInfoViewModel> returnShortInfoOfAllAlbumsOfUserByUsername(String username) {
-        Optional<Set<albumEntity>> albumsOrNull = albumRepo.findAllByUploader_Username(username);
-        Set<albumShortInfoViewModel> setToReturn = new LinkedHashSet<>();
+    public List<albumShortInfoViewModel> returnShortInfoOfAllAlbumsOfUserByUsername(String username) {
+        Optional<List<albumEntity>> albumsOrNull = albumRepo.findAllByUploader_Username(username);
+        List<albumShortInfoViewModel> setToReturn = new ArrayList<>();
         for (albumEntity album:albumsOrNull.get()
              ) {
             albumShortInfoViewModel mappedAlbum = new albumShortInfoViewModel();
@@ -114,16 +112,16 @@ public class albumServiceImpl implements albumService {
     }
 
     @Override
-    public Set<albumShortInfoViewModel> returnShortInfoOfAllAlbumsOfUserById(Long userId) throws NotFoundException {
+    public List<albumShortInfoViewModel> returnShortInfoOfAllAlbumsOfUserById(Long userId) throws NotFoundException {
         userEntity user = userService.returnUserById(userId);
         return  returnShortInfoOfAllAlbumsOfUserByUsername(user.getUsername());
     }
 
     @Override
-    public Set<albumSearchViewModel> searchAlbumByName(String parameter) {
-        Set<albumSearchViewModel> setToReturn = new LinkedHashSet<>();
+    public List<albumSearchViewModel> searchAlbumByName(String parameter) {
+        List<albumSearchViewModel> setToReturn = new ArrayList<>();
         if(!parameter.trim().equals("")){
-            Optional<Set<albumEntity>> albumsOrNull = albumRepo.findAllByAlbumNameContains(parameter);
+            Optional<List<albumEntity>> albumsOrNull = albumRepo.findAllByAlbumNameContains(parameter);
             if(!albumsOrNull.get().isEmpty()){
                 for (albumEntity album:albumsOrNull.get()
                      ) {

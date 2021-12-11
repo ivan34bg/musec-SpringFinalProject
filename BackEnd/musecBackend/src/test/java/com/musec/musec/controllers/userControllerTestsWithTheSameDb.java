@@ -23,7 +23,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @SpringBootTest
@@ -127,7 +129,7 @@ public class userControllerTestsWithTheSameDb {
     @Test
     @WithMockUser("test")
     void testIsArtist() throws Exception{
-        Set<roleEntity> roles = new HashSet<>(Set.of(roleRepo.getByRoleName(roleEnum.USER), roleRepo.getByRoleName(roleEnum.ARTIST)));
+        List<roleEntity> roles = List.of(roleRepo.getByRoleName(roleEnum.USER), roleRepo.getByRoleName(roleEnum.ARTIST));
         userEntity user = userRepo.findByUsername("test").get();
         user.setRoles(roles);
         userRepo.save(user);
@@ -146,7 +148,7 @@ public class userControllerTestsWithTheSameDb {
     @Test
     @WithMockUser(value = "test", roles = {"USER", "ADMIN"})
     void testIsAdmin() throws Exception{
-        Set<roleEntity> roles = new HashSet<>(Set.of(roleRepo.getByRoleName(roleEnum.USER), roleRepo.getByRoleName(roleEnum.ADMIN)));
+        List<roleEntity> roles = List.of(roleRepo.getByRoleName(roleEnum.USER), roleRepo.getByRoleName(roleEnum.ADMIN));
         userEntity user = userRepo.findByUsername("test").get();
         user.setRoles(roles);
         userRepo.save(user);

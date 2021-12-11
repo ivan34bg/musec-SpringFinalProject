@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.awt.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,5 +18,5 @@ public class genreEntity extends baseEntity{
     private genreEnum genreName;
     private String properName;
     @OneToMany(mappedBy = "songGenre")
-    private Set<songEntity> songs;
+    private List<songEntity> songs;
 }

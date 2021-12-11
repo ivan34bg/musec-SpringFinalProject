@@ -14,7 +14,13 @@ export class AdminGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     this.userService.isLoggedUserAdmin().subscribe(
       response => {
-        return true;
+        if(JSON.stringify(response) == "true"){
+          return true;
+        }
+        else {
+          this.router.navigate(['/browse'])
+          return false;
+        }
       },
       error => {
         this.router.navigate(['/browse'])

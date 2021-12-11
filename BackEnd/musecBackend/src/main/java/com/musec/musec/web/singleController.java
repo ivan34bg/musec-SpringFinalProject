@@ -1,4 +1,4 @@
-package com.musec.musec.controllers;
+package com.musec.musec.web;
 
 import com.dropbox.core.DbxException;
 import com.musec.musec.data.models.bindingModels.singleBindingModel;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.management.relation.RoleNotFoundException;
 import java.security.Principal;
-import java.util.Set;
+import java.util.List;
 
 @Controller
 @RequestMapping("/single")
@@ -43,7 +43,6 @@ public class singleController {
         try {
             singleService.addSongToSingle(songBindingModel, singleId, principal.getName());
         } catch (NotFoundException e) {
-            //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();
         } catch (DbxException e) {
             return ResponseEntity.internalServerError().build();
@@ -57,20 +56,19 @@ public class singleController {
         try {
             singleToReturn = singleService.returnSingle(singleId);
         } catch (NotFoundException e) {
-            //TODO: Add exception handler and send the exception message
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(singleToReturn);
     }
 
     @GetMapping("/user")
-    public ResponseEntity<Set<singleShortInfoViewModel>> returnShortInfoOfAllSingles(Principal principal){
+    public ResponseEntity<List<singleShortInfoViewModel>> returnShortInfoOfAllSingles(Principal principal){
         return ResponseEntity.ok(singleService.returnShortInfoOfSinglesOfUserByUsername(principal.getName()));
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<Set<singleShortInfoViewModel>> returnShortInfoOfSinglesOfUserById(@PathVariable Long userId){
-        Set<singleShortInfoViewModel> singles;
+    public ResponseEntity<List<singleShortInfoViewModel>> returnShortInfoOfSinglesOfUserById(@PathVariable Long userId){
+        List<singleShortInfoViewModel> singles;
         try {
             singles = singleService.returnShortInfoOfSinglesOfUserById(userId);
         } catch (NotFoundException e) {
@@ -92,7 +90,7 @@ public class singleController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Set<singleSearchViewModel>> searchSingleByName(@RequestParam("param") String parameters){
+    public ResponseEntity<List<singleSearchViewModel>> searchSingleByName(@RequestParam("param") String parameters){
         return ResponseEntity.ok(singleService.searchSingleByName(parameters));
     }
 }

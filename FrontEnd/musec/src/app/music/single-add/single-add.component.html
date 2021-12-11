@@ -40,6 +40,6 @@
             </div>
         </form>
         <i class="rotating fas fa-spinner" *ngIf="isWorking"></i>
-        <button (click)="onSubmit()" [ngClass]="singleName != '' && singlePic != null && music != null ? '' : 'invalid' " class="submit-button" *ngIf="!isWorking">Submit</button>
+        <button (click)="onSubmit()" [ngClass]="singleName != '' && singlePic != null && music != null && areSongInputsValid ? '' : 'invalid' " class="submit-button" *ngIf="!isWorking">Submit</button>
     </div>
 </div>

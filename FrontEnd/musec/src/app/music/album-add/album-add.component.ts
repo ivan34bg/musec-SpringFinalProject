@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { interval } from 'rxjs';
 import { songAlbumUpload } from 'src/app/models/album-upload/song.model';
 import { genreShortInfo } from 'src/app/models/genre/genreShortInfo.model';
 import { AlbumService } from 'src/app/services/album.service';
@@ -16,6 +17,7 @@ export class AlbumAddComponent implements OnInit {
   albumName: string = '';
   albumPic: File | undefined;
   albumPicPreview: any;
+  areSongInputsValid = false;
   music: songAlbumUpload[] = new Array();
   isWorking = false;
 
@@ -32,6 +34,25 @@ export class AlbumAddComponent implements OnInit {
       },
       error => {}
     )
+    interval(500).subscribe(() => this.checkSongInputs())
+  }
+
+  checkSongInputs(){
+    if(this.music.length > 0){
+      for(let i = 0; i< this.music.length; i++){
+        if(!this.music[i].songName.length){
+          this.areSongInputsValid = false;
+          break;
+        }
+        if(!this.music[i].songGenre.length){
+          this.areSongInputsValid = false;
+          break;
+        }
+        if(i === this.music.length - 1){
+          this.areSongInputsValid = true;
+        }
+      }
+    }
   }
 
   albumPicUploaded(event: any){
@@ -101,7 +122,10 @@ export class AlbumAddComponent implements OnInit {
           songForm.append("songName", song.songName);
           songForm.append("songFile", song.songFile);
           songForm.append("genre", song.songGenre);
-          this.albumService.uploadSongToAlbum(songForm, parseInt(JSON.stringify(response)))
+          this.albumService.uploadSongToAlbum(songForm, parseInt(JSON.stringify(response))).subscribe(
+            response => {},
+            error => {}
+          )
         }
         this.router.navigate(["/my-profile"]);
       },

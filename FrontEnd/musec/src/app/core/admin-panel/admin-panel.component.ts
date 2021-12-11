@@ -55,10 +55,11 @@ export class AdminPanelComponent implements OnInit {
   artistCheck(){
     this.userService.isOtherUserArtist(this.activatedRoute.snapshot.params.id).subscribe(
       response => {
+        if(JSON.stringify(response) == "true")
         this.isUserArtist = true;
+        else this.isUserArtist = false;
       },
-      error => {
-        this.isUserArtist = false;
+      error => {  
       }
     )
   }

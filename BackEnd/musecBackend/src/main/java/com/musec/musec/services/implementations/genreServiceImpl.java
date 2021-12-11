@@ -31,8 +31,8 @@ public class genreServiceImpl implements genreService {
     }
 
     @Override
-    public Set<genreShortInfoViewModel> loadShortAllGenres() {
-        Set<genreShortInfoViewModel> setToReturn = new LinkedHashSet<>();
+        public List<genreShortInfoViewModel> loadShortAllGenres() {
+        List<genreShortInfoViewModel> setToReturn = new ArrayList<>();
         List<genreEntity> genres = genreRepo.findAll();
         for (genreEntity genre:genres
              ) {
@@ -45,12 +45,12 @@ public class genreServiceImpl implements genreService {
     }
 
     @Override
-    public Set<genreShortInfoViewModel> loadNineGenres() {
+    public List<genreShortInfoViewModel> loadNineGenres() {
         List<genreShortInfoViewModel> setToReturn = new ArrayList<>(loadShortAllGenres());
         for (int i = setToReturn.size() - 1; i > 8; i--){
             setToReturn.remove(i);
         }
-        return new LinkedHashSet<>(setToReturn);
+        return setToReturn;
     }
 
     @Override

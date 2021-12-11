@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Input } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -20,7 +20,6 @@ export class PlayerService {
   addSongToQueue(songId: Number){
     this.http.post(this.SERVER_ADDRESS + '/queue/song/' + songId,"", {withCredentials: true}).subscribe(
       response => {
-        alert("The song was added to the queue")
       },
       error => {
         alert(error.error);

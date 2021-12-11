@@ -1,4 +1,4 @@
-package com.musec.musec.controllers;
+package com.musec.musec.web;
 
 import com.dropbox.core.DbxException;
 import com.musec.musec.data.models.bindingModels.changeCredentialsModels.*;
@@ -9,14 +9,14 @@ import com.musec.musec.data.models.viewModels.search.userSearchViewModel;
 import com.musec.musec.services.implementations.userServiceImpl;
 import javassist.NotFoundException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.management.relation.RoleNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
-import java.util.Set;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -31,7 +31,7 @@ public class userController {
     public ResponseEntity<String> userRegister(userRegisterBindingModel bindingModel){
         try {
             userService.registerUser(bindingModel);
-        } catch (Exception e) {
+        } catch (CloneNotSupportedException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok().build();
@@ -76,7 +76,7 @@ public class userController {
     public ResponseEntity<?> changeUsernameOfLoggedUser(changeUsernameBindingModel bindingModel, Principal principal){
         try {
             userService.changeUsernameOfLoggedUser(bindingModel, principal.getName());
-        } catch (Exception e) {
+        } catch (AccessDeniedException | CloneNotSupportedException | NotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok().build();
@@ -86,7 +86,7 @@ public class userController {
     public ResponseEntity<?> changePasswordOfLoggedUser(changePasswordBindingModel bindingModel, Principal principal){
         try {
             userService.changePasswordOfLoggedUser(bindingModel, principal.getName());
-        } catch (Exception e) {
+        } catch (AccessDeniedException | NotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok().build();
@@ -96,7 +96,7 @@ public class userController {
     public ResponseEntity<?> changeFullNameOfLoggedUser(changeFullNameBindingModel bindingModel, Principal principal){
         try {
             userService.changeFullNameOfLoggedUser(bindingModel, principal.getName());
-        } catch (Exception e) {
+        } catch (NotFoundException | AccessDeniedException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok().build();
@@ -106,7 +106,7 @@ public class userController {
     public ResponseEntity<?> changeEmailOfLoggedUser(changeEmailBindingModel bindingModel, Principal principal){
         try {
             userService.changeEmailOfLoggedUser(bindingModel, principal.getName());
-        } catch (Exception e) {
+        } catch (NotFoundException | AccessDeniedException | CloneNotSupportedException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok().build();
@@ -116,14 +116,14 @@ public class userController {
     public ResponseEntity<?> changeBirthdayOfLoggedUser(changeBirthdayBindingModel bindingModel, Principal principal){
         try {
             userService.changeBirthdayOfLoggedUser(bindingModel, principal.getName());
-        } catch (Exception e) {
+        } catch (NotFoundException | AccessDeniedException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Set<userSearchViewModel>> searchUserByFullName(@RequestParam(name = "param") String parameter){
+    public ResponseEntity<List<userSearchViewModel>> searchUserByFullName(@RequestParam(name = "param") String parameter){
         return ResponseEntity.ok(userService.searchUsersByFullName(parameter));
     }
 

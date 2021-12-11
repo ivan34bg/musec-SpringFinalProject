@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit {
   confirmPassword = "";
   birthdayDate = new Date();
 
-  isBirthdateValid: boolean = true;
+  isBirthdateValid = false;
   arePasswordsTheSame: boolean = true;
 
   constructor(private userService: UserService) { }
@@ -36,11 +36,8 @@ export class RegisterComponent implements OnInit {
   dateChecker(value: Date){
     let currentDate = new Date();
     let valueDate = new Date(value);
-    if(
-      valueDate.getDate() >= currentDate.getDate() && 
-      valueDate.getMonth() >= currentDate.getMonth() && 
-      valueDate.getDay() >= currentDate.getDay()){
-      this.isBirthdateValid = false;
+    if(currentDate.getTime() < valueDate.getTime()){
+        this.isBirthdateValid = false;
     }
     else{
       this.isBirthdateValid = true;

@@ -42,7 +42,7 @@ public class genreServiceImplTest {
             genreEntity newGenre = new genreEntity();
             newGenre.setGenreName(genre);
             newGenre.setProperName(genre.getProperName());
-            newGenre.setSongs(Set.of(song));
+            newGenre.setSongs(List.of(song));
             genres.add(newGenre);
         }
     }
@@ -74,7 +74,7 @@ public class genreServiceImplTest {
         Mockito.when(genreRepositoryMock.findAll())
                 .thenReturn(genres);
 
-        Set<genreShortInfoViewModel> result = genreService.loadShortAllGenres();
+        List<genreShortInfoViewModel> result = genreService.loadShortAllGenres();
 
         Assertions.assertEquals(result.size(), genres.size());
         for (genreEntity genre :
@@ -88,7 +88,7 @@ public class genreServiceImplTest {
         Mockito.when(genreRepositoryMock.findAll())
                 .thenReturn(genres);
 
-        Set<genreShortInfoViewModel> result = genreService.loadNineGenres();
+        List<genreShortInfoViewModel> result = genreService.loadNineGenres();
 
         Assertions.assertEquals(9, result.size());
         for (genreShortInfoViewModel genre :

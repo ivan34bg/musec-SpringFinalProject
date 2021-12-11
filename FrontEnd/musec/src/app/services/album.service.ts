@@ -18,13 +18,8 @@ export class AlbumService {
     return this.http.post<Object>(this.SERVER_ADDRESS + '/album/create', form, {withCredentials: true});
   }
 
-  uploadSongToAlbum(form: FormData, albumId: Number){
-    this.http.post(this.SERVER_ADDRESS + '/album/song/' + albumId, form, {withCredentials: true}).subscribe(
-      response => {},
-      error => {
-        console.log(error.error)
-      }
-    );
+  uploadSongToAlbum(form: FormData, albumId: Number): Observable<Object>{
+    return this.http.post(this.SERVER_ADDRESS + '/album/song/' + albumId, form, {withCredentials: true});
   }
 
   returnShortInfoOfAlbums(): Observable<Object>{

@@ -10,14 +10,15 @@ import com.musec.musec.data.singleEntity;
 import com.musec.musec.data.songEntity;
 import javassist.NotFoundException;
 
+import java.util.List;
 import java.util.Set;
 
 public interface songService {
     void saveSongWithAlbum(albumEntity album, songBindingModel songBindingModel, String username) throws Exception;
     void saveSongWithSingle(singleEntity single, songBindingModel songBindingModel, String username) throws Exception;
     songEntity returnSongById(Long id) throws NotFoundException;
-    Set<albumSongViewModel> returnSongViewModelSetFromFullSongSet(Set<songEntity> songs);
+    List<albumSongViewModel> returnSongViewModelSetFromFullSongSet(List<songEntity> songs);
     void deleteSongById(Long songId) throws DbxException;
-    Set<songSearchViewModel> searchSongBySongName(String parameters);
-    Set<songNewestTenViewModel> loadNewestTenSongs();
+    List<songSearchViewModel> searchSongBySongName(String parameters);
+    List<songNewestTenViewModel> loadNewestTenSongs();
 }

@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.management.relation.RoleNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Set;
+import java.util.List;
 
 public interface userService {
     void registerUser(userRegisterBindingModel bindingModel) throws Exception;
@@ -27,7 +27,7 @@ public interface userService {
     void changePasswordOfLoggedUser(changePasswordBindingModel bindingModel, String usernameOfLoggedUser) throws Exception;
     void changeFullNameOfLoggedUser(changeFullNameBindingModel bindingModel, String usernameOfLoggedUser) throws Exception;
     void changeBirthdayOfLoggedUser(changeBirthdayBindingModel bindingModel, String usernameOfLoggedUser) throws Exception;
-    Set<userSearchViewModel> searchUsersByFullName(String parameter);
+    List<userSearchViewModel> searchUsersByFullName(String parameter);
     boolean isUserArtist(String username) throws NotFoundException;
     boolean isUserArtistById(Long userId) throws NotFoundException;
     boolean isUserAdmin(String username) throws NotFoundException;

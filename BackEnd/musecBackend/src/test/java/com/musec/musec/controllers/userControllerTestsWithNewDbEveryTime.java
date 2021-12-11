@@ -24,8 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -53,7 +52,7 @@ public class userControllerTestsWithNewDbEveryTime {
         user.setPassword(passwordEncoder.encode("test"));
         user.setEmail("test@test.bg");
         user.setFullName("test testov");
-        user.setRoles(Set.of(roleRepo.getByRoleName(roleEnum.USER)));
+        user.setRoles(List.of(roleRepo.getByRoleName(roleEnum.USER)));
         userRepo.save(user);
     }
 
@@ -146,7 +145,7 @@ public class userControllerTestsWithNewDbEveryTime {
     @Test
     @WithMockUser("test")
     void testIsOtherUserArtist() throws Exception {
-        Set<roleEntity> roles = new HashSet<>(Set.of(roleRepo.getByRoleName(roleEnum.USER), roleRepo.getByRoleName(roleEnum.ARTIST)));
+        List<roleEntity> roles = List.of(roleRepo.getByRoleName(roleEnum.USER), roleRepo.getByRoleName(roleEnum.ARTIST));
         userEntity user = userRepo.findByUsername("test").get();
         user.setRoles(roles);
         userRepo.save(user);
@@ -165,7 +164,7 @@ public class userControllerTestsWithNewDbEveryTime {
     @Test
     @WithMockUser("test")
     void testIsOtherUserAdmin() throws Exception {
-        Set<roleEntity> roles = new HashSet<>(Set.of(roleRepo.getByRoleName(roleEnum.USER), roleRepo.getByRoleName(roleEnum.ADMIN)));
+        List<roleEntity> roles = List.of(roleRepo.getByRoleName(roleEnum.USER), roleRepo.getByRoleName(roleEnum.ADMIN));
         userEntity user = userRepo.findByUsername("test").get();
         user.setRoles(roles);
         userRepo.save(user);

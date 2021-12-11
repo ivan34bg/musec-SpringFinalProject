@@ -16,9 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class songServiceImpl implements songService {
@@ -47,13 +45,7 @@ public class songServiceImpl implements songService {
             throws
             RuntimeException,
             NotFoundException, DbxException {
-        //TODO: Unrepeat this code
-        songEntity songToSave = new songEntity();
-        songToSave.setSongName(songBindingModel.getSongName());
-        String songFilePath = cloudService.uploadSong(songBindingModel.getSongFile());
-        songToSave.setSongFilePath(songFilePath);
-        songToSave.setSongLocation(cloudService.returnDirectLinkOfFile(songFilePath));
-        songToSave.setSongGenre(genreService.findGenreByName(songBindingModel.getGenre()));
+        songEntity songToSave = formSongEntity(songBindingModel);
         songToSave.setAlbum(album);
         songToSave.setUploader(userService.returnExistingUserByUsername(username));
         songRepo.save(songToSave);
@@ -67,13 +59,7 @@ public class songServiceImpl implements songService {
             throws
             RuntimeException,
             NotFoundException, DbxException {
-        //TODO: Unrepeat this code
-        songEntity songToSave = new songEntity();
-        songToSave.setSongName(songBindingModel.getSongName());
-        String songFilePath = cloudService.uploadSong(songBindingModel.getSongFile());
-        songToSave.setSongFilePath(songFilePath);
-        songToSave.setSongLocation(cloudService.returnDirectLinkOfFile(songFilePath));
-        songToSave.setSongGenre(genreService.findGenreByName(songBindingModel.getGenre()));
+        songEntity songToSave = formSongEntity(songBindingModel);
         songToSave.setSingle(single);
         songToSave.setUploader(userService.returnExistingUserByUsername(username));
         songRepo.save(songToSave);
@@ -89,8 +75,8 @@ public class songServiceImpl implements songService {
     }
 
     @Override
-    public Set<albumSongViewModel> returnSongViewModelSetFromFullSongSet(Set<songEntity> songs) {
-        Set<albumSongViewModel> setToReturn = new LinkedHashSet<>();
+    public List<albumSongViewModel> returnSongViewModelSetFromFullSongSet(List<songEntity> songs) {
+        List<albumSongViewModel> setToReturn = new ArrayList<>();
         for (songEntity song :
                 songs) {
             albumSongViewModel mappedSong = new albumSongViewModel();
@@ -108,10 +94,10 @@ public class songServiceImpl implements songService {
     }
 
     @Override
-    public Set<songSearchViewModel> searchSongBySongName(String parameters) {
-        Set<songSearchViewModel> setToReturn = new LinkedHashSet<>();
+    public List<songSearchViewModel> searchSongBySongName(String parameters) {
+        List<songSearchViewModel> setToReturn = new ArrayList<>();
         if(!parameters.trim().equals("")){
-            Optional<Set<songEntity>> songsOrNull = songRepo.findAllBySongNameContains(parameters);
+            Optional<List<songEntity>> songsOrNull = songRepo.findAllBySongNameContains(parameters);
             if(!songsOrNull.get().isEmpty()){
                 for (songEntity song:songsOrNull.get()
                      ) {
@@ -133,9 +119,9 @@ public class songServiceImpl implements songService {
     }
 
     @Override
-    public Set<songNewestTenViewModel> loadNewestTenSongs() {
-        Set<songEntity> songs = songRepo.getTop10ByOrderByIdDesc();
-        Set<songNewestTenViewModel> setToReturn = new LinkedHashSet<>();
+    public List<songNewestTenViewModel> loadNewestTenSongs() {
+        List<songEntity> songs = songRepo.getTop10ByOrderByIdDesc();
+        List<songNewestTenViewModel> setToReturn = new ArrayList<>();
         for (songEntity song :
                 songs) {
             songNewestTenViewModel mappedSong = new songNewestTenViewModel();
@@ -148,5 +134,14 @@ public class songServiceImpl implements songService {
     @Autowired
     public void setUserService(@Lazy userServiceImpl userService){
         this.userService = userService;
+    }
+    private songEntity formSongEntity(songBindingModel songBindingModel) throws DbxException, NotFoundException {
+        songEntity songToSave = new songEntity();
+        songToSave.setSongName(songBindingModel.getSongName());
+        String songFilePath = cloudService.uploadSong(songBindingModel.getSongFile());
+        songToSave.setSongFilePath(songFilePath);
+        songToSave.setSongLocation(cloudService.returnDirectLinkOfFile(songFilePath));
+        songToSave.setSongGenre(genreService.findGenreByName(songBindingModel.getGenre()));
+        return songToSave;
     }
 }

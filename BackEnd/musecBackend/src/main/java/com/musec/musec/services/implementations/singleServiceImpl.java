@@ -16,9 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.management.relation.RoleNotFoundException;
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class singleServiceImpl implements singleService {
@@ -100,9 +98,9 @@ public class singleServiceImpl implements singleService {
     }
 
     @Override
-    public Set<singleShortInfoViewModel> returnShortInfoOfSinglesOfUserByUsername(String username) {
-        Optional<Set<singleEntity>> singlesOrNull = singleRepo.findAllByUploader_Username(username);
-        Set<singleShortInfoViewModel> setToReturn = new LinkedHashSet<>();
+    public List<singleShortInfoViewModel> returnShortInfoOfSinglesOfUserByUsername(String username) {
+        Optional<List<singleEntity>> singlesOrNull = singleRepo.findAllByUploader_Username(username);
+        List<singleShortInfoViewModel> setToReturn = new ArrayList<>();
         for (singleEntity single:singlesOrNull.get()
              ) {
             singleShortInfoViewModel mappedSingle = new singleShortInfoViewModel();
@@ -113,15 +111,15 @@ public class singleServiceImpl implements singleService {
     }
 
     @Override
-    public Set<singleShortInfoViewModel> returnShortInfoOfSinglesOfUserById(Long userId) throws NotFoundException {
+    public List<singleShortInfoViewModel> returnShortInfoOfSinglesOfUserById(Long userId) throws NotFoundException {
         return returnShortInfoOfSinglesOfUserByUsername(userService.returnUserById(userId).getUsername());
     }
 
     @Override
-    public Set<singleSearchViewModel> searchSingleByName(String parameter) {
-        Set<singleSearchViewModel> setToReturn = new LinkedHashSet<>();
+    public List<singleSearchViewModel> searchSingleByName(String parameter) {
+        List<singleSearchViewModel> setToReturn = new ArrayList<>();
         if(!parameter.trim().equals("")){
-            Optional<Set<singleEntity>> singlesOrNull = singleRepo.findAllBySingleNameContains(parameter);
+            Optional<List<singleEntity>> singlesOrNull = singleRepo.findAllBySingleNameContains(parameter);
             if(!singlesOrNull.get().isEmpty()){
                 for (singleEntity single:singlesOrNull.get()
                      ) {

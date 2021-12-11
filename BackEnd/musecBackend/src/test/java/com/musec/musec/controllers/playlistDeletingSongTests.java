@@ -18,6 +18,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
 import java.util.Set;
 
 @SpringBootTest
@@ -65,7 +66,7 @@ public class playlistDeletingSongTests {
 
         queueEntity queue = new queueEntity();
         queue.setUser(user);
-        queue.setSongs(Set.of(song));
+        queue.setSongs(List.of(song));
         queueRepo.save(queue);
 
         playlistEntity playlist = new playlistEntity();
@@ -73,7 +74,7 @@ public class playlistDeletingSongTests {
         playlist.setPlaylistCreator(userRepo.findByUsername("test").get());
         playlist.setPublic(false);
         playlist.setOpenToPublicEditsOrNot(false);
-        playlist.setSongs(Set.of(song));
+        playlist.setSongs(List.of(song));
         playlistRepo.save(playlist);
     }
 

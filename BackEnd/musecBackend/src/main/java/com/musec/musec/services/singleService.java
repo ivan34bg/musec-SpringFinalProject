@@ -9,7 +9,7 @@ import com.musec.musec.data.models.bindingModels.songBindingModel;
 import javassist.NotFoundException;
 
 import javax.management.relation.RoleNotFoundException;
-import java.util.Set;
+import java.util.List;
 
 public interface singleService {
     Long createSingle(singleBindingModel singleBindingModel, String currentUserUsername) throws
@@ -20,7 +20,7 @@ public interface singleService {
     void publicDeleteSingle(Long singleId, String username) throws NotFoundException, DbxException;
     void adminDeleteSingle(Long singleId, String username) throws NotFoundException, DbxException;
     singleViewModel returnSingle(Long singleId) throws NotFoundException;
-    Set<singleShortInfoViewModel> returnShortInfoOfSinglesOfUserByUsername(String username);
-    Set<singleShortInfoViewModel> returnShortInfoOfSinglesOfUserById(Long userId) throws NotFoundException;
-    Set<singleSearchViewModel> searchSingleByName(String parameter);
+    List<singleShortInfoViewModel> returnShortInfoOfSinglesOfUserByUsername(String username);
+    List<singleShortInfoViewModel> returnShortInfoOfSinglesOfUserById(Long userId) throws NotFoundException;
+    List<singleSearchViewModel> searchSingleByName(String parameter);
 }

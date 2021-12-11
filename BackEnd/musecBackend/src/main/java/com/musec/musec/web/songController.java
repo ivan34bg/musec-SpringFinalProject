@@ -1,4 +1,4 @@
-package com.musec.musec.controllers;
+package com.musec.musec.web;
 
 import com.musec.musec.data.models.viewModels.search.songSearchViewModel;
 import com.musec.musec.data.models.viewModels.top10songs.songNewestTenViewModel;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Set;
+import java.util.List;
 
 @Controller
 @RequestMapping("/song")
@@ -21,12 +21,12 @@ public class songController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Set<songSearchViewModel>> searchSongByName(@RequestParam(name = "param") String parameter){
+    public ResponseEntity<List<songSearchViewModel>> searchSongByName(@RequestParam(name = "param") String parameter){
         return ResponseEntity.ok(songService.searchSongBySongName(parameter));
     }
 
     @GetMapping("/newest-ten")
-    public ResponseEntity<Set<songNewestTenViewModel>> returnNewestTenSongs(){
+    public ResponseEntity<List<songNewestTenViewModel>> returnNewestTenSongs(){
         return ResponseEntity.ok(songService.loadNewestTenSongs());
     }
 }

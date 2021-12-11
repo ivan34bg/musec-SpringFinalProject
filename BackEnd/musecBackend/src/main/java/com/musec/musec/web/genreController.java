@@ -1,4 +1,4 @@
-package com.musec.musec.controllers;
+package com.musec.musec.web;
 
 import com.musec.musec.data.models.viewModels.genre.genreExpandedInfoViewModel;
 import com.musec.musec.data.models.viewModels.genre.genreShortInfoViewModel;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/genre")
@@ -23,12 +22,12 @@ public class genreController {
     }
 
     @GetMapping("/short")
-    public ResponseEntity<Set<genreShortInfoViewModel>> loadNineGenres(){
+    public ResponseEntity<List<genreShortInfoViewModel>> loadNineGenres(){
         return ResponseEntity.ok(genreService.loadNineGenres());
     }
 
     @GetMapping("/short/all")
-    public ResponseEntity<Set<genreShortInfoViewModel>> loadAllGenres(){
+    public ResponseEntity<List<genreShortInfoViewModel>> loadAllGenres(){
         return ResponseEntity.ok(genreService.loadShortAllGenres());
     }
 

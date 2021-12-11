@@ -14,9 +14,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class playlistServiceImpl implements playlistService {
@@ -114,9 +112,9 @@ public class playlistServiceImpl implements playlistService {
     }
 
     @Override
-    public Set<playlistShortInfoViewModel> returnShortInfoOfLoggedUserPlaylists(String usernameOfUser) {
-        Optional<Set<playlistEntity>> playlistsOrNull = playlistRepo.findAllByPlaylistCreator_Username(usernameOfUser);
-        Set<playlistShortInfoViewModel> playlistSetToReturn = new LinkedHashSet<>();
+    public List<playlistShortInfoViewModel> returnShortInfoOfLoggedUserPlaylists(String usernameOfUser) {
+        Optional<List<playlistEntity>> playlistsOrNull = playlistRepo.findAllByPlaylistCreator_Username(usernameOfUser);
+        List<playlistShortInfoViewModel> playlistSetToReturn = new ArrayList<>();
         for (playlistEntity playlist:playlistsOrNull.get()
         ) {
             playlistShortInfoViewModel mappedPlaylist = new playlistShortInfoViewModel();
@@ -127,10 +125,10 @@ public class playlistServiceImpl implements playlistService {
     }
 
     @Override
-    public Set<playlistSearchViewModel> searchPlaylistByName(String parameters) {
-        Set<playlistSearchViewModel> setToReturn = new LinkedHashSet<>();
+    public List<playlistSearchViewModel> searchPlaylistByName(String parameters) {
+        List<playlistSearchViewModel> setToReturn = new ArrayList<>();
         if(!parameters.trim().equals("")){
-            Optional<Set<playlistEntity>> playlistsOrNull = playlistRepo.findAllByPlaylistNameContains(parameters);
+            Optional<List<playlistEntity>> playlistsOrNull = playlistRepo.findAllByPlaylistNameContains(parameters);
             if(!playlistsOrNull.get().isEmpty()) {
                 for (playlistEntity playlist : playlistsOrNull.get()
                 ) {
@@ -147,7 +145,7 @@ public class playlistServiceImpl implements playlistService {
 
     @Override
     public void removeSongFromEveryPlaylist(songEntity song) {
-        Set<playlistEntity> playlists = playlistRepo.getAllBySongsContains(song);
+        List<playlistEntity> playlists = playlistRepo.getAllBySongsContains(song);
         for (playlistEntity playlist:
                 playlists) {
             playlist.getSongs().remove(song);

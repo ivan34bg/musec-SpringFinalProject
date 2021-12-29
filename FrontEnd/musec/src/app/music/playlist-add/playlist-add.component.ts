@@ -19,11 +19,16 @@ export class PlaylistAddComponent implements OnInit {
   }
 
   onSubmit(){
-    let form = new FormData();
-    form.append("playlistName", this.playlistName);
-    form.append("isPublic", this.availability.toString());
-    form.append("openToPublicEditsOrNot", this.editability.toString());
-    console.log(this.availability.toString())
-    this.playlistService.createPlaylist(form);
+    if(!this.playlistName.trim()){
+      window.alert("Playlist name cannot be empty")
+    }
+    else{
+      let form = new FormData();
+      form.append("playlistName", this.playlistName);
+      form.append("isPublic", this.availability.toString());
+      form.append("openToPublicEditsOrNot", this.editability.toString());
+      this.playlistService.createPlaylist(form);
+    }
+
   }
 }

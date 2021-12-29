@@ -8,25 +8,17 @@ import * as CryptoJS from 'crypto-js';
   providedIn: 'root'
 })
 export class UserService {
-  private isLoggedIn:boolean = false;
+  isLoggedIn:boolean = false;
   private SERVER_ADDRESS = "http://localhost:8080";
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  loginUser(username: string, password: string){
+  loginUser(username: string, password: string): Observable<Object>{
     var loginForm = new FormData();
     loginForm.append("username", username);
     loginForm.append("password", this.passwordEncoder(password));
 
-    this.http.post(this.SERVER_ADDRESS + "/login", loginForm, {withCredentials: true}).subscribe(
-      (response) => {
-        this.isLoggedIn = true;
-        this.router.navigate(['/']);
-      },
-      (error) => {
-        alert(error.error)
-      }
-    );
+    return this.http.post(this.SERVER_ADDRESS + "/login", loginForm, {withCredentials: true})
   }
 
   logoutUser(){
@@ -40,21 +32,14 @@ export class UserService {
     )
   }
 
-  registerUser(username: string, fullName: string, email: string, password: string, birthday: string){
+  registerUser(username: string, fullName: string, email: string, password: string, birthday: string): Observable<Object>{
     let form = new FormData();
     form.append('username', username);
     form.append('fullName', fullName);
     form.append('email', email);
     form.append('password', this.passwordEncoder(password));
     form.append('birthday', birthday);
-    this.http.post(this.SERVER_ADDRESS + "/user/register", form, {withCredentials: true}).subscribe(
-      (response) => {
-        this.router.navigate(["/login"]);
-      },
-      (error) => {
-        alert(error.error);
-      }
-    )
+    return this.http.post(this.SERVER_ADDRESS + "/user/register", form, {withCredentials: true});
   }
 
   isUserLogged(): boolean{

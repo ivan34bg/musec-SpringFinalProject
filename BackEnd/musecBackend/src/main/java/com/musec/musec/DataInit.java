@@ -1,14 +1,14 @@
 package com.musec.musec;
 
-import com.musec.musec.data.enums.genreEnum;
-import com.musec.musec.data.enums.roleEnum;
-import com.musec.musec.data.genreEntity;
-import com.musec.musec.data.roleEntity;
-import com.musec.musec.data.userEntity;
-import com.musec.musec.repositories.genreRepository;
-import com.musec.musec.repositories.roleRepository;
-import com.musec.musec.repositories.userRepository;
-import com.musec.musec.services.implementations.queueServiceImpl;
+import com.musec.musec.data.enums.GenreEnum;
+import com.musec.musec.data.enums.RoleEnum;
+import com.musec.musec.data.GenreEntity;
+import com.musec.musec.data.RoleEntity;
+import com.musec.musec.data.UserEntity;
+import com.musec.musec.repositories.GenreRepository;
+import com.musec.musec.repositories.RoleRepository;
+import com.musec.musec.repositories.UserRepository;
+import com.musec.musec.services.implementations.QueueServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -18,18 +18,18 @@ import java.util.List;
 
 @Component
 public class DataInit implements CommandLineRunner {
-    private final genreRepository genreRepo;
-    private final roleRepository roleRepo;
-    private final userRepository userRepo;
+    private final GenreRepository genreRepo;
+    private final RoleRepository roleRepo;
+    private final UserRepository userRepo;
     private final PasswordEncoder passwordEncoder;
-    private final queueServiceImpl queueService;
+    private final QueueServiceImpl queueService;
 
     public DataInit(
-            genreRepository genreRepo,
-            roleRepository roleRepo,
-            userRepository userRepo,
+            GenreRepository genreRepo,
+            RoleRepository roleRepo,
+            UserRepository userRepo,
             PasswordEncoder passwordEncoder,
-            queueServiceImpl queueService) {
+            QueueServiceImpl queueService) {
 
         this.genreRepo = genreRepo;
         this.roleRepo = roleRepo;
@@ -46,18 +46,18 @@ public class DataInit implements CommandLineRunner {
 
     private void genreInit() {
         if(genreRepo.count() == 0){
-            for (genreEnum genre:genreEnum.values()
+            for (GenreEnum genre: GenreEnum.values()
                  ) {
-                genreEntity genreToSave = new genreEntity();
+                GenreEntity genreToSave = new GenreEntity();
                 genreToSave.setGenreName(genre);
                 genreToSave.setProperName(genre.getProperName());
                 genreRepo.save(genreToSave);
             }
         }
         if(roleRepo.count() == 0){
-            for (roleEnum role:roleEnum.values()
+            for (RoleEnum role: RoleEnum.values()
                  ) {
-                roleEntity newRole = new roleEntity();
+                RoleEntity newRole = new RoleEntity();
                 newRole.setRoleName(role);
                 roleRepo.save(newRole);
             }
@@ -65,7 +65,7 @@ public class DataInit implements CommandLineRunner {
     }
     private void userInit() {
         if(userRepo.count() == 0){
-            userEntity user = new userEntity();
+            UserEntity user = new UserEntity();
             user.setUsername("admin");
             //test
             user.setPassword(
@@ -74,10 +74,10 @@ public class DataInit implements CommandLineRunner {
             );
             user.setFullName("admin adminov");
             user.setEmail("admin@admin.bg");
-            List<roleEntity> roles = new ArrayList<>();
-            roles.add(roleRepo.getByRoleName(roleEnum.USER));
-            roles.add(roleRepo.getByRoleName(roleEnum.ADMIN));
-            roles.add(roleRepo.getByRoleName(roleEnum.ARTIST));
+            List<RoleEntity> roles = new ArrayList<>();
+            roles.add(roleRepo.getByRoleName(RoleEnum.USER));
+            roles.add(roleRepo.getByRoleName(RoleEnum.ADMIN));
+            roles.add(roleRepo.getByRoleName(RoleEnum.ARTIST));
             user.setRoles(roles);
             user.setProfilePicLink("https://www.dropbox.com/s/fv5ctkjbntsaubt/1200px-Question_Mark.svg.png?raw=1");
             userRepo.save(user);

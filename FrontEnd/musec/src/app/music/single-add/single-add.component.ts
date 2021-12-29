@@ -74,22 +74,28 @@ export class SingleAddComponent implements OnInit {
   }
 
   onSubmit(){
-    this.isWorking = true;
-    let singleInfoForm = new FormData();
-    singleInfoForm.append('singleName', this.singleName);
-    singleInfoForm.append('singlePic', this.singlePic!);
-    this.singleService.uploadSingleInfo(singleInfoForm).subscribe(
-      response => {
-        let songForm = new FormData();
-        songForm.append("songName", this.music!.songName)
-        songForm.append("songFile", this.music!.songFile)
-        songForm.append("genre", this.music!.songGenre);
-        this.singleService.uploadSingleSong(songForm, parseInt(JSON.stringify(response)));
-        this.router.navigate(["/my-profile"]);
-      },
-      error => {
-        console.log(error.error)
-      }
-    );
+    if(!this.singleName.trim()){
+      window.alert("Single name cannot be empty")
+    }
+    else{
+      this.isWorking = true;
+      let singleInfoForm = new FormData();
+      singleInfoForm.append('singleName', this.singleName);
+      singleInfoForm.append('singlePic', this.singlePic!);
+      this.singleService.uploadSingleInfo(singleInfoForm).subscribe(
+        response => {
+          let songForm = new FormData();
+          songForm.append("songName", this.music!.songName)
+          songForm.append("songFile", this.music!.songFile)
+          songForm.append("genre", this.music!.songGenre);
+          this.singleService.uploadSingleSong(songForm, parseInt(JSON.stringify(response)));
+          this.router.navigate(["/my-profile"]);
+        },
+        error => {
+          console.log(error.error)
+        }
+      );
+    }
+
   }
 }

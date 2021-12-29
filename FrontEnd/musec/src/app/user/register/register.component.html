@@ -28,7 +28,8 @@
                 <label for="birthday" class="form-label">Birthday date:</label>
                 <input [ngClass]="{red: !isBirthdateValid}" (input)="dateChecker(birthdate.value)" type="date" name="birthday" id="birthday-input" #birthdate="ngModel" [(ngModel)]="birthdayDate" required>
             </div>
-            <input [ngClass]="{invisible: !isBirthdateValid || !arePasswordsTheSame}" type="submit" class="submit-button" value="Register">
+            <i class="rotating fas fa-spinner" *ngIf="isWorking"></i>
+            <input [ngClass]="{invisible: !isBirthdateValid || !arePasswordsTheSame}" type="submit" class="submit-button" value="Register" *ngIf="!isWorking">
         </form>
         <p class="register-prompt">You already have an account? Then what are you doing here? Go and <a routerLink="/login" >login</a>!</p>
     </div>

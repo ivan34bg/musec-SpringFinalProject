@@ -110,28 +110,33 @@ export class AlbumAddComponent implements OnInit {
   }
 
   onSubmit(){
-    this.isWorking = true;
-    let albumInfoForm = new FormData();
-    albumInfoForm.append("albumName", this.albumName);
-    albumInfoForm.append("albumPic", this.albumPic!);
-    this.albumService.uploadAlbumInfo(albumInfoForm).subscribe(
-      response => {
-        this.albumId = parseInt(JSON.stringify(response));
-        for(let song of this.music){
-          let songForm = new FormData();
-          songForm.append("songName", song.songName);
-          songForm.append("songFile", song.songFile);
-          songForm.append("genre", song.songGenre);
-          this.albumService.uploadSongToAlbum(songForm, parseInt(JSON.stringify(response))).subscribe(
-            response => {},
-            error => {}
-          )
+    if(!this.albumName.trim()){
+      window.alert("Album name cannot be empty");
+    }
+    else {
+      this.isWorking = true;
+      let albumInfoForm = new FormData();
+      albumInfoForm.append("albumName", this.albumName);
+      albumInfoForm.append("albumPic", this.albumPic!);
+      this.albumService.uploadAlbumInfo(albumInfoForm).subscribe(
+        response => {
+          this.albumId = parseInt(JSON.stringify(response));
+          for(let song of this.music){
+            let songForm = new FormData();
+            songForm.append("songName", song.songName);
+            songForm.append("songFile", song.songFile);
+            songForm.append("genre", song.songGenre);
+            this.albumService.uploadSongToAlbum(songForm, parseInt(JSON.stringify(response))).subscribe(
+              response => {},
+              error => {}
+            )
+          }
+          this.router.navigate(["/my-profile"]);
+        },
+        error => {
+          console.log(error.error);
         }
-        this.router.navigate(["/my-profile"]);
-      },
-      error => {
-        console.log(error.error);
-      }
-    );
+      );
+    }
   }
 }

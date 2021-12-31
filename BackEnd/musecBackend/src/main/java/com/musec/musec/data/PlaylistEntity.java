@@ -9,6 +9,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -19,9 +20,9 @@ public class PlaylistEntity extends BaseEntity {
     @Length(min = 2, max = 20)
     @NotBlank
     private String playlistName;
-    @NotBlank
+    @NotNull
     private boolean isPublic;
-    @NotBlank
+    @NotNull
     private boolean openToPublicEditsOrNot;
     @ManyToOne
     private UserEntity playlistCreator;

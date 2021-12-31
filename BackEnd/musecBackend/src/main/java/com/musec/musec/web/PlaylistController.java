@@ -12,6 +12,7 @@ import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 
@@ -26,9 +27,13 @@ public class PlaylistController {
 
     @PostMapping("/create")
     public ResponseEntity<Long> createPlaylist(PlaylistBindingModel playlistBindingModel, Principal principal){
-        if (playlistBindingModel.getPlaylistName().trim().length() > 0) {
+        if (
+                playlistBindingModel.getPlaylistName().trim().length() > 0 &&
+                playlistBindingModel.getOpenToPublicEditsOrNot().trim().length() > 0 &&
+                playlistBindingModel.getIsPublic().trim().length() > 0
+        ) {
             Long playlistId = playlistService.createPlaylist(playlistBindingModel, principal.getName());
-            return ResponseEntity.ok(playlistId);
+            return ResponseEntity.created(URI.create("/playlist/" + playlistId)).build();
         }
         else return ResponseEntity.badRequest().build();
     }
@@ -56,7 +61,7 @@ public class PlaylistController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/song/{playlistId}")
+    @PostMapping("/{playlistId}/song")
     public ResponseEntity<?> addSongToPlaylist(@PathVariable Long playlistId, @RequestBody String songId, Principal principal){
         try {
             playlistService.addSongToPlaylist(playlistId, Long.parseLong(songId), principal.getName());
@@ -70,7 +75,7 @@ public class PlaylistController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/song/{playlistId}")
+    @DeleteMapping("/{playlistId}/song")
     public ResponseEntity<?> removeSongFromPlaylist(@PathVariable Long playlistId, @RequestBody String songId, Principal principal){
         try {
             playlistService.removeSongFromPlaylist(playlistId, Long.parseLong(songId), principal.getName());

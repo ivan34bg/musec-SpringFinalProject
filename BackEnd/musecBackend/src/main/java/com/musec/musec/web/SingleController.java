@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.relation.RoleNotFoundException;
+import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 
@@ -27,20 +28,20 @@ public class SingleController {
 
     @PostMapping("/create")
     public ResponseEntity<Long> createNewSingle(SingleBindingModel singleBindingModel, Principal principal) {
-        Long id;
+        Long singleId;
         try {
             if (singleBindingModel.getSingleName().trim().length() > 0)
-            id = singleService.createSingle(singleBindingModel, principal.getName());
+            singleId = singleService.createSingle(singleBindingModel, principal.getName());
             else return ResponseEntity.badRequest().build();
         } catch (RuntimeException | DbxException e) {
             return ResponseEntity.internalServerError().build();
         } catch (RoleNotFoundException e) {
             return ResponseEntity.status(403).build();
         }
-        return ResponseEntity.ok(id);
+        return ResponseEntity.created(URI.create("/single/" + singleId)).build();
     }
 
-    @PostMapping("/song/{singleId}")
+    @PostMapping("/{singleId}/song")
     public ResponseEntity<String> addSongToSingle(@PathVariable Long singleId, SongBindingModel songBindingModel, Principal principal) {
         try {
             singleService.addSongToSingle(songBindingModel, singleId, principal.getName());

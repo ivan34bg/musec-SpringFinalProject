@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { interval } from 'rxjs';
 import { songAlbumUpload } from 'src/app/models/album-upload/song.model';
 import { genreShortInfo } from 'src/app/models/genre/genreShortInfo.model';
@@ -13,7 +12,7 @@ import { GenreService } from 'src/app/services/genre.service';
 })
 export class AlbumAddComponent implements OnInit {
   genres: genreShortInfo[] = new Array();
-  albumId: Number = -1;
+  albumLocation: String = '';
   albumName: string = '';
   albumPic: File | undefined;
   albumPicPreview: any;
@@ -23,8 +22,7 @@ export class AlbumAddComponent implements OnInit {
 
   constructor(
     private albumService: AlbumService, 
-    private genreService: GenreService,
-    private router: Router
+    private genreService: GenreService
     ) { }
 
   ngOnInit(): void {
@@ -118,25 +116,7 @@ export class AlbumAddComponent implements OnInit {
       let albumInfoForm = new FormData();
       albumInfoForm.append("albumName", this.albumName);
       albumInfoForm.append("albumPic", this.albumPic!);
-      this.albumService.uploadAlbumInfo(albumInfoForm).subscribe(
-        response => {
-          this.albumId = parseInt(JSON.stringify(response));
-          for(let song of this.music){
-            let songForm = new FormData();
-            songForm.append("songName", song.songName);
-            songForm.append("songFile", song.songFile);
-            songForm.append("genre", song.songGenre);
-            this.albumService.uploadSongToAlbum(songForm, parseInt(JSON.stringify(response))).subscribe(
-              response => {},
-              error => {}
-            )
-          }
-          this.router.navigate(["/my-profile"]);
-        },
-        error => {
-          console.log(error.error);
-        }
-      );
+      this.albumService.uploadAlbumInfo(albumInfoForm, this.music);
     }
   }
 }

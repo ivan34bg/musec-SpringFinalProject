@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { interval } from 'rxjs';
 import { songAlbumUpload } from 'src/app/models/album-upload/song.model';
 import { genreShortInfo } from 'src/app/models/genre/genreShortInfo.model';
@@ -22,8 +21,7 @@ export class SingleAddComponent implements OnInit {
 
   constructor(
     private genreService: GenreService,
-    private singleService: SingleService, 
-    private router: Router
+    private singleService: SingleService
     ) { }
 
   ngOnInit(): void {
@@ -46,7 +44,7 @@ export class SingleAddComponent implements OnInit {
     
   }
 
-  albumPicUploaded(event: any){
+  singlePicUploaded(event: any){
     if(event.target.files[0] != null){
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
@@ -82,19 +80,11 @@ export class SingleAddComponent implements OnInit {
       let singleInfoForm = new FormData();
       singleInfoForm.append('singleName', this.singleName);
       singleInfoForm.append('singlePic', this.singlePic!);
-      this.singleService.uploadSingleInfo(singleInfoForm).subscribe(
-        response => {
-          let songForm = new FormData();
-          songForm.append("songName", this.music!.songName)
-          songForm.append("songFile", this.music!.songFile)
-          songForm.append("genre", this.music!.songGenre);
-          this.singleService.uploadSingleSong(songForm, parseInt(JSON.stringify(response)));
-          this.router.navigate(["/my-profile"]);
-        },
-        error => {
-          console.log(error.error)
-        }
-      );
+      let songForm = new FormData();
+      songForm.append("songName", this.music!.songName)
+      songForm.append("songFile", this.music!.songFile)
+      songForm.append("genre", this.music!.songGenre);
+      this.singleService.uploadSingleInfo(singleInfoForm, songForm);
     }
 
   }

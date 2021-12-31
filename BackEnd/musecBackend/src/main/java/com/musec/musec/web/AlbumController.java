@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.relation.RoleNotFoundException;
+import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 
@@ -30,20 +31,20 @@ public class AlbumController {
         Long albumId;
         try {
             if (bindingModel.getAlbumName().trim().length() > 0)
-            albumId = albumService.createAlbum(bindingModel, principal.getName());
+                albumId = albumService.createAlbum(bindingModel, principal.getName());
             else return ResponseEntity.badRequest().build();
         } catch (DbxException e) {
             return ResponseEntity.internalServerError().build();
         } catch (RoleNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.ok(albumId);
+        return ResponseEntity.created(URI.create("/album/" + albumId)).build();
     }
 
-    @PostMapping("/song/{id}")
-    public ResponseEntity<String> addSongToAlbum(@PathVariable Long id, SongBindingModel bindingModel, Principal principal){
+    @PostMapping("/{albumId}/song")
+    public ResponseEntity<String> addSongToAlbum(@PathVariable Long albumId, SongBindingModel bindingModel, Principal principal){
         try {
-            albumService.addSongToAlbum(id, bindingModel, principal.getName());
+            albumService.addSongToAlbum(albumId, bindingModel, principal.getName());
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         }   catch (DbxException e){

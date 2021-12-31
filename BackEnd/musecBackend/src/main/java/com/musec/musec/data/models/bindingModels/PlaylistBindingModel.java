@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -12,8 +13,8 @@ public class PlaylistBindingModel {
     @Length(min = 2, max = 20)
     @NotBlank
     private String playlistName;
-    @NotBlank
+    @NotNull
     private String isPublic;
-    @NotBlank
+    @NotNull
     private String openToPublicEditsOrNot;
 }

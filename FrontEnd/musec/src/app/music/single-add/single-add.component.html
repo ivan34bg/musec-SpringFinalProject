@@ -1,14 +1,14 @@
 <div class="container">
     <div class="music-add-form-wrapper">
         <form action="" class="music-add-form">
-            <div class="album-name-container">
-                <label for="album-name">Album name:</label>
-                <input type="text" name="album-name" id="album-name" [(ngModel)] = "singleName">
+            <div class="single-name-container">
+                <label for="single-name">Single name:</label>
+                <input type="text" name="single-name" id="single-name" [(ngModel)] = "singleName">
             </div>
-            <div class="album-image-container">
-                <label for="albumImage" class="upload-label">
-                    <input class="upload" (input)="albumPicUploaded($event)" id="albumImage" name="albumImage" type="file" accept=".jpeg, .jpg, .png">
-                    Click here to upload album image
+            <div class="single-image-container">
+                <label for="singleImage" class="upload-label">
+                    <input class="upload" (input)="singlePicUploaded($event)" id="singleImage" name="singleImage" type="file" accept=".jpeg, .jpg, .png">
+                    Click here to upload image for the single
                 </label>
                 <div class="image-preview-area">
                     <p class="no-image-selected" *ngIf="singlePicPreview == null">No image selected</p>
@@ -17,10 +17,10 @@
             </div>
         </form>
         <form class="music-add-form">
-            <div class="album-music-container">
-                <label for="albumSongs" class="upload-label">
-                    <input class="upload" (change)="musicUploaded($event)" id="albumSongs" name="albumSongs" type="file" accept=".mp3">
-                    Click here to upload songs for the album
+            <div class="single-music-container">
+                <label for="singleSongs" class="upload-label">
+                    <input class="upload" (change)="musicUploaded($event)" id="singleSongs" name="singleSongs" type="file" accept=".mp3">
+                    Click here to upload songs for the single
                 </label>
                 <p class="no-music-selected" *ngIf="music == undefined">No music selected</p>
                 <div class="selected-music-list" *ngIf="music != undefined">

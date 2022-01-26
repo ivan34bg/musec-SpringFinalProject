@@ -149,6 +149,7 @@ public class PlaylistServiceImpl implements PlaylistService {
         for (PlaylistEntity playlist:
                 playlists) {
             playlist.getSongs().remove(song);
+            playlistRepo.save(playlist);
         }
     }
 
